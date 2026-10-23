@@ -25,7 +25,8 @@ on:
 
 permissions:
   contents: write # Dateien committen
-  actions: write # Zeitplan wach halten (letzter Schritt)
+  # Für „Keep schedule enabled“ (Variable KEEPALIVE=on) braucht es zusätzlich `actions: write`. Solange KEEPALIVE aus
+  # ist, bleibt das Recht weg; ohne es scheitert der Schritt, der Lauf geht trotzdem weiter (continue-on-error).
 
 concurrency:
   group: prices
