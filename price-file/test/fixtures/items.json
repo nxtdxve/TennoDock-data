@@ -1,0 +1,8 @@
+[
+  {"id": "00000000000000000000a001", "slug": "example_damage", "gameRef": "/Lotus/Upgrades/Mods/Example/ExampleDamageMod", "tags": ["mod", "rare"], "maxRank": 10},
+  {"id": "00000000000000000000a002", "slug": "example_lith_x1_relic", "gameRef": "/Lotus/Types/Game/Projections/ExampleLithX1", "tags": ["relic"], "subtypes": ["intact", "exceptional", "flawless", "radiant"]},
+  {"id": "00000000000000000000a003", "slug": "example_prime_set", "gameRef": "/Lotus/Powersuits/Example/ExamplePrime", "tags": ["set", "prime", "warframe"]},
+  {"id": "00000000000000000000a004", "slug": "example_prime_neuroptics_blueprint", "gameRef": "/Lotus/Types/Recipes/WarframeRecipes/ExamplePrimeHelmetBlueprint", "tags": ["prime", "component", "blueprint"]},
+  {"id": "00000000000000000000a005", "slug": "example_sculpture", "gameRef": "/Lotus/Types/Items/Ayatan/ExampleSculpture", "tags": ["ayatan_sculpture"]},
+  {"id": "00000000000000000000a006", "slug": "example_bundle", "tags": ["set"]}
+]

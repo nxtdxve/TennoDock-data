@@ -1,0 +1,5 @@
+{"payload": {"previous_hour": [], "previous_day": [
+  {"datetime": "2026-10-24T00:00:00.000+00:00", "item": "00000000000000000000a003", "median": 57, "volume": 18, "wa_price": 57.4, "ducats": 100},
+  {"datetime": "2026-10-24T00:00:00.000+00:00", "item": "00000000000000000000a004", "median": 9, "volume": 11, "wa_price": 9.2, "ducats": 45},
+  {"datetime": "2026-10-24T00:00:00.000+00:00", "item": "00000000000000000000a0ee", "median": 1, "volume": 1}
+]}}

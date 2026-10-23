@@ -1,0 +1,76 @@
+# Marktpreise für TennoDock (#99): baut `prices/v1/prices.json` einmal am Tag aus der Tagesdatei von relics.run.
+# Im TennoDock-Repo liegt dieser Ordner unter `tools/tennodock-data/` (1:1 der Inhalt des Daten-Repos) und läuft dort nicht:
+# GitHub liest Workflows nur aus `.github/workflows/` im Wurzelordner. Doku: docs/pakete/99-preise-alle.md im App-Repo.
+name: Prices
+
+on:
+  schedule:
+    # relics.run veröffentlicht den Vortag um rund 02:21 UTC und die Item-Liste um rund 03:36 UTC.
+    - cron: '17 4 * * *'
+    # Zweiter Versuch, falls der erste fehlschlug oder ausfiel. Ist die Datei schon aktuell, holt er nichts.
+    - cron: '17 10 * * *'
+  # Von Hand: Actions › Prices › Run workflow, oder `gh workflow run prices.yml -R nxtdxve/TennoDock-data`.
+  workflow_dispatch:
+    inputs:
+      rebuild:
+        description: Rebuild the price file even if there is no new day
+        type: boolean
+        default: false
+  # Eine Änderung am Skript gilt sofort. Commits des Workflows selbst (GITHUB_TOKEN) lösen keinen neuen Lauf aus.
+  push:
+    branches: [main]
+    paths:
+      - 'price-file/**'
+      - '.github/workflows/prices.yml'
+
+permissions:
+  contents: write # Dateien committen
+  actions: write # Zeitplan wach halten (letzter Schritt)
+
+concurrency:
+  group: prices
+  cancel-in-progress: false
+
+jobs:
+  prices:
+    runs-on: ubuntu-latest
+    # Normal 1 bis 2 Minuten; der Vollabruf bei warframe.market (WFM_FALLBACK=full) braucht rund 80.
+    timeout-minutes: 150
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24
+      - name: Test
+        run: node --test "price-file/**/*.test.mjs"
+      - name: Build
+        id: build
+        env:
+          # Rückfall, wenn relics.run seit 2 Tagen fehlt: prime (Ducat-Liste, 1 Abruf), full (rund 3'900 Abrufe) oder off.
+          # Einstellen unter Settings › Secrets and variables › Actions › Variables.
+          WFM_FALLBACK: ${{ vars.WFM_FALLBACK || 'prime' }}
+          REBUILD: ${{ github.event_name == 'push' || inputs.rebuild }}
+        run: node price-file/build.mjs
+      - name: Commit
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add prices
+          if git diff --cached --quiet; then echo 'Nothing new'; exit 0; fi
+          git commit -m "Prices ${{ steps.build.outputs.asOf }}"
+          git push
+      # GitHub schaltet Zeitpläne in öffentlichen Repos nach 60 Tagen ohne Aktivität ab. Ob die täglichen Commits des
+      # Workflows dafür zählen, sagt GitHub nicht; dieser Aufruf soll den Zähler zurücksetzen (unbelegt). Aus, solange
+      # die Variable KEEPALIVE nicht `on` ist: Nach einem Aktivieren gehen die Mails laut GitHub an den, der aktiviert hat.
+      - name: Keep schedule enabled
+        if: github.event_name == 'schedule' && vars.KEEPALIVE == 'on'
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh api --method PUT "repos/${{ github.repository }}/actions/workflows/prices.yml/enable"
+      # Fehlt relics.run seit 2 Tagen, scheitert der Lauf nach dem Commit: GitHub schickt dann eine Mail.
+      - name: Report stale source
+        if: steps.build.outputs.stale == 'true'
+        run: |
+          echo '::error::relics.run has no new file, see the warnings of the build step'
+          exit 1

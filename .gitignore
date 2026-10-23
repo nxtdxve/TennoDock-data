@@ -1,0 +1,7 @@
+# Nur Code und erzeugte Daten gehören hierher.
+node_modules/
+*.log
+.env
+.env.*
+.DS_Store
+Thumbs.db

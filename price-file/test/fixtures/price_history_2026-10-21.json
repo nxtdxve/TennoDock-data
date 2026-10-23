@@ -1,0 +1,12 @@
+{
+  "Example Damage": [
+    {"datetime": "2026-10-21T00:00:00.000+00:00", "volume": 1, "median": 6, "order_type": "closed", "mod_rank": 0, "item_id": "00000000000000000000a001"}
+  ],
+  "Example Prime Set": [
+    {"datetime": "2026-10-21T00:00:00.000+00:00", "volume": 30, "median": 58, "order_type": "closed", "item_id": "00000000000000000000a003"},
+    {"datetime": "2026-10-21T00:00:00.000+00:00", "volume": 400, "median": 55, "order_type": "buy", "item_id": "00000000000000000000a003"}
+  ],
+  "Example Sculpture": [
+    {"datetime": "2026-10-21T00:00:00.000+00:00", "volume": 3, "median": 8, "order_type": "closed", "amber_stars": 0, "cyan_stars": 0, "item_id": "00000000000000000000a005"}
+  ]
+}

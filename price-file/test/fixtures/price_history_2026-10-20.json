@@ -1,0 +1,13 @@
+{
+  "Example Damage": [
+    {"datetime": "2026-10-20T00:00:00.000+00:00", "volume": 4, "median": 3, "order_type": "closed", "mod_rank": 0, "item_id": "00000000000000000000a001"},
+    {"datetime": "2026-10-20T00:00:00.000+00:00", "volume": 2, "median": 40, "order_type": "closed", "mod_rank": 10, "item_id": "00000000000000000000a001"},
+    {"datetime": "2026-10-20T00:00:00.000+00:00", "volume": 50, "median": 5, "order_type": "sell", "mod_rank": 0, "item_id": "00000000000000000000a001"}
+  ],
+  "Example Lith X1 Relic": [
+    {"datetime": "2026-10-20T00:00:00.000+00:00", "volume": 10, "median": 7, "order_type": "closed", "subtype": "intact", "item_id": "00000000000000000000a002"}
+  ],
+  "Example Prime Set": [
+    {"datetime": "2026-10-20T00:00:00.000+00:00", "volume": 20, "median": 60, "order_type": "closed", "item_id": "00000000000000000000a003"}
+  ]
+}

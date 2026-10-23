@@ -1,0 +1,2 @@
+# Zeilenenden immer LF, auch wenn der Ordner von Windows kopiert wird.
+* text=auto eol=lf
