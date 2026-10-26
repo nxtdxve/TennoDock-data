@@ -1,9 +1,10 @@
 // @ts-check
-// Baut die Tagesdatei der Marktpreise (#99) im öffentlichen Daten-Repo. Läuft in der GitHub Action (Workflow
-// `prices.yml`), von Hand mit:
+// Baut die Tagesdatei der Marktpreise (#99) und die Verlaufsdatei der Prime-Sets (#54) im öffentlichen Daten-Repo. Läuft
+// in der GitHub Action (Workflow `prices.yml`), von Hand mit:
 //
-//   node price-file/build.mjs            fehlende Tage holen, Datei bauen, falls neu
-//   REBUILD=1 node price-file/build.mjs  Datei auch ohne neuen Tag neu bauen (z. B. nach einer Änderung der Regel)
+//   node price-file/build.mjs                    fehlende Tage holen, Dateien bauen, falls neu
+//   REBUILD=1 node price-file/build.mjs          Tagesdatei auch ohne neuen Tag neu bauen (z. B. nach einer Änderung der Regel)
+//   TRENDS_BACKFILL=1 node price-file/build.mjs  für den Verlauf fehlende Wochen nachholen, ein Tag pro Woche (einmalig)
 //
 // Im TennoDock-Repo liegt das Daten-Repo 1:1 unter `tools/tennodock-data/`; dort aufrufen.
 //
@@ -11,7 +12,8 @@
 // fehlenden Tage des Fensters von relics.run (beim ersten Lauf 14, sonst einer), als kompakte Tage in `prices/days/`.
 // Fehlt relics.run seit 2 Tagen, der Rückfall bei warframe.market (`WFM_FALLBACK`: `prime` = Ducat-Liste, 1 Abruf;
 // `full` = Statistik pro Item, rund 3'900 Abrufe; `off`). Zum Schluss `prices/v1/prices.json`, nur wenn sie plausibel ist;
-// sonst bleibt die alte liegen. Keine Abhängigkeiten ausser Node (ab 20). Doku: docs/pakete/99-preise-alle.md im App-Repo
+// sonst bleibt die alte liegen. Danach `prices/v1/trends.json` aus denselben Tagen (lib/trends.mjs). Keine Abhängigkeiten
+// ausser Node (ab 20). Doku: docs/pakete/99-preise-alle.md und 54-vault-tracker.md im App-Repo
 
 import { mkdir, readdir, readFile, rm, writeFile } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
@@ -19,6 +21,7 @@ import { pathToFileURL } from 'node:url';
 import { addDays, daysBetween, utcDay, windowDays } from './lib/days.mjs';
 import { buildPrices, checkPrices, encodePrices, readDay, readPriceFile, WINDOW_DAYS, writeDay } from './lib/prices.mjs';
 import { compactDucatsDay, compactRelicsDay, DUCATS_URL, parseItems, RELICS_ITEMS_URL, relicsDayUrl, statisticsDays, statisticsUrl, WFM_ITEMS_URL } from './lib/sources.mjs';
+import { addTrendDays, checkTrends, dayPrices, decodeTrends, encodeTrends, missingWeeks, primeSets, readTrendFile, settle } from './lib/trends.mjs';
 
 /** Eigene Kennung, wie es die Regeln von warframe.market verlangen (Projekt und Kontakt). */
 export const USER_AGENT = 'TennoDock-data/1 (+https://github.com/nxtdxve/TennoDock-data)';
@@ -39,6 +42,10 @@ export const FALLBACK_AFTER_DAYS = 2;
  * @typedef {'off' | 'prime' | 'full'} Fallback
  * @typedef {{ fetchText: FetchText, files: Files, now: number, log(text: string): void, sleep(ms: number): Promise<void>, fallback?: Fallback, rebuild?: boolean, minItems?: number }} RunDeps
  * @typedef {{ written: boolean, asOf: string, items?: number, relicsBehind: number, warnings: string[] }} RunResult
+ * @typedef {{ fetchText: FetchText, files: Files, now: number, log(text: string): void, sleep(ms: number): Promise<void>, backfill?: boolean, minSets?: number }} TrendDeps
+ * @typedef {{ written: boolean, asOf: string, sets: number, backfilled: number }} TrendResult
+ * @typedef {{ fetchText: FetchText, files: Files, now: number, log(text: string): void, sleep(ms: number): Promise<void>, fallback?: Fallback, rebuild?: boolean, backfill?: boolean, minItems?: number, minSets?: number }} BuildDeps
+ * @typedef {{ failed: boolean, outputs: Record<string, string> }} BuildResult
  */
 
 /**
@@ -83,13 +90,7 @@ export async function run(deps) {
 
   // Stand im Repo
   /** @type {Map<string, import('./lib/sources.mjs').CompactDay>} */
-  const days = new Map();
-  for (const name of await files.list('days')) {
-    if (!/^\d{4}-\d{2}-\d{2}\.json$/.test(name)) continue;
-    const text = await files.read(`days/${name}`);
-    const day = text ? readDay(text) : undefined;
-    if (day && `${day.day}.json` === name) days.set(day.day, day);
-  }
+  const days = new Map((await readDays(files)).map((day) => [day.day, day]));
   const previousText = await files.read('v1/prices.json');
   const previous = previousText ? readPriceFile(previousText) : undefined;
   let items = readItems(await files.read('items.json'));
@@ -228,6 +229,132 @@ export async function run(deps) {
   return { written: true, asOf, items: file.items, relicsBehind, warnings };
 }
 
+/** Die kompakten Tage in `prices/days/`. @param {Files} files */
+async function readDays(files) {
+  /** @type {import('./lib/sources.mjs').CompactDay[]} */
+  const days = [];
+  for (const name of await files.list('days')) {
+    if (!/^\d{4}-\d{2}-\d{2}\.json$/.test(name)) continue;
+    const text = await files.read(`days/${name}`);
+    const day = text ? readDay(text) : undefined;
+    if (day && `${day.day}.json` === name) days.push(day);
+  }
+  return days;
+}
+
+/**
+ * Verlaufsdatei der Prime-Sets (#54): die Tage aus `prices/days/` eintragen, mit `backfill` fehlende Wochen von relics.run
+ * nachholen (ein Donnerstag pro Woche, 3 s Abstand, rund 4 MB pro Tag), prüfen und schreiben, wenn sich etwas geändert hat.
+ * @param {TrendDeps} deps
+ * @returns {Promise<TrendResult>}
+ */
+export async function runTrends(deps) {
+  const { files, log, sleep } = deps;
+  const fetchText = (/** @type {string} */ url) => fetchWithRetry(deps.fetchText, sleep, url);
+  const items = readItems(await files.read('items.json'));
+  if (!items) throw new Error('Trends: no item list');
+  const paths = primeSets(items);
+  const days = await readDays(files);
+  const previousText = await files.read('v1/trends.json');
+  // Eine unlesbare Datei nicht still als leer nehmen: Sonst ersetzte der Lauf zwei Jahre durch die 14 Tage im Fenster.
+  let previous;
+  try {
+    previous = previousText ? readTrendFile(previousText) : undefined;
+  } catch {
+    previous = undefined;
+  }
+  if (previousText && !previous) throw new Error('Trends: v1/trends.json is not readable (broken or another format); fix or delete it');
+  const asOf = [...days.map((day) => day.day), ...(previous ? [previous.asOf] : [])].sort().at(-1);
+  if (!asOf) throw new Error('Trends: no day data');
+
+  const state = decodeTrends(previous);
+  addTrendDays(state, days.map((day) => ({ day: day.day, prices: dayPrices(day, paths) })), asOf);
+  settle(state, asOf);
+  const sources = new Set(days.map((day) => (day.source === 'relics.run' ? 'relics.run' : 'warframe.market')));
+  const header = () => ({ asOf, generatedAt: new Date(deps.now).toISOString().replace(/\.\d{3}Z$/, 'Z'), source: [...sources].sort().join(' + ') || 'relics.run' });
+
+  let backfilled = 0;
+  if (deps.backfill) {
+    const missing = missingWeeks(encodeTrends(state, header()));
+    log(`Trends: ${missing.length} weeks to backfill`);
+    let fetched = 0;
+    for (const day of missing) {
+      if (fetched++ > 0) await sleep(RELICS_GAP_MS);
+      const response = await fetchText(relicsDayUrl(day)).catch((error) => {
+        log(`Trends ${day}: no answer (${error instanceof Error ? error.message : String(error)})`);
+        return undefined;
+      });
+      if (!response) continue;
+      if (response.status !== 200) {
+        log(`Trends ${day}: HTTP ${response.status}`);
+        continue;
+      }
+      // Eine kaputte Datei (HTML, abgeschnitten, altes Format) kostet nur ihre Woche; die schon geholten bleiben.
+      let compact;
+      try {
+        compact = compactRelicsDay(response.text, day, items);
+      } catch {
+        log(`Trends ${day}: file not readable`);
+        continue;
+      }
+      const prices = compact ? dayPrices(compact.day, paths) : new Map();
+      if (prices.size === 0) {
+        log(`Trends ${day}: no readable set prices`);
+        continue;
+      }
+      addTrendDays(state, [{ day, prices }], asOf);
+      sources.add('relics.run');
+      backfilled++;
+      log(`Trends ${day}: ${prices.size} sets`);
+    }
+    settle(state, asOf);
+  }
+
+  const file = encodeTrends(state, header());
+  const reason = checkTrends(file, previous, deps.minSets);
+  if (reason) throw new Error(`Trends not written: ${reason}`);
+  // Ohne Änderung an den Werten kein neuer Commit (nur `generatedAt` wäre anders).
+  if (previous && JSON.stringify({ ...previous, generatedAt: '' }) === JSON.stringify({ ...file, generatedAt: '' })) {
+    log(`Trends up to date (asOf ${asOf})`);
+    return { written: false, asOf, sets: file.items, backfilled };
+  }
+  await files.write('v1/trends.json', JSON.stringify(file));
+  log(`Written: v1/trends.json (asOf ${asOf}, ${file.items} sets, ${backfilled} days backfilled)`);
+  return { written: true, asOf, sets: file.items, backfilled };
+}
+
+/**
+ * Tagesdatei, dann Verlauf. Der Verlauf läuft auch, wenn die Tagesdatei nicht geschrieben wurde (er braucht nur die Tage),
+ * und sein Fehler hält die Tagesdatei nie auf: `failed` gilt nur für die Tagesdatei, ein Fehler beim Verlauf steht in
+ * `outputs.trends_failed`. Die Action meldet ihn erst nach dem Commit (Schritt „Report trends“).
+ * @param {BuildDeps} deps
+ * @returns {Promise<BuildResult>}
+ */
+export async function build(deps) {
+  /** @type {Record<string, string>} */
+  const outputs = {};
+  let failed = false;
+  const message = (/** @type {unknown} */ error) => (error instanceof Error ? error.message : String(error));
+  try {
+    const result = await run(deps);
+    // Warnungen als Anmerkung im Actions-Tab; der Workflow lässt den Lauf danach scheitern, damit GitHub eine Mail schickt.
+    for (const warning of result.warnings) deps.log(`::warning::${warning}`);
+    outputs['stale'] = String(result.warnings.length > 0);
+    outputs['asOf'] = result.asOf;
+  } catch (error) {
+    deps.log(`::error::${message(error)}`);
+    failed = true;
+  }
+  try {
+    await runTrends(deps);
+    outputs['trends_failed'] = 'false';
+  } catch (error) {
+    deps.log(`::error::${message(error)}`);
+    outputs['trends_failed'] = 'true';
+  }
+  return { failed, outputs };
+}
+
 /** Dateien im Ordner `root`. @param {string} root @returns {Files} */
 export function folderFiles(root) {
   return {
@@ -249,21 +376,18 @@ export async function fetchWithAgent(url) {
 
 if (import.meta.url === pathToFileURL(process.argv[1] ?? '').href) {
   const fallback = process.env['WFM_FALLBACK'];
-  try {
-    const result = await run({
-      fetchText: fetchWithAgent,
-      files: folderFiles(process.env['DATA_DIR'] ?? 'prices'),
-      now: Date.now(),
-      log: (text) => console.log(text),
-      sleep: (ms) => new Promise((resolve) => setTimeout(resolve, ms)),
-      fallback: fallback === 'off' || fallback === 'full' ? fallback : 'prime',
-      rebuild: ['1', 'true'].includes(process.env['REBUILD'] ?? ''),
-    });
-    // Warnungen als Anmerkung im Actions-Tab; der Workflow lässt den Lauf danach scheitern, damit GitHub eine Mail schickt.
-    for (const warning of result.warnings) console.log(`::warning::${warning}`);
-    if (process.env['GITHUB_OUTPUT']) await writeFile(process.env['GITHUB_OUTPUT'], `stale=${result.warnings.length > 0}\nasOf=${result.asOf}\n`, { flag: 'a' });
-  } catch (error) {
-    console.log(`::error::${error instanceof Error ? error.message : String(error)}`);
-    process.exitCode = 1;
-  }
+  const output = process.env['GITHUB_OUTPUT'];
+  const { failed, outputs } = await build({
+    fetchText: fetchWithAgent,
+    files: folderFiles(process.env['DATA_DIR'] ?? 'prices'),
+    now: Date.now(),
+    log: (text) => console.log(text),
+    sleep: (ms) => new Promise((resolve) => setTimeout(resolve, ms)),
+    fallback: fallback === 'off' || fallback === 'full' ? fallback : 'prime',
+    rebuild: ['1', 'true'].includes(process.env['REBUILD'] ?? ''),
+    backfill: ['1', 'true'].includes(process.env['TRENDS_BACKFILL'] ?? ''),
+  });
+  if (output) await writeFile(output, Object.entries(outputs).map(([key, value]) => `${key}=${value}\n`).join(''), { flag: 'a' });
+  // In der Action meldet ein eigener Schritt den Verlauf nach dem Commit; von Hand scheitert der Lauf gleich.
+  if (failed || (!output && outputs['trends_failed'] === 'true')) process.exitCode = 1;
 }

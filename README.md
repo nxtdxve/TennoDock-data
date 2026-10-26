@@ -52,3 +52,46 @@ them once a day; nothing in this repository is personal data.
 - `price-file/`: the script (Node 20 or newer, no dependencies) and its tests: `node --test "price-file/**/*.test.mjs"`.
   Run it locally with `node price-file/build.mjs`; `REBUILD=1` rebuilds the file without a new day.
 - `.github/workflows/prices.yml`: the daily workflow. Run it by hand under *Actions › Prices › Run workflow*.
+
+## Price trends
+
+`prices/v1/trends.json` holds the price history of every Prime set: one value per week for two years and one value per
+day for the last 90 days. TennoDock shows it on its Vault Tracker page, next to the times a Prime was back at Varzia.
+
+- **What a value is:** the median price of the completed trades of the set on that day (warframe.market slug
+  `…_prime_set`), rounded to whole platinum. A week is the median of its days; older weeks keep their value after their
+  days leave the 90-day part.
+- **Source and update:** the same daily files as the market prices, in the same run. The file is also its own store:
+  each run adds the days in `prices/days/` and drops values older than the range. Weeks before the first run were
+  backfilled once from relics.run, one day (the Thursday) per week.
+- **Backfill:** *Actions › Prices › Run workflow* with *backfill* fetches the Thursday of every week without any value,
+  3 seconds apart (about 105 files of 4 MB the first time, then only weeks that are still empty). Locally:
+  `TRENDS_BACKFILL=1 node price-file/build.mjs`. A file that is missing or not readable costs only its week.
+- **Errors:** a failing trends build never holds back the price file. The workflow commits what is ready and fails
+  afterwards (step *Report trends*), so GitHub sends a mail. An unreadable `trends.json` is never replaced silently.
+
+### Format (version 1)
+
+```json
+{
+  "format": "tennodock-trends",
+  "v": 1,
+  "asOf": "2026-10-25",
+  "generatedAt": "2026-10-26T04:18:30Z",
+  "source": "relics.run",
+  "weekStart": "2024-10-28",
+  "dayStart": "2026-07-28",
+  "items": 165,
+  "dirs": {
+    "Powersuits/Odalisk/": { "ProteaPrime": { "w": [41, 43, null, 40], "d": [36, 35, null, 35] } }
+  }
+}
+```
+
+- `dirs`: game paths without the leading `/Lotus/`, grouped by folder, as in the price file. The path of a set is the
+  path of the Prime itself (`/Lotus/Powersuits/Odalisk/ProteaPrime` is the Protea Prime set).
+- `w`: 105 weekly values; index `i` is the week (Monday to Sunday, UTC) starting `weekStart + 7·i` days. The last one is the
+  running week.
+- `d`: 90 daily values; index `i` is the day `dayStart + i`, the last one is `asOf`.
+- `null`: no trade that week or day (or no data yet). A set without any value is missing.
+- An incompatible change gets a new folder (`prices/v2/`).
