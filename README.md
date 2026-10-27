@@ -95,3 +95,66 @@ day for the last 90 days. TennoDock shows it on its Vault Tracker page, next to 
 - `d`: 90 daily values; index `i` is the day `dayStart + i`, the last one is `asOf`.
 - `null`: no trade that week or day (or no data yet). A set without any value is missing.
 - An incompatible change gets a new folder (`prices/v2/`).
+
+## KIM conversations
+
+`kim/v1/en.json` and `kim/v1/de.json` hold the KIM conversations of the Protoframes in Warframe 1999: for every
+conversation the choices, the chemistry each answer gives and whether it starts or rules out a romance. TennoDock shows
+them in its in-game overlay, hidden until the player asks for them (story spoilers).
+
+- **Source:** [Sainan/warframe-kim-dialogues](https://github.com/Sainan/warframe-kim-dialogues) (`data/` and `dicts/`),
+  read from the game files by its author. Each file names the commit it was built from (`commit`, `asOf`).
+- **License:** the source repository has no license. A request to its author is pending; until it is answered, these
+  files are a copy for testing and may be removed. The conversation texts are © Digital Extremes.
+- **Updated:** the workflow checks the source once a day at about 05:43 UTC and rebuilds only after a new commit.
+- TennoDock is not affiliated with Digital Extremes or the author of the source.
+
+### Format (version 1)
+
+```json
+{
+  "format": "tennodock-kim",
+  "v": 1,
+  "lang": "en",
+  "asOf": "2026-06-17",
+  "generatedAt": "2026-10-27T05:43:12Z",
+  "source": "Sainan/warframe-kim-dialogues",
+  "commit": "fc6affb35380324297b29eb75e06619f767078da",
+  "texts": true,
+  "people": {
+    "Arthur": {
+      "ArthurRank2Convo3": {
+        "r": 2,
+        "first": "First message of the conversation",
+        "c": [
+          { "p": "Message before the choice", "a": [{ "t": "Answer", "c": 10 }, { "t": "Other answer", "c": 20, "m": 5, "f": "n" }] },
+          { "p": "…", "a": [{ "t": "…" }, { "t": "…", "c": 5 }], "af": [0, [0]], "if": ["ArthurLikesCats", true] }
+        ]
+      }
+    }
+  }
+}
+```
+
+- `people`: one entry per dialogue file (`/Lotus/Types/Gameplay/1999Wf/Dialogue/<Person>Dialogue_rom.dialogue`), then
+  one per conversation. The key is the id the game stores in `DialogueHistory.Dialogues[].Completed[].Id`. Files without
+  chemistry (group chat, Loid, introductions) and birthday messages are missing.
+- `r`: the chemistry rank of the conversation (`…Rank3Convo2`), missing for special conversations. `first`: its first
+  message, at most 160 characters.
+- `c`: the choices with at least two answers, in the order of the conversation (empty for a conversation without a
+  choice). `p`: the message before the choice (at
+  most 160 characters). `af: [i, [j…]]`: the choice only comes after one of the answers `j` of choice `i`.
+  `if: [name, value]`: it only comes if the flag `name` from an earlier conversation is set (`true`) or not (`false`).
+- Answers: `t` the text, `c` the chemistry until the next choice (the highest of all paths, missing for 0), `m` the
+  lowest one if it is lower (the path depends on a flag), `f` flags: `n` rules out a romance with the person, `d` starts
+  one (derived from the flag names, e.g. `AoiNoDate`, `AoiDating`). Answers keep the order of the source.
+- `texts: false`: the files were built without game texts (repository variable `KIM_TEXTS=none`): no `t` and no `p`, and
+  `first` holds only the first three words.
+- An incompatible change gets a new folder (`kim/v2/`).
+
+### Other files
+
+- `kim-file/`: the script (Node 20 or newer, no dependencies) and its tests: `node --test "kim-file/**/*.test.mjs"`.
+  Run it locally with `node kim-file/build.mjs`; `REBUILD=1` rebuilds without a new commit. A file whose content did
+  not change is not written again (same file, same ETag, no new download in the app).
+- `.github/workflows/kim.yml`: the daily workflow. Run it by hand under *Actions › KIM › Run workflow*.

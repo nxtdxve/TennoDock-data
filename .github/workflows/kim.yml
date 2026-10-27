@@ -1,0 +1,62 @@
+# KIM-Gespräche für TennoDock (#106): baut `kim/v1/en.json` und `kim/v1/de.json` aus Sainan/warframe-kim-dialogues, wenn
+# es dort einen neuen Commit gibt (Februar bis Juni 2026 rund einmal im Monat). Sonst nur ein Abruf bei api.github.com,
+# kein Commit. Ein Neubau ohne Änderung am Inhalt (z. B. nach einer Änderung am Skript) schreibt nichts.
+# Im TennoDock-Repo liegt dieser Ordner unter `tools/tennodock-data/` (1:1 der Inhalt des Daten-Repos) und läuft dort nicht.
+# Doku: docs/pakete/106-overlay-kim.md im App-Repo. Lizenz der Quelle offen (README, „KIM conversations“).
+name: KIM
+
+on:
+  schedule:
+    # Abseits des Preis-Laufs (04:17 und 10:17 UTC), damit sich die Commits nicht in die Quere kommen.
+    - cron: '43 5 * * *'
+  # Von Hand: Actions › KIM › Run workflow, oder `gh workflow run kim.yml -R nxtdxve/TennoDock-data`.
+  workflow_dispatch:
+    inputs:
+      rebuild:
+        description: Rebuild the KIM files even if the source has no new commit
+        type: boolean
+        default: false
+  # Eine Änderung am Skript gilt sofort. Commits des Workflows selbst (GITHUB_TOKEN) lösen keinen neuen Lauf aus.
+  push:
+    branches: [main]
+    paths:
+      - 'kim-file/**'
+      - '.github/workflows/kim.yml'
+
+permissions:
+  contents: write # Dateien committen
+
+concurrency:
+  group: kim
+  cancel-in-progress: false
+
+jobs:
+  kim:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24
+      - name: Test
+        run: node --test "kim-file/**/*.test.mjs"
+      - name: Build
+        id: build
+        env:
+          # Nur für api.github.com (Commit und Dateiliste), damit das Limit für Abrufe ohne Anmeldung nicht greift.
+          GITHUB_TOKEN: ${{ github.token }}
+          REBUILD: ${{ github.event_name == 'push' || inputs.rebuild }}
+          # Ohne Spieltexte (nur Zahlen): Variable KIM_TEXTS=none unter Settings › Secrets and variables › Actions ›
+          # Variables. Der nächste Lauf baut die Dateien dann ohne Texte neu, auch ohne neuen Commit der Quelle.
+          KIM_TEXTS: ${{ vars.KIM_TEXTS || 'full' }}
+        run: node kim-file/build.mjs
+      - name: Commit
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add kim
+          if git diff --cached --quiet; then echo 'Nothing new'; exit 0; fi
+          git commit -m "KIM ${{ steps.build.outputs.commit }} (${{ steps.build.outputs.asOf }})"
+          # Läuft der Preis-Workflow gerade auch, einmal auf den neuen Stand setzen und erneut versuchen.
+          git push || { git pull --rebase origin main && git push; }
