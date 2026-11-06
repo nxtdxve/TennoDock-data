@@ -3243,6 +3243,196 @@
           "src": "browse-wf"
         }
       }
+    },
+    "damage-types": {
+      "pack": "packs/damage-types.json",
+      "sha256": "c67d3d5c46d878899bafdbfc56f7b7d19f05351fff5d3f6d435a804d27270f79",
+      "bytes": 33344,
+      "files": {
+        "blast": {
+          "file": "damage-types/blast.webp",
+          "sha256": "8649842dc341e263c4c7e3793b6b5429a46d6dcb9a0a0cf817a99492c6a7a54f",
+          "bytes": 1984,
+          "w": 64,
+          "h": 64,
+          "src": "wiki"
+        },
+        "cold": {
+          "file": "damage-types/cold.webp",
+          "sha256": "7b207c35e6c0497a2e66fdfe5bf5f822b33796bf440045eb6fa9262707322ae2",
+          "bytes": 2274,
+          "w": 64,
+          "h": 64,
+          "src": "wiki"
+        },
+        "corrosive": {
+          "file": "damage-types/corrosive.webp",
+          "sha256": "4ae434e0e5fac6a210dd22b8799f182d4925ee49315840ad9d64b4a4ebcc6254",
+          "bytes": 1794,
+          "w": 64,
+          "h": 64,
+          "src": "wiki"
+        },
+        "electricity": {
+          "file": "damage-types/electricity.webp",
+          "sha256": "c8010f0fa22a1595b03c4676762cb48dce05bd17f2653925ede3e405c6a0ec77",
+          "bytes": 1006,
+          "w": 64,
+          "h": 64,
+          "src": "wiki"
+        },
+        "gas": {
+          "file": "damage-types/gas.webp",
+          "sha256": "0646957a7cfc268c413cda35ccfda75d22a34d06645791cca5d1f67c82045e12",
+          "bytes": 2900,
+          "w": 64,
+          "h": 64,
+          "src": "wiki"
+        },
+        "heat": {
+          "file": "damage-types/heat.webp",
+          "sha256": "bb6dc78166dfce792b5797a5e9c998ffe73e6de5c8b4db2f40539ffdd2103ccd",
+          "bytes": 1806,
+          "w": 64,
+          "h": 64,
+          "src": "wiki"
+        },
+        "impact": {
+          "file": "damage-types/impact.webp",
+          "sha256": "b08f7de303712af5b8a5684992ed5e05a1070a8d5aa47e47249ac9b702903a42",
+          "bytes": 1478,
+          "w": 64,
+          "h": 64,
+          "src": "wiki"
+        },
+        "magnetic": {
+          "file": "damage-types/magnetic.webp",
+          "sha256": "579922d6dbf4b0e51d8839fc71eefd4146131ab01c515184f2053a4df4ce8387",
+          "bytes": 1392,
+          "w": 64,
+          "h": 64,
+          "src": "wiki"
+        },
+        "puncture": {
+          "file": "damage-types/puncture.webp",
+          "sha256": "3bba45a891a481d5725871548ef1d27ed69be415ad55127d80e6a175eae28766",
+          "bytes": 2100,
+          "w": 64,
+          "h": 64,
+          "src": "wiki"
+        },
+        "radiation": {
+          "file": "damage-types/radiation.webp",
+          "sha256": "d44914cc5f23c4889e9e382f66daa7e0b5a7543eb93e5bc3d43c06de35ba1d45",
+          "bytes": 1632,
+          "w": 64,
+          "h": 64,
+          "src": "wiki"
+        },
+        "slash": {
+          "file": "damage-types/slash.webp",
+          "sha256": "f96d413b0ee552d467bfeee5efd1aad6c615236052cd3277bb9a373f466cb1ba",
+          "bytes": 1154,
+          "w": 64,
+          "h": 64,
+          "src": "wiki"
+        },
+        "toxin": {
+          "file": "damage-types/toxin.webp",
+          "sha256": "6c82bfc571461f222cf500985a55f391ed24cd78f45b9cc2f9c698231f6445fd",
+          "bytes": 2352,
+          "w": 64,
+          "h": 64,
+          "src": "wiki"
+        },
+        "viral": {
+          "file": "damage-types/viral.webp",
+          "sha256": "31c20f4a3b389539c297d5601754f290f13496eb4785da593f98f78b8f68492f",
+          "bytes": 2730,
+          "w": 64,
+          "h": 64,
+          "src": "wiki"
+        }
+      }
+    },
+    "intrinsics": {
+      "pack": "packs/intrinsics.json",
+      "sha256": "0bd75c3542a70c0ac7291a985ffcd0f76578c49337eeeab2e55e303217ea54bd",
+      "bytes": 43141,
+      "files": {
+        "command": {
+          "file": "intrinsics/command.webp",
+          "sha256": "a93968b0e6678e8dfa77c42fc1d1f39f4f5390eb75545c01a35af1f2ff532253",
+          "bytes": 2328,
+          "w": 128,
+          "h": 128,
+          "src": "wiki"
+        },
+        "drift-combat": {
+          "file": "intrinsics/drift-combat.webp",
+          "sha256": "a3bde68052631a908d08308751ae141c0307ea9cdad7d0e379ec3fc1e102ba0a",
+          "bytes": 3858,
+          "w": 128,
+          "h": 128,
+          "src": "wiki"
+        },
+        "drift-endurance": {
+          "file": "intrinsics/drift-endurance.webp",
+          "sha256": "930136eca3f90b98881901effd6a8bca4233f3e852fa0001c6816f96cc96c25a",
+          "bytes": 4208,
+          "w": 128,
+          "h": 128,
+          "src": "wiki"
+        },
+        "drift-opportunity": {
+          "file": "intrinsics/drift-opportunity.webp",
+          "sha256": "8affd99854d45e657bd5cde40b92ea993fcb7f75910a79d80ea609ed9d298bc8",
+          "bytes": 5402,
+          "w": 128,
+          "h": 128,
+          "src": "wiki"
+        },
+        "drift-riding": {
+          "file": "intrinsics/drift-riding.webp",
+          "sha256": "02d0ea7d0742a0b2c10b9db30f5ea000ae4766974bc8d61bd9042dbb2aa7662d",
+          "bytes": 5580,
+          "w": 128,
+          "h": 128,
+          "src": "wiki"
+        },
+        "engineering": {
+          "file": "intrinsics/engineering.webp",
+          "sha256": "491de37ecbab6a034026ec1db6405f2ca0095167c576fe6d7109d184bfa79abb",
+          "bytes": 3104,
+          "w": 128,
+          "h": 128,
+          "src": "wiki"
+        },
+        "gunnery": {
+          "file": "intrinsics/gunnery.webp",
+          "sha256": "49125b805449bab9905ee3b25e776634d51990b052070ae19a57e13407d2b9b3",
+          "bytes": 2754,
+          "w": 128,
+          "h": 128,
+          "src": "wiki"
+        },
+        "piloting": {
+          "file": "intrinsics/piloting.webp",
+          "sha256": "1eef2f943d0b17a473e0e121db5e106cc8eaa4f32dc1e466d08b50d6935dd56e",
+          "bytes": 2254,
+          "w": 128,
+          "h": 128,
+          "src": "wiki"
+        },
+        "tactical": {
+          "file": "intrinsics/tactical.webp",
+          "sha256": "e176badbf36d27d37215c0c2a47f0c694caf7821da6a6c5100e152ac470c2633",
+          "bytes": 2540,
+          "w": 128,
+          "h": 128,
+          "src": "wiki"
+        }
+      }
     }
   }
 }
