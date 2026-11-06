@@ -12,8 +12,8 @@
   "families": {
     "mod-frames": {
       "pack": "packs/mod-frames.json",
-      "sha256": "57925933c8768a24490ef440e21b6d3e58ae29bb99718ace242fb64618e72695",
-      "bytes": 667702,
+      "sha256": "e6c24bd7dfc34b23fc157d3e911290b58ca40fed126704bdcc3c94e72ce1bfc4",
+      "bytes": 674337,
       "files": {
         "AmalgamBackground": {
           "file": "mod-frames/AmalgamBackground.webp",
@@ -95,6 +95,14 @@
           "h": 256,
           "src": "tennodock-traced"
         },
+        "AuraIcon": {
+          "file": "mod-frames/AuraIcon.webp",
+          "sha256": "3400f98447b5b8ef45b41d54943ef6b354cc2b0becdd34d8b87035147e2ef05d",
+          "bytes": 2086,
+          "w": 64,
+          "h": 64,
+          "src": "wiki"
+        },
         "BronzeBackground": {
           "file": "mod-frames/BronzeBackground.webp",
           "sha256": "36f19bfff8a6a15b70d73eda2272eee883639bf8e5d515439c26ddb1b8ab7772",
@@ -149,6 +157,14 @@
           "bytes": 460,
           "w": 45,
           "h": 26,
+          "src": "wiki"
+        },
+        "ExilusIcon": {
+          "file": "mod-frames/ExilusIcon.webp",
+          "sha256": "faba9b2365de76fd6f206a45d5399a78a915c57a85158767421b662106f2bcd6",
+          "bytes": 1462,
+          "w": 65,
+          "h": 41,
           "src": "wiki"
         },
         "GalvanizedBackground": {
@@ -549,6 +565,14 @@
           "bytes": 474,
           "w": 45,
           "h": 26,
+          "src": "wiki"
+        },
+        "StanceIcon": {
+          "file": "mod-frames/StanceIcon.webp",
+          "sha256": "8dbb4f7891866bfee123969d8a0a4abb3807855392f934dad81c6c22576c2c20",
+          "bytes": 1336,
+          "w": 64,
+          "h": 64,
           "src": "wiki"
         }
       }

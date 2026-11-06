@@ -62,6 +62,9 @@ riven set has no background of its own; the wiki names `SilverBackground.png` fo
 | AmalgamFrameTop.png | AmalgamFrameTop.png | https://wiki.warframe.com/images/AmalgamFrameTop.png | 2024-04-29 | 281×117 px, 5.5 KB | 281×117 px, 5.5 KB (PNG, larger as WebP) |
 | AmalgamFrameBottom.webp | AmalgamFrameBottom.png | https://wiki.warframe.com/images/AmalgamFrameBottom.png | 2024-04-29 | 292×120 px, 22.1 KB | 292×120 px, 8.1 KB |
 | AmalgamBackground.webp | AmalgamBackground.png | https://wiki.warframe.com/images/AmalgamBackground.png | 2024-04-29 | 256×512 px, 11.4 KB | 242×338 px, 18.8 KB (cropped to the opaque part) |
+| AuraIcon.webp | IconAura(xWhite).png | https://wiki.warframe.com/images/IconAura%28xWhite%29.png | 2021-08-21 | 256×256 px, 7.9 KB | 64×64 px, 2.0 KB (symbol on top of aura mods, #144) |
+| ExilusIcon.webp | Exilus(xWhite).png | https://wiki.warframe.com/images/Exilus%28xWhite%29.png | 2018-12-12 | 65×41 px, 3.9 KB | 65×41 px, 1.4 KB (symbol on top of exilus mods, #144) |
+| StanceIcon.webp | Stancemodicon(xWhite).png | https://wiki.warframe.com/images/Stancemodicon%28xWhite%29.png | 2024-03-26 | 256×256 px, 6.1 KB | 64×64 px, 1.3 KB (symbol on top of stance mods, #144) |
 
 ## From WFCD/genesis-assets
 
