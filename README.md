@@ -1,7 +1,7 @@
 # TennoDock data
 
 Public data files for [TennoDock](https://github.com/nxtdxve), a Warframe companion app for Overwolf. The app downloads
-them at most once a day; nothing in this repository is personal data.
+them at most once or twice a day; nothing in this repository is personal data.
 
 ## Market prices
 
@@ -259,3 +259,94 @@ with a button to copy it and a link to redeem it on warframe.com.
 - `glyph-codes-file/`: the script (Node 20 or newer, no dependencies) and its tests:
   `node --test "glyph-codes-file/**/*.test.mjs"`. Run it locally with `node glyph-codes-file/build.mjs`.
 - `.github/workflows/glyph-codes.yml`: the weekly workflow. Run it by hand under *Actions › Glyph codes › Run workflow*.
+
+## Promo codes
+
+`promo-codes/v1/codes.json` holds the active promo codes for WARFRAME: for every code the occasion, the dates if known,
+the day it first showed up in the list and its rewards, matched to items of the game where possible. TennoDock shows the
+codes on its Checklist page and under *Ready now*, with a button to copy a code and a link to redeem it on
+warframe.com, and can notify the player when a new code shows up. The app checks the file at most every 12 hours.
+
+- **Source:** the [WARFRAME Wiki](https://wiki.warframe.com/w/Promo_Codes), page *Promo Codes*, table *Active Codes*.
+  The table *Inactive Codes* is only used to check that the page is complete. The wiki says the list is incomplete;
+  codes can expire or stop working at any time. Creator glyph codes are in `glyph-codes/` instead.
+- **Item names:** the English names of the game's public export by Digital Extremes (`index_en.txt.lzma` from
+  origin.warframe.com, unpacked with `xz`, and the export files from content.warframe.com), the same source as the
+  item images in the app. They are loaded only when a
+  reward is new. If the public export cannot be read, the names of
+  [warframe-public-export-plus](https://github.com/calamity-inc/warframe-public-export-plus) (export files and
+  `dict.en`) are used instead; that repository can lag behind new game updates. If neither can be read, the file is
+  still written and the names are matched on a later run. A reward without a match keeps its text from the wiki.
+- **License:** the wiki content is licensed under
+  [CC BY-NC-SA 3.0](https://creativecommons.org/licenses/by-nc-sa/3.0/). This file is an extract of it under the same
+  license; the file names its source page, the revision it was built from and the license.
+- **Updated:** every 6 hours (01:11, 07:11, 13:11 and 19:11 UTC). A new file is written only when the content changed,
+  that is the list or the revision of the wiki page (same file, same ETag, no new download in the app). On Wednesdays,
+  rewards without an item are matched again, but only if the index of the public export changed since the last match
+  (`namesIndex`).
+- TennoDock is not affiliated with Digital Extremes or the WARFRAME Wiki.
+
+### Format (version 1)
+
+```json
+{
+  "format": "tennodock-promo-codes",
+  "v": 1,
+  "asOf": "2026-11-02",
+  "revisedAt": "2026-11-02T18:28:15Z",
+  "generatedAt": "2026-11-06T07:11:04Z",
+  "source": "wiki.warframe.com",
+  "page": "https://wiki.warframe.com/w/Promo_Codes",
+  "revision": 2822826,
+  "license": "CC BY-NC-SA 3.0",
+  "namesIndex": "e6c0051daa63817a",
+  "codes": [
+    {
+      "code": "EXAMPLE2026",
+      "context": "Example event 2026",
+      "from": "2026-11-02",
+      "until": "2026-11-16",
+      "firstSeen": "2026-11-02",
+      "rewards": [
+        { "text": "3 Day Affinity Booster", "path": "/Lotus/Types/StoreItems/Boosters/AffinityBooster3DayStoreItem" },
+        { "text": "One-time 20% Platinum discount" }
+      ]
+    }
+  ],
+  "removed": [{ "code": "OLDCODE", "firstSeen": "2026-10-01", "removedOn": "2026-11-05" }]
+}
+```
+
+- `asOf` and `revisedAt`: day and time of the revision of the wiki page the file was built from (`revision`).
+- `codes`: only active codes, in the order of the wiki, each code once (compared without case), at most 40. Codes whose
+  end date has passed are left out, even if the wiki still lists them as active. Words such as "None" or "TBA" in the
+  code column are never a code; a row with only such a word, or with no code and no reward, is skipped. A row whose code
+  column describes a code instead of naming one (text with spaces or brackets, such as `DUVIRI-(Warframe name)`) is
+  skipped with a warning in the run's log, as is a row whose rewards cannot be read (for example only an unknown
+  template). Occasions and rewards are cut at 120 characters, at most 20 rewards per code.
+- `from` and `until`: first and last day (UTC) from the column *Dates Active*, only from a clear range such as
+  `2026-07-01 to 2027-05-31`. A single date is left out: on the wiki it is sometimes the start, sometimes the end. A
+  range that ends before it starts is left out as well. A code whose start lies ahead is listed; the app shows it as
+  coming up and announces it on its first day.
+- `firstSeen`: the day the workflow first saw the code in the table. Codes that were already there on the first run get
+  their start date, or no value if it is unknown.
+- `removed`: codes that left the table, with their `firstSeen` if they had one, kept for 30 days after `removedOn`. If
+  such a code comes back (for example after a revert), it keeps its old `firstSeen` (or none) and the app does not
+  announce it again. The app ignores this list.
+- `rewards[].text`: the reward as written on the wiki (English). `rewards[].path`: the item in the game, if its English
+  name matches; the app then shows the name in its own language and the image from the game's public export.
+- `namesIndex`: a short hash of the public export's index entries the item names came from. The workflow uses it to
+  skip the download when nothing changed; the app ignores it.
+- A run fails and keeps the file as it was if a section, its table or a known column is missing; if the table of
+  inactive codes has fewer than 20 rows (a blanked page); if an active row lists rewards but its code column cannot be
+  read (for example a code inside a template, or a single word that is not a valid code); if there are more than 40 active codes; or if at least 3 codes, and more
+  than half of them, leave the active table at once without having reached their end date and without showing up under
+  *Inactive Codes* (a damaged table rather than a clean-up). An empty list of active codes is allowed.
+- An incompatible change gets a new folder (`promo-codes/v2/`).
+
+### Other files
+
+- `promo-codes-file/`: the script (Node 20 or newer and `xz`, no npm dependencies) and its tests:
+  `node --test "promo-codes-file/**/*.test.mjs"`. Run it locally with `node promo-codes-file/build.mjs`;
+  `REBUILD=1` also matches rewards without an item again. It shares the wiki helpers in `glyph-codes-file/`.
+- `.github/workflows/promo-codes.yml`: the workflow. Run it by hand under *Actions › Promo codes › Run workflow*.

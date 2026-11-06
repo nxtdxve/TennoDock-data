@@ -1,0 +1,69 @@
+# Aktive Promo-Codes für TennoDock (#135): baut `promo-codes/v1/codes.json` aus der Seite „Promo Codes“ im WARFRAME Wiki,
+# alle 6 Stunden (Daves Entscheidung vom 06.11.2026). Ein Abruf bei wiki.warframe.com pro Lauf; die Namen der Items aus dem
+# DE-Export (Rückfall public-export-plus) nur, wenn eine Belohnung neu ist; ein Commit nur, wenn sich der Inhalt geändert
+# hat (Liste oder Fassung der Seite).
+# `xz` (Index des DE-Exports entpacken) bringt das Ubuntu-Image von GitHub mit; keine npm-Abhängigkeit.
+# Im TennoDock-Repo liegt dieser Ordner unter `tools/tennodock-data/` (1:1 der Inhalt des Daten-Repos) und läuft dort nicht.
+# Doku: docs/pakete/135-promo-codes.md im App-Repo. Lizenz der Quelle: CC BY-NC-SA 3.0 (README, „Promo codes“).
+name: Promo codes
+
+on:
+  schedule:
+    # Alle 6 h, abseits der Läufe von Preisen (04:17, 10:17), KIM (05:43) und Glyphen (montags 06:29).
+    - cron: '11 1,7,13,19 * * *'
+    # Einmal pro Woche dazu Belohnungen ohne Item neu zuordnen, nur wenn sich der Index des DE-Exports geändert hat.
+    - cron: '41 7 * * 3'
+  # Von Hand: Actions › Promo codes › Run workflow, oder `gh workflow run promo-codes.yml -R nxtdxve/TennoDock-data`.
+  workflow_dispatch:
+    inputs:
+      rebuild:
+        description: 'Match rewards without an item again'
+        type: boolean
+        default: false
+  # Eine Änderung am Skript gilt sofort. Commits des Workflows selbst (GITHUB_TOKEN) lösen keinen neuen Lauf aus.
+  push:
+    branches: [main]
+    paths:
+      - 'promo-codes-file/**'
+      - 'glyph-codes-file/build.mjs'
+      - 'glyph-codes-file/lib/**'
+      - '.github/workflows/promo-codes.yml'
+
+permissions:
+  contents: write # Dateien committen
+
+concurrency:
+  group: promo-codes
+  cancel-in-progress: false
+
+jobs:
+  promo-codes:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24
+      - name: Test
+        run: node --test "promo-codes-file/**/*.test.mjs"
+      - name: Build
+        id: build
+        env:
+          REBUILD: ${{ (github.event.schedule == '41 7 * * 3' || inputs.rebuild) && '1' || '' }}
+        run: node promo-codes-file/build.mjs
+      - name: Commit
+        # Werte aus dem Lauf nur über die Umgebung, nie als Ausdruck direkt im Befehl (Script-Injection). Das Skript prüft sie
+        # zusätzlich streng (`outputLines`: Tag, ganze Zahlen).
+        env:
+          AS_OF: ${{ steps.build.outputs.asOf }}
+          REVISION: ${{ steps.build.outputs.revision }}
+          CODES: ${{ steps.build.outputs.codes }}
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add promo-codes
+          if git diff --cached --quiet; then echo 'Nothing new'; exit 0; fi
+          git commit -m "Promo codes $AS_OF (revision $REVISION, $CODES codes)"
+          # Läuft ein anderer Workflow gerade auch, einmal auf den neuen Stand setzen und erneut versuchen.
+          git push || { git pull --rebase origin main && git push; }
