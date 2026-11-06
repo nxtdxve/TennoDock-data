@@ -174,9 +174,10 @@ and keeps it on disk; without a network it shows simple cards and icons instead.
 - **Rights:** the images are © Digital Extremes. They come from the WARFRAME Wiki, from
   [WFCD/genesis-assets](https://github.com/WFCD/genesis-assets) (Apache-2.0 for the collection) and, for the challenge
   icons, from the game files served by [browse.wf](https://browse.wf) (calamity-inc, MIT) at the paths listed in
-  [warframe-public-export-plus](https://github.com/calamity-inc/warframe-public-export-plus) (MIT). Whether an app may
-  ship them is an open question that TennoDock settles before its release; the folders may change or be removed until
-  then.
+  [warframe-public-export-plus](https://github.com/calamity-inc/warframe-public-export-plus) (MIT). Two white sigils in
+  `game-glyphs` are copies from Digital Extremes' Public Export, kept here because the app draws them as masks. Whether
+  an app may ship them is an open question that TennoDock settles before its release; the folders may change or be
+  removed until then.
 - **Updated:** by hand, when TennoDock needs a new part. There is no schedule.
 - TennoDock is not affiliated with Digital Extremes or WFCD.
 

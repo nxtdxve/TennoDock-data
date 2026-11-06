@@ -6,6 +6,7 @@
     "wiki": "WARFRAME Wiki (wiki.warframe.com), images © Digital Extremes",
     "genesis-assets": "WFCD/genesis-assets (Apache-2.0 for the collection), images © Digital Extremes",
     "tennodock-traced": "Made for TennoDock: shape traced from the game's mod frame mask, colours and pixels from WARFRAME Wiki card images, images © Digital Extremes",
+    "de-export": "Digital Extremes Public Export (content.warframe.com, path from ExportManifest), images © Digital Extremes",
     "browse-wf": "Game files served by calamity-inc/browse.wf (MIT), paths from calamity-inc/warframe-public-export-plus (MIT), images © Digital Extremes"
   },
   "families": {
@@ -1248,8 +1249,8 @@
     },
     "game-glyphs": {
       "pack": "packs/game-glyphs.json",
-      "sha256": "c118384271912bdbfbb8e36e51f77dc8f401424a40f010c117358a44cff4ed60",
-      "bytes": 62524,
+      "sha256": "27acbcbcf9466f64770606501106a63a2fda1482e6706c6977c93b0391de9a15",
+      "bytes": 68878,
       "files": {
         "archwing": {
           "file": "game-glyphs/archwing.webp",
@@ -1261,8 +1262,8 @@
         },
         "blueprint-owned": {
           "file": "game-glyphs/blueprint-owned.webp",
-          "sha256": "ff8edb01afd42120634f7ae46d62e23bd809a81b19f252a735c203f951efe7a6",
-          "bytes": 2866,
+          "sha256": "8f4cb409931e3097c335aa594fcdf713f5060a2e9571e5d960cb833a501f9ee0",
+          "bytes": 2766,
           "w": 96,
           "h": 96,
           "src": "genesis-assets"
@@ -1315,6 +1316,14 @@
           "h": 96,
           "src": "genesis-assets"
         },
+        "nightwave": {
+          "file": "game-glyphs/nightwave.webp",
+          "sha256": "ee23d0e527e00be3a7c66d80641c633ca561e9c851d71da56948546849ce24d4",
+          "bytes": 3668,
+          "w": 96,
+          "h": 96,
+          "src": "de-export"
+        },
         "operator": {
           "file": "game-glyphs/operator.webp",
           "sha256": "2cf4c7b64fc8284e6a2290cfaec7312dd819bd509ce27abd26af408bf87769da",
@@ -1349,8 +1358,8 @@
         },
         "quest": {
           "file": "game-glyphs/quest.webp",
-          "sha256": "0d38f71a6827ef6d4cb1794245e5e8572fde2f3f2aee3622e89744abccc69de4",
-          "bytes": 7700,
+          "sha256": "1c92149ede5a51f9e15f6aef8b5c1b47fee55222dead4af831fd101fc3c63949",
+          "bytes": 6994,
           "w": 128,
           "h": 128,
           "src": "genesis-assets"
@@ -1363,10 +1372,18 @@
           "h": 96,
           "src": "genesis-assets"
         },
+        "sisters": {
+          "file": "game-glyphs/sisters.webp",
+          "sha256": "aef27605ce498da51af4831bf50187b380cea60f944f4d17630e4dcd994cee72",
+          "bytes": 3696,
+          "w": 96,
+          "h": 96,
+          "src": "de-export"
+        },
         "standing": {
           "file": "game-glyphs/standing.webp",
-          "sha256": "e27390e0ea2014b2bfe6a48316c41179ee7a316dfa439636667d4c83165780af",
-          "bytes": 2798,
+          "sha256": "b0c2ff7acf2c6f26f7a7fcef2d6d6e01a5dcbb3590881a508d87b10484a1903e",
+          "bytes": 1416,
           "w": 96,
           "h": 96,
           "src": "genesis-assets"
@@ -1381,16 +1398,16 @@
         },
         "tribute": {
           "file": "game-glyphs/tribute.webp",
-          "sha256": "d2bf73d5852e495a16eabce04c0174254e1663939d2326721a1f932024e2d2da",
-          "bytes": 1732,
+          "sha256": "c1fa5af81f85ba3188e0436667f146cf37b2cfb5542283ff8d1f998e9ddefa9b",
+          "bytes": 1444,
           "w": 96,
           "h": 96,
           "src": "genesis-assets"
         },
         "vendor": {
           "file": "game-glyphs/vendor.webp",
-          "sha256": "27cac4f616d160fdbec6fb9462bb11f4b93efa9eff4846f973fa066191c388ec",
-          "bytes": 794,
+          "sha256": "9a1bdecce1f76b81b663e0c36aa7b2d93db67c3c72b6194d4688ecc5022bcd14",
+          "bytes": 616,
           "w": 96,
           "h": 96,
           "src": "genesis-assets"

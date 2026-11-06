@@ -1,3 +1,7 @@
 {
-  "default": "genesis-assets"
+  "default": "genesis-assets",
+  "files": {
+    "nightwave": "de-export",
+    "sisters": "de-export"
+  }
 }
