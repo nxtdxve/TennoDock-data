@@ -359,3 +359,47 @@ warframe.com, and can notify the player when a new code shows up. The app checks
   `node --test "promo-codes-file/**/*.test.mjs"`. Run it locally with `node promo-codes-file/build.mjs`;
   `REBUILD=1` also matches rewards without an item again. It shares the wiki helpers in `glyph-codes-file/`.
 - `.github/workflows/promo-codes.yml`: the workflow. Run it by hand under *Actions › Promo codes › Run workflow*.
+
+## Built-in polarities
+
+`polarities/v1/polarities.json` holds the polarities that Warframes, weapons and companions have from the start: on
+their mod slots, the Aura slot, the Exilus slot and the Stance slot. TennoDock shows them next to the polarities the
+player set with Forma.
+
+- **Source:** [WFCD/warframe-items](https://github.com/WFCD/warframe-items) (`data/json/`, values from the WARFRAME
+  Wiki). Each file names the commit it was built from (`commit`, `asOf`).
+- **License:** MIT (WFCD/warframe-items).
+- **Limit:** no open source says which mod slot a built-in polarity sits on, so `p` is a list without positions.
+- **Updated:** the workflow checks the source once a week (Monday, about 06:29 UTC) and writes the file only when the
+  polarities changed.
+- TennoDock is not affiliated with Digital Extremes or WFCD.
+
+### Format (version 1)
+
+```json
+{
+  "format": "tennodock-polarities",
+  "v": 1,
+  "asOf": "2026-11-06",
+  "generatedAt": "2026-11-06T06:29:12Z",
+  "source": "WFCD/warframe-items",
+  "commit": "…",
+  "license": "MIT",
+  "items": {
+    "/Lotus/Powersuits/Volt/Volt": { "p": ["AP_TACTIC", "AP_ATTACK"], "a": "AP_ATTACK" },
+    "/Lotus/Weapons/Tenno/Rifle/BratonPrime": { "x": "AP_TACTIC" }
+  }
+}
+```
+
+- `items`: game path → `p` built-in polarities of the mod slots (order as on the wiki, no positions), `a` Aura slot
+  (a list for frames with two Aura slots), `x` Exilus slot, `s` Stance slot. A missing key means no built-in polarity.
+- Polarities use the names of the game data: `AP_ATTACK` (Madurai), `AP_DEFENSE` (Vazarin), `AP_TACTIC` (Naramon),
+  `AP_POWER` (Zenurik), `AP_WARD` (Unairu), `AP_PRECEPT` (Penjaga), `AP_UMBRA`, `AP_ANY` (universal, Aura or Omni Forma).
+
+### Other files
+
+- `polarity-file/`: the script (Node 20 or newer, no dependencies) and its tests:
+  `node --test "polarity-file/**/*.test.mjs"`. Run it locally with `node polarity-file/build.mjs`; `REBUILD=1` rebuilds
+  without a new commit. A file whose content did not change is not written again.
+- `.github/workflows/polarities.yml`: the weekly workflow. Run it by hand under *Actions › Polarities › Run workflow*.

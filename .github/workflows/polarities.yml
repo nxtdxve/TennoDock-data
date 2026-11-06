@@ -1,0 +1,59 @@
+# Eingebaute Polaritäten für TennoDock (#144): baut `polarities/v1/polarities.json` aus WFCD/warframe-items (MIT), wenn
+# es dort einen neuen Commit gibt und sich die Polaritäten geändert haben. Polaritäten ändern sich selten (neue Items),
+# darum einmal pro Woche. Sonst nur ein Abruf bei api.github.com, kein Commit.
+# Im TennoDock-Repo liegt dieser Ordner unter `tools/tennodock-data/` (1:1 der Inhalt des Daten-Repos) und läuft dort nicht.
+# Doku: docs/pakete/144-modcard-hover.md im App-Repo.
+name: Polarities
+
+on:
+  schedule:
+    # Montags, abseits der übrigen Läufe (Preise 04:17 und 10:17, KIM 05:43 UTC).
+    - cron: '29 6 * * 1'
+  # Von Hand: Actions › Polarities › Run workflow, oder `gh workflow run polarities.yml -R nxtdxve/TennoDock-data`.
+  workflow_dispatch:
+    inputs:
+      rebuild:
+        description: Rebuild the polarity file even if the source has no new commit
+        type: boolean
+        default: false
+  # Eine Änderung am Skript gilt sofort. Commits des Workflows selbst (GITHUB_TOKEN) lösen keinen neuen Lauf aus.
+  push:
+    branches: [main]
+    paths:
+      - 'polarity-file/**'
+      - '.github/workflows/polarities.yml'
+
+permissions:
+  contents: write # Dateien committen
+
+concurrency:
+  group: polarities
+  cancel-in-progress: false
+
+jobs:
+  polarities:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24
+      - name: Test
+        run: node --test "polarity-file/**/*.test.mjs"
+      - name: Build
+        id: build
+        env:
+          # Nur für api.github.com (Commit), damit das Limit für Abrufe ohne Anmeldung nicht greift.
+          GITHUB_TOKEN: ${{ github.token }}
+          REBUILD: ${{ github.event_name == 'push' || inputs.rebuild }}
+        run: node polarity-file/build.mjs
+      - name: Commit
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add polarities
+          if git diff --cached --quiet; then echo 'Nothing new'; exit 0; fi
+          git commit -m "Polarities ${{ steps.build.outputs.commit }} (${{ steps.build.outputs.asOf }})"
+          # Läuft ein anderer Workflow gerade auch, einmal auf den neuen Stand setzen und erneut versuchen.
+          git push || { git pull --rebase origin main && git push; }
