@@ -4,7 +4,9 @@ The icon of each profile challenge for the page Collectibles › Challenges in T
 page opens. File name = key of the challenge (`ChallengeProgress[].Name`, `CHALLENGES` in TennoDock's core); two
 challenges share one icon in the game, so one image appears twice.
 
-**Rights:** The images are © Digital Extremes (Warframe). Whether TennoDock may ship them in a published app is an open legal question for TennoDock's release phase (phase 9). They are used here for informative purposes only; TennoDock is not affiliated with Digital Extremes. The icon path of each challenge comes from calamity-inc/warframe-public-export-plus (`ExportAchievements[].icon`, MIT); the image file is the game's, served by browse.wf (calamity-inc, MIT).
+**Origin:** The icons are textures from the game files of Warframe, © Digital Extremes. browse.wf (calamity-inc) unpacks and serves them; the icon path of each challenge comes from calamity-inc/warframe-public-export-plus (`ExportAchievements[].icon`). The MIT licence of browse.wf and warframe-public-export-plus covers their code and data, not these images. No licence covers the images themselves, and Digital Extremes does not publish them in its Public Export. Of TennoDock's asset families this one carries the largest legal risk.
+
+**Rights:** The images are © Digital Extremes (Warframe). Whether TennoDock may ship them in a published app is an open legal question for TennoDock's release phase (phase 9). They are used here for informative purposes only; TennoDock is not affiliated with Digital Extremes.
 
 **Fetched** on 2026-11-06 from `https://browse.wf<icon path>`, scaled from 256 × 256 to 80 × 80 px (40-px rows on 2× screens), WebP quality 85.
 

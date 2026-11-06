@@ -7,7 +7,7 @@
     "genesis-assets": "WFCD/genesis-assets (Apache-2.0 for the collection), images © Digital Extremes",
     "tennodock-traced": "Made for TennoDock: shape traced from the game's mod frame mask, colours and pixels from WARFRAME Wiki card images, images © Digital Extremes",
     "de-export": "Digital Extremes Public Export (content.warframe.com, path from ExportManifest), images © Digital Extremes",
-    "browse-wf": "Game files served by calamity-inc/browse.wf (MIT), paths from calamity-inc/warframe-public-export-plus (MIT), images © Digital Extremes"
+    "browse-wf": "Textures from the game files, unpacked and served by calamity-inc/browse.wf at paths from calamity-inc/warframe-public-export-plus; their MIT licence covers only their code and data, images © Digital Extremes without a licence"
   },
   "families": {
     "mod-frames": {
@@ -1249,8 +1249,8 @@
     },
     "game-glyphs": {
       "pack": "packs/game-glyphs.json",
-      "sha256": "0d2a49008fb97facfdad7068b7da9cb3996df0537ad2e19b564ab2909a9ca53f",
-      "bytes": 65870,
+      "sha256": "aa8f6ea500e2c622e530017f9d8fd93c967201c40bb1a40b6a59bb3758d6448b",
+      "bytes": 64942,
       "files": {
         "archwing": {
           "file": "game-glyphs/archwing.webp",
@@ -1318,8 +1318,8 @@
         },
         "nightwave": {
           "file": "game-glyphs/nightwave.webp",
-          "sha256": "9ef438d04f60b2770024333df86cf9f5dfb44a3f6d9512a05246fbc6ff3f6fb7",
-          "bytes": 2822,
+          "sha256": "784aefca409596c0eb3b62e33fc4f1f06ad2dd3570cfc6cbb6e4e17a38d00e60",
+          "bytes": 2454,
           "w": 96,
           "h": 96,
           "src": "de-export"
@@ -1374,8 +1374,8 @@
         },
         "sisters": {
           "file": "game-glyphs/sisters.webp",
-          "sha256": "04b2517cc4cabb1e058a8b4ec01a20b967966ec662c3b5820954bb55cb2eeaa3",
-          "bytes": 2284,
+          "sha256": "02173b77dfcd2c05e2d400001cac3b15ead8bf7d901ada5d3afe360c0d273da1",
+          "bytes": 1958,
           "w": 96,
           "h": 96,
           "src": "de-export"

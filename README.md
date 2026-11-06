@@ -171,10 +171,12 @@ and keeps it on disk; without a network it shows simple cards and icons instead.
   categories and sources, drawn as masks), `collectibles` (lore and Somachord fragments, tiles of the page Collectibles),
   `challenges` (the icon of each profile challenge, named by its key). Each folder has a `SOURCES.md` (origin, licence,
   date and size of every file) and an `origin.json` (source of every file for the manifest).
-- **Rights:** the images are © Digital Extremes. They come from the WARFRAME Wiki, from
-  [WFCD/genesis-assets](https://github.com/WFCD/genesis-assets) (Apache-2.0 for the collection) and, for the challenge
-  icons, from the game files served by [browse.wf](https://browse.wf) (calamity-inc, MIT) at the paths listed in
-  [warframe-public-export-plus](https://github.com/calamity-inc/warframe-public-export-plus) (MIT). Two white sigils in
+- **Rights:** the images are © Digital Extremes. They come from the WARFRAME Wiki and from
+  [WFCD/genesis-assets](https://github.com/WFCD/genesis-assets) (Apache-2.0 for the collection, the licence text lies in
+  each folder that uses it). The challenge icons are textures from the game files, unpacked and served by
+  [browse.wf](https://browse.wf) at the paths listed in
+  [warframe-public-export-plus](https://github.com/calamity-inc/warframe-public-export-plus); the MIT licence of both
+  projects covers their code and data, not these images, and no licence covers the images themselves. Two white sigils in
   `game-glyphs` are copies from Digital Extremes' Public Export, kept here because the app draws them as masks. Whether
   an app may ship them is an open question that TennoDock settles before its release; the folders may change or be
   removed until then.
