@@ -158,3 +158,56 @@ them in its in-game overlay, hidden until the player asks for them (story spoile
   Run it locally with `node kim-file/build.mjs`; `REBUILD=1` rebuilds without a new commit. A file whose content did
   not change is not written again (same file, same ETag, no new download in the app).
 - `.github/workflows/kim.yml`: the daily workflow. Run it by hand under *Actions › KIM › Run workflow*.
+
+## Game assets
+
+`assets/v1/` holds images from the game that TennoDock needs but Digital Extremes does not serve in its Public Export:
+the frame parts of mod cards, ten syndicate logos and the glyphs of the focus nodes. TennoDock downloads a family only
+when a page needs it and keeps it on disk; without a network it shows simple cards and icons instead.
+
+- **Families:** `mod-frames` (frame parts of mod, riven and arcane cards), `syndicate-logos` (one-colour logos, tinted by
+  the app), `focus-glyphs` (masks of the 75 focus nodes). Each folder has a `SOURCES.md` (origin, licence, date and size
+  of every file) and an `origin.json` (source of every file for the manifest).
+- **Rights:** the images are © Digital Extremes. They come from the WARFRAME Wiki and from
+  [WFCD/genesis-assets](https://github.com/WFCD/genesis-assets) (Apache-2.0 for the collection). Whether an app may ship
+  them is an open question that TennoDock settles before its release; the folders may change or be removed until then.
+- **Updated:** by hand, when TennoDock needs a new part. There is no schedule.
+- TennoDock is not affiliated with Digital Extremes or WFCD.
+
+### Format (version 1)
+
+`assets/v1/manifest.json`:
+
+```json
+{
+  "format": "tennodock-assets",
+  "v": 1,
+  "asOf": "2026-11-06",
+  "sources": { "wiki": "WARFRAME Wiki …", "genesis-assets": "WFCD/genesis-assets …" },
+  "families": {
+    "mod-frames": {
+      "pack": "packs/mod-frames.json",
+      "sha256": "07286c59…",
+      "bytes": 650045,
+      "files": {
+        "GoldFrameTop": { "file": "mod-frames/GoldFrameTop.webp", "sha256": "…", "bytes": 2662, "w": 281, "h": 117, "src": "wiki" }
+      }
+    }
+  }
+}
+```
+
+- `asOf`: the day of the last change to any family. A rebuild without a change keeps it.
+- `pack`: one file per family with every image as a data URL: `{ "format": "tennodock-asset-pack", "v": 1, "family": …,
+  "parts": { "GoldFrameTop": "data:image/webp;base64,…" } }`. `sha256` and `bytes` are those of the pack file; TennoDock
+  downloads a pack only when its hash changes and checks the hash before it uses the pack.
+- `files`: every image with hash, size, width and height in pixels and its source (`src`, a key of `sources`).
+- An incompatible change gets a new folder (`assets/v2/`).
+
+### Other files
+
+- `assets-file/`: the script (Node 20 or newer, no dependencies) and its tests: `node --test "assets-file/**/*.test.mjs"`.
+  After adding or changing an image (and its line in `SOURCES.md`), run `node assets-file/build.mjs` and commit the
+  packs and the manifest with it.
+- `.github/workflows/assets.yml`: runs the tests and `node assets-file/build.mjs --check` on every push that touches the
+  assets. It commits nothing.

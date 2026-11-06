@@ -1,0 +1,1224 @@
+{
+  "format": "tennodock-assets",
+  "v": 1,
+  "asOf": "2026-11-06",
+  "sources": {
+    "wiki": "WARFRAME Wiki (wiki.warframe.com), images © Digital Extremes",
+    "genesis-assets": "WFCD/genesis-assets (Apache-2.0 for the collection), images © Digital Extremes"
+  },
+  "families": {
+    "mod-frames": {
+      "pack": "packs/mod-frames.json",
+      "sha256": "07286c59cc0385bcbbb73691bb584608ee5abf5d7dd44954d5724c9de7c28a81",
+      "bytes": 650045,
+      "files": {
+        "AmalgamBackground": {
+          "file": "mod-frames/AmalgamBackground.webp",
+          "sha256": "cf56d2689701725814c3ea901d9f83a76f244291885a4fda04c555fe1e40e93b",
+          "bytes": 19296,
+          "w": 242,
+          "h": 338,
+          "src": "wiki"
+        },
+        "AmalgamFrameBottom": {
+          "file": "mod-frames/AmalgamFrameBottom.webp",
+          "sha256": "ce833ce781f07cdfc7e25fe599df489a871d3e4f68a746f0ce64529a1afbe71b",
+          "bytes": 8306,
+          "w": 292,
+          "h": 120,
+          "src": "wiki"
+        },
+        "AmalgamFrameTop": {
+          "file": "mod-frames/AmalgamFrameTop.png",
+          "sha256": "71096b0ea6e392df3492f1930be5e743868c3f381aa7ee35834f5c8af59a7569",
+          "bytes": 5601,
+          "w": 281,
+          "h": 117,
+          "src": "wiki"
+        },
+        "ArcaneBackgroundCommon": {
+          "file": "mod-frames/ArcaneBackgroundCommon.webp",
+          "sha256": "78247174dded34a6707977e0b17a3c2f4c25f4c21f70a23c50aaa6b20db5cf13",
+          "bytes": 11334,
+          "w": 256,
+          "h": 256,
+          "src": "wiki"
+        },
+        "ArcaneBackgroundLegendary": {
+          "file": "mod-frames/ArcaneBackgroundLegendary.webp",
+          "sha256": "2f62f7a862442396d286e20946a60b008e07e2e6df33931b427e839f984bb57c",
+          "bytes": 13638,
+          "w": 256,
+          "h": 256,
+          "src": "wiki"
+        },
+        "ArcaneBackgroundRare": {
+          "file": "mod-frames/ArcaneBackgroundRare.webp",
+          "sha256": "b731e8898d5dee5a7b4418ec352e68798815c1f854eac7340d3ebc729182b528",
+          "bytes": 13390,
+          "w": 256,
+          "h": 256,
+          "src": "wiki"
+        },
+        "ArcaneBackgroundUncommon": {
+          "file": "mod-frames/ArcaneBackgroundUncommon.webp",
+          "sha256": "d18f96b2b7176a4afb2b8ca3282a95cb40bcbd00ab04ddddd5e3caa40403db14",
+          "bytes": 11808,
+          "w": 256,
+          "h": 256,
+          "src": "wiki"
+        },
+        "BronzeBackground": {
+          "file": "mod-frames/BronzeBackground.webp",
+          "sha256": "36f19bfff8a6a15b70d73eda2272eee883639bf8e5d515439c26ddb1b8ab7772",
+          "bytes": 15108,
+          "w": 242,
+          "h": 338,
+          "src": "wiki"
+        },
+        "BronzeCornerLights": {
+          "file": "mod-frames/BronzeCornerLights.png",
+          "sha256": "f5a753c53c3def31ac5d3d860408bff527925349e00a2d5e8daa119b98f28b73",
+          "bytes": 1582,
+          "w": 64,
+          "h": 64,
+          "src": "wiki"
+        },
+        "BronzeFrameBottom": {
+          "file": "mod-frames/BronzeFrameBottom.webp",
+          "sha256": "105735160a334739054636ec56cfb2bc40dd7511ec0639fc81eb4fc6a7596c85",
+          "bytes": 7376,
+          "w": 292,
+          "h": 120,
+          "src": "wiki"
+        },
+        "BronzeFrameTop": {
+          "file": "mod-frames/BronzeFrameTop.webp",
+          "sha256": "49092d0f3c61bd87d7b65fecef1ef99f730691ac8455827a1764c3ba9e2eec5f",
+          "bytes": 2470,
+          "w": 281,
+          "h": 117,
+          "src": "wiki"
+        },
+        "BronzeLowerTab": {
+          "file": "mod-frames/BronzeLowerTab.png",
+          "sha256": "8e325cf6ee40d3898f4f9e65b840d73028371204f7c6515fa5acf5ac7c7b76df",
+          "bytes": 604,
+          "w": 210,
+          "h": 26,
+          "src": "wiki"
+        },
+        "BronzeSideLight": {
+          "file": "mod-frames/BronzeSideLight.webp",
+          "sha256": "98ac3b9d093b90acaff8dd46198459d80f8f3dfebe7b25c9c4c8b51665efa1bc",
+          "bytes": 1796,
+          "w": 16,
+          "h": 256,
+          "src": "wiki"
+        },
+        "BronzeTopRightBacker": {
+          "file": "mod-frames/BronzeTopRightBacker.png",
+          "sha256": "d723c94c54185b5e50c8b4b7f7ce65c5131a3efad38f977097c124819a592079",
+          "bytes": 460,
+          "w": 45,
+          "h": 26,
+          "src": "wiki"
+        },
+        "GalvanizedBackground": {
+          "file": "mod-frames/GalvanizedBackground.webp",
+          "sha256": "fcabf7bc361e8391245acf1c308f87fd5f7d89d5708f3bb8e952e14798ec312d",
+          "bytes": 21130,
+          "w": 242,
+          "h": 338,
+          "src": "wiki"
+        },
+        "GalvanizedBottomLight": {
+          "file": "mod-frames/GalvanizedBottomLight.webp",
+          "sha256": "d1aa0f5a7f1c3dced5e6e41bd6fcec5f39c0f712952055f31e111047610ade41",
+          "bytes": 1562,
+          "w": 32,
+          "h": 32,
+          "src": "genesis-assets"
+        },
+        "GalvanizedFrameBottom": {
+          "file": "mod-frames/GalvanizedFrameBottom.webp",
+          "sha256": "4daa798c8cc83f89f72fff55e0d03452018d8cb21f467cf6ef52aa5b254dae44",
+          "bytes": 8708,
+          "w": 512,
+          "h": 256,
+          "src": "wiki"
+        },
+        "GalvanizedFrameTop": {
+          "file": "mod-frames/GalvanizedFrameTop.webp",
+          "sha256": "0fe88e027039815d6fc7c8ee1ee8c890acdd73f126084819ef2ff9aa2c69bfb5",
+          "bytes": 12072,
+          "w": 512,
+          "h": 128,
+          "src": "wiki"
+        },
+        "GalvanizedSideLight": {
+          "file": "mod-frames/GalvanizedSideLight.webp",
+          "sha256": "3cbd3269783fdddfb23c989b37976dbab175a1d07151f8eaec63193c47e897d0",
+          "bytes": 4466,
+          "w": 32,
+          "h": 256,
+          "src": "wiki"
+        },
+        "GoldBackground": {
+          "file": "mod-frames/GoldBackground.webp",
+          "sha256": "9e8cbafc798c0826b641b2dd5299e0011e498c2d6dab11059e06ee57e2ea6c03",
+          "bytes": 18918,
+          "w": 242,
+          "h": 338,
+          "src": "wiki"
+        },
+        "GoldCornerLights": {
+          "file": "mod-frames/GoldCornerLights.webp",
+          "sha256": "b2542ffed7916744f107fd3684c4ff7fed5b0468a79aade0a20fab7c8319ae69",
+          "bytes": 2122,
+          "w": 64,
+          "h": 64,
+          "src": "wiki"
+        },
+        "GoldFrameBottom": {
+          "file": "mod-frames/GoldFrameBottom.webp",
+          "sha256": "ba883b91d73dd728f3f1cdd9363d20d6accce37932d7b71e1c76d8fe7b0ce884",
+          "bytes": 7602,
+          "w": 292,
+          "h": 120,
+          "src": "wiki"
+        },
+        "GoldFrameTop": {
+          "file": "mod-frames/GoldFrameTop.webp",
+          "sha256": "61e2a6198b73935b86b55482cb45109a66b6f2aec183c96703619d1df94c70a2",
+          "bytes": 2626,
+          "w": 281,
+          "h": 117,
+          "src": "wiki"
+        },
+        "GoldLowerTab": {
+          "file": "mod-frames/GoldLowerTab.png",
+          "sha256": "006888908167a262d802dde600c9443d6ec73ec76c730c8a349a68dc6314cbd5",
+          "bytes": 752,
+          "w": 210,
+          "h": 26,
+          "src": "wiki"
+        },
+        "GoldSideLight": {
+          "file": "mod-frames/GoldSideLight.webp",
+          "sha256": "54c10900b90b2475aa3118afe707005fe70753a23d4980ac7c62dc45f34bca6c",
+          "bytes": 2116,
+          "w": 16,
+          "h": 256,
+          "src": "wiki"
+        },
+        "GoldTopRightBacker": {
+          "file": "mod-frames/GoldTopRightBacker.png",
+          "sha256": "29ced0dd693dc4e60877e11eeacec3832690f895f1c04990f29951b007cde277",
+          "bytes": 493,
+          "w": 45,
+          "h": 26,
+          "src": "wiki"
+        },
+        "ImmortalRuneGlowChaos": {
+          "file": "mod-frames/ImmortalRuneGlowChaos.webp",
+          "sha256": "a7d5126ce14dd0cf522e9227bcc20e794f9ed87e72b644b1cd7f5b3cf32f4f80",
+          "bytes": 13164,
+          "w": 256,
+          "h": 256,
+          "src": "genesis-assets"
+        },
+        "ImmortalRuneGlowDecay": {
+          "file": "mod-frames/ImmortalRuneGlowDecay.webp",
+          "sha256": "518cee9d0cbaa4a60f58ab84ab4df0175597c1aa3023783d20936b858193682d",
+          "bytes": 12386,
+          "w": 256,
+          "h": 256,
+          "src": "genesis-assets"
+        },
+        "ImmortalRuneGlowForm": {
+          "file": "mod-frames/ImmortalRuneGlowForm.webp",
+          "sha256": "bc2f54c08394b6d2ce78d3bc7dfe221a6479f0be2c9eecf387547dfbc9feac34",
+          "bytes": 13458,
+          "w": 256,
+          "h": 256,
+          "src": "genesis-assets"
+        },
+        "ImmortalRuneGlowLight": {
+          "file": "mod-frames/ImmortalRuneGlowLight.webp",
+          "sha256": "79c5878cb585a4185bec8fc1469a76e0a9c972c612705ade3a4935954dfe1d98",
+          "bytes": 14158,
+          "w": 256,
+          "h": 256,
+          "src": "genesis-assets"
+        },
+        "ImmortalRuneGlowOrder": {
+          "file": "mod-frames/ImmortalRuneGlowOrder.webp",
+          "sha256": "5d1cc56e6483e33a0028e85eaaecd84ad284fe1be7f0dd3397e4d3e20d1faab8",
+          "bytes": 13404,
+          "w": 256,
+          "h": 256,
+          "src": "genesis-assets"
+        },
+        "ImmortalRuneGlowTime": {
+          "file": "mod-frames/ImmortalRuneGlowTime.webp",
+          "sha256": "08820e5cc7b094bba07b94c040a7a6dbc1e13b8ca9effcb17f6aa89fe400a1a4",
+          "bytes": 13624,
+          "w": 256,
+          "h": 256,
+          "src": "genesis-assets"
+        },
+        "ImmortalRuneGlowTruth": {
+          "file": "mod-frames/ImmortalRuneGlowTruth.webp",
+          "sha256": "e5ecf8f6d1a27e13ee7d92b82ca9422aaab5d82bcdceac54d8ed8e44ee79ed49",
+          "bytes": 12746,
+          "w": 256,
+          "h": 256,
+          "src": "genesis-assets"
+        },
+        "ImmortalRuneGlowVoid": {
+          "file": "mod-frames/ImmortalRuneGlowVoid.webp",
+          "sha256": "b5987f286ccc36d30c571d669c964befe087972cada20403bc7bdf4f4aec1b57",
+          "bytes": 14004,
+          "w": 256,
+          "h": 256,
+          "src": "genesis-assets"
+        },
+        "LegendaryBackground": {
+          "file": "mod-frames/LegendaryBackground.webp",
+          "sha256": "a3cd6d1ca14b3cebc709e3c2a8c822dfb9958778b1e0c49a79ca28edf411deb1",
+          "bytes": 19098,
+          "w": 242,
+          "h": 338,
+          "src": "wiki"
+        },
+        "LegendaryCornerLights": {
+          "file": "mod-frames/LegendaryCornerLights.webp",
+          "sha256": "7e0ea46d9e611e13edf8bf3d5615f89744f9e874954e4188b75dba40db197b43",
+          "bytes": 2080,
+          "w": 64,
+          "h": 64,
+          "src": "wiki"
+        },
+        "LegendaryFrameBottom": {
+          "file": "mod-frames/LegendaryFrameBottom.webp",
+          "sha256": "bb12b8ad24e74223b0448cb8aabc7e0bcdeb23046d369d17e1eb1f1712c0acce",
+          "bytes": 6084,
+          "w": 292,
+          "h": 120,
+          "src": "wiki"
+        },
+        "LegendaryFrameTop": {
+          "file": "mod-frames/LegendaryFrameTop.webp",
+          "sha256": "56ff1c6cdb0695ce5f76bfbbdd6619bddd0681980ebbc09b110d9d6e76a97a5b",
+          "bytes": 2516,
+          "w": 281,
+          "h": 117,
+          "src": "wiki"
+        },
+        "LegendaryLowerTab": {
+          "file": "mod-frames/LegendaryLowerTab.png",
+          "sha256": "d0c9f3bb0e2b22637c57cfac3ed6b688987984ea861066eaf6478772624685cc",
+          "bytes": 492,
+          "w": 210,
+          "h": 26,
+          "src": "wiki"
+        },
+        "LegendarySideLight": {
+          "file": "mod-frames/LegendarySideLight.png",
+          "sha256": "59f5790db40b927c0aa5fa89df3ce7485018cd58ba9dc4db0b616466dc635098",
+          "bytes": 1892,
+          "w": 16,
+          "h": 256,
+          "src": "wiki"
+        },
+        "LegendaryTopRightBacker": {
+          "file": "mod-frames/LegendaryTopRightBacker.png",
+          "sha256": "b595170864a7cf932606f4c9313269721f6768092a40e7464c9cf7052dcd331c",
+          "bytes": 344,
+          "w": 45,
+          "h": 26,
+          "src": "wiki"
+        },
+        "PeculiarCornerLights": {
+          "file": "mod-frames/PeculiarCornerLights.webp",
+          "sha256": "03196f9650ac31abb7e22708c8bb25da5f2e60feaa4fde37ebcd3718e400b19e",
+          "bytes": 1840,
+          "w": 64,
+          "h": 64,
+          "src": "genesis-assets"
+        },
+        "PeculiarFrameBottom": {
+          "file": "mod-frames/PeculiarFrameBottom.webp",
+          "sha256": "8542a2e02f8aa1365b39e2dd59329a94e42f019c3e2dc783de096b9e9cff50ee",
+          "bytes": 24168,
+          "w": 512,
+          "h": 256,
+          "src": "genesis-assets"
+        },
+        "PeculiarFrameTop": {
+          "file": "mod-frames/PeculiarFrameTop.webp",
+          "sha256": "8ffec130383d2dc648e2d79c913fe22caf48108672bb15291267b066654530df",
+          "bytes": 26376,
+          "w": 512,
+          "h": 256,
+          "src": "genesis-assets"
+        },
+        "PeculiarSideSmoke": {
+          "file": "mod-frames/PeculiarSideSmoke.webp",
+          "sha256": "df1d19c4d8b1f561c0e19e88e1a783459e70d72b99190e5d708dccf89ca4eb06",
+          "bytes": 8954,
+          "w": 64,
+          "h": 256,
+          "src": "genesis-assets"
+        },
+        "RankCompleteLine": {
+          "file": "mod-frames/RankCompleteLine.png",
+          "sha256": "a4c72603a5fa3e89ef98256daaddb75ff70ee4de0824e2f009a11a77ec63981a",
+          "bytes": 261,
+          "w": 256,
+          "h": 8,
+          "src": "wiki"
+        },
+        "RankSlotActive": {
+          "file": "mod-frames/RankSlotActive.png",
+          "sha256": "ca55b9950f86d4017e950939862bfeca12977cd0166622f3a84ebbe5a2549486",
+          "bytes": 375,
+          "w": 12,
+          "h": 12,
+          "src": "wiki"
+        },
+        "RankSlotEmpty": {
+          "file": "mod-frames/RankSlotEmpty.png",
+          "sha256": "f83176fb265ce5d45bfd0843975bca9a46d3fc8227714a1e9a857719443c36af",
+          "bytes": 255,
+          "w": 12,
+          "h": 12,
+          "src": "genesis-assets"
+        },
+        "RequiemModCharge": {
+          "file": "mod-frames/RequiemModCharge.webp",
+          "sha256": "a2fbc4245e8148217f4ee64eda451f81d9ce47b645f98cbe69cc700cf2c6c774",
+          "bytes": 1416,
+          "w": 26,
+          "h": 25,
+          "src": "genesis-assets"
+        },
+        "RequiemModFrame": {
+          "file": "mod-frames/RequiemModFrame.webp",
+          "sha256": "22376dfcd92af083489ea9ef1dc299b3aee6b56cd3d0b6ce5c61ef0977996004",
+          "bytes": 23148,
+          "w": 254,
+          "h": 386,
+          "src": "genesis-assets"
+        },
+        "Reset": {
+          "file": "mod-frames/Reset.png",
+          "sha256": "33c9ad3c5720a04a26b65f9988a40d2a7bd45c72c2ef07d2aab12bcf3ef39584",
+          "bytes": 828,
+          "w": 25,
+          "h": 25,
+          "src": "genesis-assets"
+        },
+        "RivenCornerLights": {
+          "file": "mod-frames/RivenCornerLights.webp",
+          "sha256": "9208c49926f5c1720a32f6ad561c7881439f687c285b3347a8d5707e660d12e3",
+          "bytes": 2082,
+          "w": 64,
+          "h": 64,
+          "src": "wiki"
+        },
+        "RivenFrameBottom": {
+          "file": "mod-frames/RivenFrameBottom.webp",
+          "sha256": "f53de534bac946da8eede4377d94eabe419ab09d46642456755e26331446aaa5",
+          "bytes": 12944,
+          "w": 292,
+          "h": 120,
+          "src": "wiki"
+        },
+        "RivenFrameTop": {
+          "file": "mod-frames/RivenFrameTop.webp",
+          "sha256": "60c2516f196557fec97391dc6f800f7ca32bafbf036cc5a31cf6501cb2516d86",
+          "bytes": 12984,
+          "w": 281,
+          "h": 117,
+          "src": "wiki"
+        },
+        "RivenLowerTab": {
+          "file": "mod-frames/RivenLowerTab.png",
+          "sha256": "3f96190286913003b0b619f4b68de8cce10c8d2e16c0a1ce186a6016bc52e904",
+          "bytes": 1036,
+          "w": 210,
+          "h": 26,
+          "src": "wiki"
+        },
+        "RivenSideLight": {
+          "file": "mod-frames/RivenSideLight.webp",
+          "sha256": "8a343077e28322ff7bc1b2b51642dd70f194238f7dbaae3a06b9deceb1c5cfd9",
+          "bytes": 1556,
+          "w": 16,
+          "h": 256,
+          "src": "wiki"
+        },
+        "RivenTopRightBacker": {
+          "file": "mod-frames/RivenTopRightBacker.png",
+          "sha256": "a59ef2e39cdfdc40ada6da78001b996640ee9cac01f010be696ef209c3d06bbb",
+          "bytes": 836,
+          "w": 45,
+          "h": 26,
+          "src": "wiki"
+        },
+        "SilverBackground": {
+          "file": "mod-frames/SilverBackground.webp",
+          "sha256": "068a78d118f32c33c321e6b45c5104930990c1e1a9ba9a70d6f2c6a9ff1713a1",
+          "bytes": 18882,
+          "w": 242,
+          "h": 338,
+          "src": "wiki"
+        },
+        "SilverCornerLights": {
+          "file": "mod-frames/SilverCornerLights.webp",
+          "sha256": "9bbc9090de12e0966c1898addd536ec9377b7d8a44535e2c4a620895bed4f8e9",
+          "bytes": 1082,
+          "w": 64,
+          "h": 64,
+          "src": "wiki"
+        },
+        "SilverFrameBottom": {
+          "file": "mod-frames/SilverFrameBottom.webp",
+          "sha256": "a2a6f87e5d161c7e06f1cded8d022df5c683b91d952f70431c78d2564a7396b1",
+          "bytes": 6182,
+          "w": 292,
+          "h": 120,
+          "src": "wiki"
+        },
+        "SilverFrameTop": {
+          "file": "mod-frames/SilverFrameTop.webp",
+          "sha256": "f17d0b64157a3ea805aa2671b440fe0a4dd6659b86577e4f660e49ccc292bce4",
+          "bytes": 2474,
+          "w": 281,
+          "h": 117,
+          "src": "wiki"
+        },
+        "SilverLowerTab": {
+          "file": "mod-frames/SilverLowerTab.png",
+          "sha256": "df8e5d7a29a6d31b79754f52daa8920be38e12824ac0a926ac7ec09f6ca0a1b8",
+          "bytes": 617,
+          "w": 210,
+          "h": 26,
+          "src": "wiki"
+        },
+        "SilverSideLight": {
+          "file": "mod-frames/SilverSideLight.webp",
+          "sha256": "48a03059cae5741671ac5385976356a635e4cd3cc122b09d8537f9b8e7019959",
+          "bytes": 1662,
+          "w": 16,
+          "h": 256,
+          "src": "wiki"
+        },
+        "SilverTopRightBacker": {
+          "file": "mod-frames/SilverTopRightBacker.png",
+          "sha256": "e783942a8ad7d888ae93552020869807853f0490da171d94b3f84bbdfb31cc4d",
+          "bytes": 474,
+          "w": 45,
+          "h": 26,
+          "src": "wiki"
+        }
+      }
+    },
+    "syndicate-logos": {
+      "pack": "packs/syndicate-logos.json",
+      "sha256": "843f54a7c1657de50e9cd3ca9f1bb37c587f334545000a82dec65d4896507b48",
+      "bytes": 232274,
+      "files": {
+        "CetusSyndicate": {
+          "file": "syndicate-logos/CetusSyndicate.webp",
+          "sha256": "3ef127a54a4a4a359a372635953dc108bcbda25a8a87ba2e88039810c9b30f16",
+          "bytes": 4232,
+          "w": 256,
+          "h": 256,
+          "src": "wiki"
+        },
+        "EntratiLabSyndicate": {
+          "file": "syndicate-logos/EntratiLabSyndicate.webp",
+          "sha256": "93846f01068ac9fd975acd99c2fe9d513292e59c4fac43a5269592a883a3c4b5",
+          "bytes": 16446,
+          "w": 256,
+          "h": 256,
+          "src": "wiki"
+        },
+        "EntratiSyndicate": {
+          "file": "syndicate-logos/EntratiSyndicate.webp",
+          "sha256": "9d0f3cd11a29263143a85093e405b97d143c7b7c330e1f6d44fd464450906d78",
+          "bytes": 19306,
+          "w": 256,
+          "h": 256,
+          "src": "wiki"
+        },
+        "HexSyndicate": {
+          "file": "syndicate-logos/HexSyndicate.webp",
+          "sha256": "f8416f769f2ae4af19e30fd61cd9062a58cc475672fe3f7163893c7773038833",
+          "bytes": 10204,
+          "w": 256,
+          "h": 256,
+          "src": "wiki"
+        },
+        "KahlSyndicate": {
+          "file": "syndicate-logos/KahlSyndicate.webp",
+          "sha256": "243a0827eb58d92146dcc173cf3cc64262d374ff2534f452b181c1c771db26da",
+          "bytes": 31236,
+          "w": 256,
+          "h": 256,
+          "src": "wiki"
+        },
+        "NecraloidSyndicate": {
+          "file": "syndicate-logos/NecraloidSyndicate.webp",
+          "sha256": "332c3c2d821c1a91008bb26c6ba63b53889784a6c8ebec1d029a9fd6bbca023e",
+          "bytes": 25674,
+          "w": 256,
+          "h": 256,
+          "src": "wiki"
+        },
+        "NightcapJournalSyndicate": {
+          "file": "syndicate-logos/NightcapJournalSyndicate.webp",
+          "sha256": "001a359066fc489d40e5256ed79ff2b34aabd475b1e65c8411609b784e813199",
+          "bytes": 22760,
+          "w": 256,
+          "h": 256,
+          "src": "wiki"
+        },
+        "QuillsSyndicate": {
+          "file": "syndicate-logos/QuillsSyndicate.webp",
+          "sha256": "839f8f17e6ffc7e956f250d1d12c1bf513f61e7f1989074118f39c8f1f6bf979",
+          "bytes": 6086,
+          "w": 256,
+          "h": 256,
+          "src": "wiki"
+        },
+        "VentKidsSyndicate": {
+          "file": "syndicate-logos/VentKidsSyndicate.webp",
+          "sha256": "ad9fd8f2ce0c6f17504c50d56eaf89e6d1ebf024ddbd1c503d363107b2baec57",
+          "bytes": 15446,
+          "w": 256,
+          "h": 256,
+          "src": "wiki"
+        },
+        "ZarimanSyndicate": {
+          "file": "syndicate-logos/ZarimanSyndicate.webp",
+          "sha256": "986273665bd2b628e7fea40702a76eddd5f2519508b5a12406574f4591eee2d8",
+          "bytes": 22410,
+          "w": 256,
+          "h": 256,
+          "src": "wiki"
+        }
+      }
+    },
+    "focus-glyphs": {
+      "pack": "packs/focus-glyphs.json",
+      "sha256": "05d51e5a543747caf0f10b78212aa6121958375bc45f760eddbad8a7552f5c80",
+      "bytes": 253291,
+      "files": {
+        "Attack-AttackEfficiencyFocusUpgrade": {
+          "file": "focus-glyphs/Attack-AttackEfficiencyFocusUpgrade.webp",
+          "sha256": "4ac3b273675af63c317cf79fcbd5572b316245572c61dc786d463559d9be6c45",
+          "bytes": 2786,
+          "w": 80,
+          "h": 80,
+          "src": "wiki"
+        },
+        "Attack-AttackUltimateCooldownUpgrade": {
+          "file": "focus-glyphs/Attack-AttackUltimateCooldownUpgrade.webp",
+          "sha256": "f1488ef4dfed66c2a74ebc12cff953d69d9941931541c5b77b013b192b3c4b8a",
+          "bytes": 2706,
+          "w": 80,
+          "h": 80,
+          "src": "wiki"
+        },
+        "Attack-AttackUltimateDoubleUpgrade": {
+          "file": "focus-glyphs/Attack-AttackUltimateDoubleUpgrade.webp",
+          "sha256": "9eba93fd411e06e2fe6ce280e45e4e4edcdf75573025fe96cd0f9976db78fad1",
+          "bytes": 2534,
+          "w": 80,
+          "h": 80,
+          "src": "wiki"
+        },
+        "Attack-AttackUltimateRadiusUpgrade": {
+          "file": "focus-glyphs/Attack-AttackUltimateRadiusUpgrade.webp",
+          "sha256": "6619ad5f47d506bb815153df7b96a076e630fb9a7f506767bbd5eaa53b22ddd0",
+          "bytes": 2530,
+          "w": 80,
+          "h": 80,
+          "src": "wiki"
+        },
+        "Attack-AttackUltimateStrengthUpgrade": {
+          "file": "focus-glyphs/Attack-AttackUltimateStrengthUpgrade.webp",
+          "sha256": "bc991738efddc11e10b60c097cdc53ce7f044cd90d74675a161e5f14deb4b3e0",
+          "bytes": 2678,
+          "w": 80,
+          "h": 80,
+          "src": "wiki"
+        },
+        "Attack-AttackUltimateUpgrade": {
+          "file": "focus-glyphs/Attack-AttackUltimateUpgrade.webp",
+          "sha256": "9b975fbc4b2ede300a9ef155be7ef4ad61a47ccfd96102479f5e5c376065389d",
+          "bytes": 2506,
+          "w": 80,
+          "h": 80,
+          "src": "wiki"
+        },
+        "Attack-CloakAttackChargeFocusUpgrade": {
+          "file": "focus-glyphs/Attack-CloakAttackChargeFocusUpgrade.webp",
+          "sha256": "064fccd3bd8fbde48c2d631c6fda9896505124fdb760e42faa51e75025b40ad9",
+          "bytes": 2000,
+          "w": 80,
+          "h": 80,
+          "src": "wiki"
+        },
+        "Attack-ConsecutiveEfficienyUpgrade": {
+          "file": "focus-glyphs/Attack-ConsecutiveEfficienyUpgrade.webp",
+          "sha256": "97e5924b33efa9348b51d4c08b148f44eee99edace0d649b1ebe8e6afc0daac0",
+          "bytes": 2406,
+          "w": 80,
+          "h": 80,
+          "src": "wiki"
+        },
+        "Attack-ConsecutivePowerUpgrade": {
+          "file": "focus-glyphs/Attack-ConsecutivePowerUpgrade.webp",
+          "sha256": "2f951866aa498daa1922341ecf99c543689c5647ecd094dbbd50ff5fb93665db",
+          "bytes": 2754,
+          "w": 80,
+          "h": 80,
+          "src": "wiki"
+        },
+        "Attack-GhostWaveUpgrade": {
+          "file": "focus-glyphs/Attack-GhostWaveUpgrade.webp",
+          "sha256": "3be5190db10d00d7c8edab8a513f0b78ea6afacc8fd1757f0a003175ad1b3409",
+          "bytes": 2504,
+          "w": 80,
+          "h": 80,
+          "src": "wiki"
+        },
+        "Attack-GhostlyTouchUpgrade": {
+          "file": "focus-glyphs/Attack-GhostlyTouchUpgrade.webp",
+          "sha256": "621830d187c9b9de65061483f9298f7cedd21950fe22f50b50f88e8e94ade7d5",
+          "bytes": 2706,
+          "w": 80,
+          "h": 80,
+          "src": "wiki"
+        },
+        "Attack-MoreAmmoFocusUpgrade": {
+          "file": "focus-glyphs/Attack-MoreAmmoFocusUpgrade.webp",
+          "sha256": "44cbe7e54b2e8fe9666ba6c8fcdc1c1b5d68df9e9084c44d043083778d597ebf",
+          "bytes": 2216,
+          "w": 80,
+          "h": 80,
+          "src": "wiki"
+        },
+        "Attack-PhysicalDamageFocusUpgrade": {
+          "file": "focus-glyphs/Attack-PhysicalDamageFocusUpgrade.webp",
+          "sha256": "21e88f9ca9604dd9f9860e53f310182e7e196a9f8d1d37bae3a19ce10b91ba4e",
+          "bytes": 2746,
+          "w": 80,
+          "h": 80,
+          "src": "wiki"
+        },
+        "Attack-PowerSnapFocusUpgrade": {
+          "file": "focus-glyphs/Attack-PowerSnapFocusUpgrade.webp",
+          "sha256": "dd342960bdd7255f9b463e65672bcd9dc7d5a2e4def68e3a6b007d8fc952e12b",
+          "bytes": 2556,
+          "w": 80,
+          "h": 80,
+          "src": "wiki"
+        },
+        "Attack-RegenAmmoFocusUpgrade": {
+          "file": "focus-glyphs/Attack-RegenAmmoFocusUpgrade.webp",
+          "sha256": "efe0220f82ddadb2c0bb5b18525e760e4b879d540fe73c7b7d6bae275c0c018d",
+          "bytes": 2718,
+          "w": 80,
+          "h": 80,
+          "src": "wiki"
+        },
+        "Defense-CloakHealFocusUpgrade": {
+          "file": "focus-glyphs/Defense-CloakHealFocusUpgrade.webp",
+          "sha256": "e203ef65f7fbd97a92adf69d1a22da74fe2cad777b6353a1289834e6234612a5",
+          "bytes": 2870,
+          "w": 80,
+          "h": 80,
+          "src": "wiki"
+        },
+        "Defense-CloakHealOthersFocusUpgrade": {
+          "file": "focus-glyphs/Defense-CloakHealOthersFocusUpgrade.webp",
+          "sha256": "2d44aa15655617a429c0a509a616df7fce89898b5b3da8865369001bf70788aa",
+          "bytes": 2636,
+          "w": 80,
+          "h": 80,
+          "src": "wiki"
+        },
+        "Defense-DashImmunityFocusUpgrade": {
+          "file": "focus-glyphs/Defense-DashImmunityFocusUpgrade.webp",
+          "sha256": "babe49beb6cd000a3cb1aacd5467d97514cebf904954a4c6f478fa69790b40eb",
+          "bytes": 2894,
+          "w": 80,
+          "h": 80,
+          "src": "wiki"
+        },
+        "Defense-DefenseShieldBreakFocusUpgrade": {
+          "file": "focus-glyphs/Defense-DefenseShieldBreakFocusUpgrade.webp",
+          "sha256": "36d615c597777e75e3bfea1d58ff19f2825ef53ba18a8e73550c9817cbc0af92",
+          "bytes": 2460,
+          "w": 80,
+          "h": 80,
+          "src": "wiki"
+        },
+        "Defense-DefenseShieldFocusUpgrade": {
+          "file": "focus-glyphs/Defense-DefenseShieldFocusUpgrade.webp",
+          "sha256": "f9283d6994c2395f8e2a1078e4df2762f2f79e9381bdfc9e26ca880d0608bc32",
+          "bytes": 2680,
+          "w": 80,
+          "h": 80,
+          "src": "wiki"
+        },
+        "Defense-DefenseUltimateDurationUpgrade": {
+          "file": "focus-glyphs/Defense-DefenseUltimateDurationUpgrade.webp",
+          "sha256": "352200e905702b360701bab6ccbde0e206374e0d9d33fd2d66ea7b47622d6dcf",
+          "bytes": 2644,
+          "w": 80,
+          "h": 80,
+          "src": "wiki"
+        },
+        "Defense-DefenseUltimateElementalUpgrade": {
+          "file": "focus-glyphs/Defense-DefenseUltimateElementalUpgrade.webp",
+          "sha256": "d70e5b19d9eb7e69b89f833ddb92330bfa2bac922a1519bbf60b4b12882d5c65",
+          "bytes": 2760,
+          "w": 80,
+          "h": 80,
+          "src": "wiki"
+        },
+        "Defense-DefenseUltimateHealUpgrade": {
+          "file": "focus-glyphs/Defense-DefenseUltimateHealUpgrade.webp",
+          "sha256": "d0a2c551de209760f170e5606012499150a95a99debb7ba29a3cc6da6cb68cd0",
+          "bytes": 2236,
+          "w": 80,
+          "h": 80,
+          "src": "wiki"
+        },
+        "Defense-DefenseUltimateProcVulnUpgrade": {
+          "file": "focus-glyphs/Defense-DefenseUltimateProcVulnUpgrade.webp",
+          "sha256": "016e7753e651b9670b6f0d6a4c8be544e507eba08d8bee6e4d209f21247074b3",
+          "bytes": 2424,
+          "w": 80,
+          "h": 80,
+          "src": "wiki"
+        },
+        "Defense-DefenseUltimateUpgrade": {
+          "file": "focus-glyphs/Defense-DefenseUltimateUpgrade.webp",
+          "sha256": "e4beeb5c18c75ff1206778ec1fcfd646e5639ec63cb3a953f243496f66429849",
+          "bytes": 3462,
+          "w": 80,
+          "h": 80,
+          "src": "wiki"
+        },
+        "Defense-HealthMaxFocusUpgrade": {
+          "file": "focus-glyphs/Defense-HealthMaxFocusUpgrade.webp",
+          "sha256": "2a37b9f8c222c63894d319f8c8c02e707e2b06576e3709d935c93d3c6310a54c",
+          "bytes": 1768,
+          "w": 80,
+          "h": 80,
+          "src": "wiki"
+        },
+        "Defense-HealthRegenFocusUpgrade": {
+          "file": "focus-glyphs/Defense-HealthRegenFocusUpgrade.webp",
+          "sha256": "f224e6483ab4cb42e7f4a8a6493bdcc83a63bd8d0cf61ff507b4a393a6e77cd8",
+          "bytes": 2580,
+          "w": 80,
+          "h": 80,
+          "src": "wiki"
+        },
+        "Defense-InstantReviveFocusUpgrade": {
+          "file": "focus-glyphs/Defense-InstantReviveFocusUpgrade.webp",
+          "sha256": "b686cd6774edc06441b3c991a127aca36a0ec4d831a019b1085a84f24bf7a29d",
+          "bytes": 2476,
+          "w": 80,
+          "h": 80,
+          "src": "wiki"
+        },
+        "Defense-RadialXpFocusUpgrade": {
+          "file": "focus-glyphs/Defense-RadialXpFocusUpgrade.webp",
+          "sha256": "53438380a11f8823d8173a5714b2f656cb82d12f5c50b7ee2894b5e61fe036be",
+          "bytes": 2812,
+          "w": 80,
+          "h": 80,
+          "src": "wiki"
+        },
+        "Defense-SonicDissipationUpgrade": {
+          "file": "focus-glyphs/Defense-SonicDissipationUpgrade.webp",
+          "sha256": "da71acf94b569aab76082ab2d922c3f09978589ed2fe69273f7fec81daaed761",
+          "bytes": 2338,
+          "w": 80,
+          "h": 80,
+          "src": "wiki"
+        },
+        "Power-BlastSlowFocusUpgrade": {
+          "file": "focus-glyphs/Power-BlastSlowFocusUpgrade.webp",
+          "sha256": "35f891ff67cd1c7f55217684286550fd825258868d6f7c8aceda9a8cfae7343b",
+          "bytes": 2568,
+          "w": 80,
+          "h": 80,
+          "src": "wiki"
+        },
+        "Power-DashBubbleFocusUpgrade": {
+          "file": "focus-glyphs/Power-DashBubbleFocusUpgrade.webp",
+          "sha256": "5d7252789f299786116ad93af4dab2293378436f7bf8d2462646fcc4d735ab2a",
+          "bytes": 3048,
+          "w": 80,
+          "h": 80,
+          "src": "wiki"
+        },
+        "Power-DisarmedEnergyUpgrade": {
+          "file": "focus-glyphs/Power-DisarmedEnergyUpgrade.webp",
+          "sha256": "ee0c452624ea493216a018d1cf5cb1c652440937252002713d66545ba14f8863",
+          "bytes": 2396,
+          "w": 80,
+          "h": 80,
+          "src": "wiki"
+        },
+        "Power-DisarmingProjectionUpgrade": {
+          "file": "focus-glyphs/Power-DisarmingProjectionUpgrade.webp",
+          "sha256": "27cbfe7f0dd2ef2a4bb11e43fbd9e717a4bd56c80b6f376316dc91716332a60b",
+          "bytes": 2370,
+          "w": 80,
+          "h": 80,
+          "src": "wiki"
+        },
+        "Power-EnergyOverTimeFocusUpgrade": {
+          "file": "focus-glyphs/Power-EnergyOverTimeFocusUpgrade.webp",
+          "sha256": "e8b0fc93fd020a892104ce8aa7216a7f6f378d8229747a06e0f528842ce22b58",
+          "bytes": 2384,
+          "w": 80,
+          "h": 80,
+          "src": "wiki"
+        },
+        "Power-EnergyPoolFocusUpgrade": {
+          "file": "focus-glyphs/Power-EnergyPoolFocusUpgrade.webp",
+          "sha256": "5b9d6fe7b3f21a52fba01035ff1d6d8218646acdc72e42bb6a4fc58fd538105d",
+          "bytes": 1728,
+          "w": 80,
+          "h": 80,
+          "src": "wiki"
+        },
+        "Power-EnergyRestoreFocusUpgrade": {
+          "file": "focus-glyphs/Power-EnergyRestoreFocusUpgrade.webp",
+          "sha256": "72f223afcf3477f0c5e42804a956c9b6766b2b74fb3a45aba744973c4cd8c779",
+          "bytes": 2844,
+          "w": 80,
+          "h": 80,
+          "src": "wiki"
+        },
+        "Power-FreeAbilityCastsFocusUpgrade": {
+          "file": "focus-glyphs/Power-FreeAbilityCastsFocusUpgrade.webp",
+          "sha256": "19a9957d5efb906beb60c22d7a58929cdb23652252daeafc6b80bb95e8d30a82",
+          "bytes": 2338,
+          "w": 80,
+          "h": 80,
+          "src": "wiki"
+        },
+        "Power-PowerFieldFocusUpgrade": {
+          "file": "focus-glyphs/Power-PowerFieldFocusUpgrade.webp",
+          "sha256": "e64ebdf6ec544d7464395104e0f02b768ac4397564b657b19ff61d103a2af3e3",
+          "bytes": 2834,
+          "w": 80,
+          "h": 80,
+          "src": "wiki"
+        },
+        "Power-PowerUltimateBlindUpgrade": {
+          "file": "focus-glyphs/Power-PowerUltimateBlindUpgrade.webp",
+          "sha256": "58dcd3c660c1c546204c105ec9875cf9ffdb5d34b60519479f123067c90dd389",
+          "bytes": 2554,
+          "w": 80,
+          "h": 80,
+          "src": "wiki"
+        },
+        "Power-PowerUltimateBuffUpgrade": {
+          "file": "focus-glyphs/Power-PowerUltimateBuffUpgrade.webp",
+          "sha256": "55f9035a30edd0c8a41483077781063aba68b097ebf58b12734e0fd66d61a022",
+          "bytes": 2594,
+          "w": 80,
+          "h": 80,
+          "src": "wiki"
+        },
+        "Power-PowerUltimateChainUpgrade": {
+          "file": "focus-glyphs/Power-PowerUltimateChainUpgrade.webp",
+          "sha256": "6d85bb5ad0e77cab285efc766e0feb893b94a549437452b675765134dba808ad",
+          "bytes": 2386,
+          "w": 80,
+          "h": 80,
+          "src": "wiki"
+        },
+        "Power-PowerUltimateNumberUpgrade": {
+          "file": "focus-glyphs/Power-PowerUltimateNumberUpgrade.webp",
+          "sha256": "dec9d251ce65f5cdd686d9ba1c713adeca296e2eecd2707ab24eaf4c81df4b01",
+          "bytes": 2118,
+          "w": 80,
+          "h": 80,
+          "src": "wiki"
+        },
+        "Power-PowerUltimateUpgrade": {
+          "file": "focus-glyphs/Power-PowerUltimateUpgrade.webp",
+          "sha256": "678a6f3cc9776eafc837ebd89f86d834a60f0a20f49e9fe51db0d1875e6a0045",
+          "bytes": 2388,
+          "w": 80,
+          "h": 80,
+          "src": "wiki"
+        },
+        "Power-SlowHeadshotDamageFocusUpgrade": {
+          "file": "focus-glyphs/Power-SlowHeadshotDamageFocusUpgrade.webp",
+          "sha256": "bf650d9bd7a31fe5c39eb09713e3a08ffeca415dffd1c3017132ac2d065182c2",
+          "bytes": 2414,
+          "w": 80,
+          "h": 80,
+          "src": "wiki"
+        },
+        "Tactic-ComboAmpDamageFocusUpgrade": {
+          "file": "focus-glyphs/Tactic-ComboAmpDamageFocusUpgrade.webp",
+          "sha256": "4497f1794a9c5c350f64c8413aaba1cc6468d860115b73fa5e6797edd0b4127c",
+          "bytes": 1998,
+          "w": 80,
+          "h": 80,
+          "src": "wiki"
+        },
+        "Tactic-FinisherTransferenceUpgrade": {
+          "file": "focus-glyphs/Tactic-FinisherTransferenceUpgrade.webp",
+          "sha256": "0699d183d8e983bb4b287a7f41761b04df6bc1e37a29f8a8d638be6572d4ceb6",
+          "bytes": 2912,
+          "w": 80,
+          "h": 80,
+          "src": "wiki"
+        },
+        "Tactic-LiftHitDamageUpgrade": {
+          "file": "focus-glyphs/Tactic-LiftHitDamageUpgrade.webp",
+          "sha256": "6c21bd36e24948c15b411cee8e09312c247231930846135c5c19a0c7a55eea02",
+          "bytes": 2498,
+          "w": 80,
+          "h": 80,
+          "src": "wiki"
+        },
+        "Tactic-LiftHitWaveUpgrade": {
+          "file": "focus-glyphs/Tactic-LiftHitWaveUpgrade.webp",
+          "sha256": "b87120fdca1f1efd5abb2f013e47f8b082debf70033b5dded59eea8d0d8b47ad",
+          "bytes": 2086,
+          "w": 80,
+          "h": 80,
+          "src": "wiki"
+        },
+        "Tactic-MeleeComboFocusUpgrade": {
+          "file": "focus-glyphs/Tactic-MeleeComboFocusUpgrade.webp",
+          "sha256": "369b78054bc63e368b32cf805c7d69cf122a077c975aa28b06d48a9e26e36bfa",
+          "bytes": 2054,
+          "w": 80,
+          "h": 80,
+          "src": "wiki"
+        },
+        "Tactic-MeleeXpFocusUpgrade": {
+          "file": "focus-glyphs/Tactic-MeleeXpFocusUpgrade.webp",
+          "sha256": "5c68c0e475efa02b78d3952f19a9029aa6801b9f67c01807d3fd33edfde3d35f",
+          "bytes": 2082,
+          "w": 80,
+          "h": 80,
+          "src": "wiki"
+        },
+        "Tactic-MoveSpeedFocusUpgrade": {
+          "file": "focus-glyphs/Tactic-MoveSpeedFocusUpgrade.webp",
+          "sha256": "74be39a93acd80048ea0fa419d27ca9fe13e0619a5b88a343ee0c3a55cece0c5",
+          "bytes": 1986,
+          "w": 80,
+          "h": 80,
+          "src": "wiki"
+        },
+        "Tactic-ProjectionExecutionUpgrade": {
+          "file": "focus-glyphs/Tactic-ProjectionExecutionUpgrade.webp",
+          "sha256": "be4582cfe3812bd661c6c56fbb1e4b0613ab896e954d9e25978333f764f87c16",
+          "bytes": 2142,
+          "w": 80,
+          "h": 80,
+          "src": "wiki"
+        },
+        "Tactic-ProjectionStretchUpgrade": {
+          "file": "focus-glyphs/Tactic-ProjectionStretchUpgrade.webp",
+          "sha256": "ca99239b38c5faf34627286bd1878954bf314ddbffbb7301e26b561ff58ce0ad",
+          "bytes": 2278,
+          "w": 80,
+          "h": 80,
+          "src": "wiki"
+        },
+        "Tactic-SlamComboFocusUpgrade": {
+          "file": "focus-glyphs/Tactic-SlamComboFocusUpgrade.webp",
+          "sha256": "bcce72a986f0329d8a7a1079e1bea9a4aab89e96afeaf4e1d826090997469e44",
+          "bytes": 2150,
+          "w": 80,
+          "h": 80,
+          "src": "wiki"
+        },
+        "Tactic-TacticUltimateDoubleUpgrade": {
+          "file": "focus-glyphs/Tactic-TacticUltimateDoubleUpgrade.webp",
+          "sha256": "e1f90c3f9ee3e308a5fba798c07901e22a187c40fea10cc09471651dbdb6127d",
+          "bytes": 2454,
+          "w": 80,
+          "h": 80,
+          "src": "wiki"
+        },
+        "Tactic-TacticUltimateNumberUpgrade": {
+          "file": "focus-glyphs/Tactic-TacticUltimateNumberUpgrade.webp",
+          "sha256": "3afc28a7a19464041467c05818dafd40681db71e74f6e5410480b45ff12560d4",
+          "bytes": 2410,
+          "w": 80,
+          "h": 80,
+          "src": "wiki"
+        },
+        "Tactic-TacticUltimateRangeUpgrade": {
+          "file": "focus-glyphs/Tactic-TacticUltimateRangeUpgrade.webp",
+          "sha256": "9360828d7513bee2d032c218fa3b13303fa233e7c9e60b66a5e8b0021f84cc31",
+          "bytes": 2632,
+          "w": 80,
+          "h": 80,
+          "src": "wiki"
+        },
+        "Tactic-TacticUltimateSizeUpgrade": {
+          "file": "focus-glyphs/Tactic-TacticUltimateSizeUpgrade.webp",
+          "sha256": "451021535c41ca2ba5aad56f687eb4ccfa3e60805c73024b4a14f6d7df4acb28",
+          "bytes": 2514,
+          "w": 80,
+          "h": 80,
+          "src": "wiki"
+        },
+        "Tactic-TacticUltimateUpgrade": {
+          "file": "focus-glyphs/Tactic-TacticUltimateUpgrade.webp",
+          "sha256": "2bd07598086d66348330c7f151255945b770026daff4dd7f65caf77652244193",
+          "bytes": 2198,
+          "w": 80,
+          "h": 80,
+          "src": "wiki"
+        },
+        "Ward-ArmourBuffFocusUpgrade": {
+          "file": "focus-glyphs/Ward-ArmourBuffFocusUpgrade.webp",
+          "sha256": "b1758428dd4fc2fa0af318c48f1cae0cbb82f949b7eb0eb057cefc9df239a298",
+          "bytes": 2480,
+          "w": 80,
+          "h": 80,
+          "src": "wiki"
+        },
+        "Ward-ClearStaticOnKillFocusUpgrade": {
+          "file": "focus-glyphs/Ward-ClearStaticOnKillFocusUpgrade.webp",
+          "sha256": "2c349be994b627c9b9d3fdbfe96a985bd9ccfe86ac138c09f0790adb3d2e3ecb",
+          "bytes": 1914,
+          "w": 80,
+          "h": 80,
+          "src": "wiki"
+        },
+        "Ward-InvulnerableReturnFocusUpgrade": {
+          "file": "focus-glyphs/Ward-InvulnerableReturnFocusUpgrade.webp",
+          "sha256": "086bbdcee32b06d3576ba7320c906e091aa30ecfe55ff39acdceed7ba3881c32",
+          "bytes": 2430,
+          "w": 80,
+          "h": 80,
+          "src": "wiki"
+        },
+        "Ward-KnockdownImmunityFocusUpgrade": {
+          "file": "focus-glyphs/Ward-KnockdownImmunityFocusUpgrade.webp",
+          "sha256": "c74a26390b9e0810dea232e26ac03f8cee0de8c85f7233f3f4035c496196384e",
+          "bytes": 2384,
+          "w": 80,
+          "h": 80,
+          "src": "wiki"
+        },
+        "Ward-MagneticExtensionUpgrade": {
+          "file": "focus-glyphs/Ward-MagneticExtensionUpgrade.webp",
+          "sha256": "bd9a1ae55aa3f3ce083d2bac3b477c8993afd7434cad0959e6c58f715800df07",
+          "bytes": 2824,
+          "w": 80,
+          "h": 80,
+          "src": "wiki"
+        },
+        "Ward-MagneticFieldFocusUpgrade": {
+          "file": "focus-glyphs/Ward-MagneticFieldFocusUpgrade.webp",
+          "sha256": "717eec6b3064b271f9d7c961731d7beedbd3e354f18df747a6ed4b8cf0e30a7b",
+          "bytes": 2678,
+          "w": 80,
+          "h": 80,
+          "src": "wiki"
+        },
+        "Ward-SecondChanceDamageBuffFocusUpgrade": {
+          "file": "focus-glyphs/Ward-SecondChanceDamageBuffFocusUpgrade.webp",
+          "sha256": "758923bdacb0d3058476fbf9636456811a5b3fbfc89eca5b80c66440a0da268d",
+          "bytes": 2412,
+          "w": 80,
+          "h": 80,
+          "src": "wiki"
+        },
+        "Ward-SecondChanceFocusUpgrade": {
+          "file": "focus-glyphs/Ward-SecondChanceFocusUpgrade.webp",
+          "sha256": "8004a9df48c45600e4554b4380988ccf009eaff2b6684c1bc15f8ee0352d37dd",
+          "bytes": 2460,
+          "w": 80,
+          "h": 80,
+          "src": "wiki"
+        },
+        "Ward-SunderingDissipationUpgrade": {
+          "file": "focus-glyphs/Ward-SunderingDissipationUpgrade.webp",
+          "sha256": "2f3d0d942de23c66045f826b5e18ee86185c8b0b185c2093532de5c38da2119b",
+          "bytes": 2610,
+          "w": 80,
+          "h": 80,
+          "src": "wiki"
+        },
+        "Ward-UnairuWispFocusUpgrade": {
+          "file": "focus-glyphs/Ward-UnairuWispFocusUpgrade.webp",
+          "sha256": "916f242c3022deea505d25e763da518655e091c58d7c9303b75bd75f95539c14",
+          "bytes": 3198,
+          "w": 80,
+          "h": 80,
+          "src": "wiki"
+        },
+        "Ward-WardUltimateArmorUpgrade": {
+          "file": "focus-glyphs/Ward-WardUltimateArmorUpgrade.webp",
+          "sha256": "365876ca75234881d8f7c1c1bad8bcc4dda9ceb97c7e03751a62b865bc971fed",
+          "bytes": 2348,
+          "w": 80,
+          "h": 80,
+          "src": "wiki"
+        },
+        "Ward-WardUltimateChanceUpgrade": {
+          "file": "focus-glyphs/Ward-WardUltimateChanceUpgrade.webp",
+          "sha256": "29cf1b9a1f6f1f757f2efe0a3ed68eaf30d6ad64c2ea3c19c5f57ceac46c9e81",
+          "bytes": 2678,
+          "w": 80,
+          "h": 80,
+          "src": "wiki"
+        },
+        "Ward-WardUltimateRadiusUpgrade": {
+          "file": "focus-glyphs/Ward-WardUltimateRadiusUpgrade.webp",
+          "sha256": "52e8504cadbbf693ef677d3c3f3fa98a98fedda179a2af510b47e56b45ff6261",
+          "bytes": 2566,
+          "w": 80,
+          "h": 80,
+          "src": "wiki"
+        },
+        "Ward-WardUltimateSlamUpgrade": {
+          "file": "focus-glyphs/Ward-WardUltimateSlamUpgrade.webp",
+          "sha256": "16199d128d9a122803f1dc7f35ac4bb95e056b8adccd034803cfb508806052c7",
+          "bytes": 2732,
+          "w": 80,
+          "h": 80,
+          "src": "wiki"
+        },
+        "Ward-WardUltimateUpgrade": {
+          "file": "focus-glyphs/Ward-WardUltimateUpgrade.webp",
+          "sha256": "89cc4349566f31e2d9d7bfc95c68effd3765a7f35cc699615d7b65dddb96aa35",
+          "bytes": 2012,
+          "w": 80,
+          "h": 80,
+          "src": "wiki"
+        }
+      }
+    }
+  }
+}

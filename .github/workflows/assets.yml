@@ -1,0 +1,36 @@
+# Spiel-Assets für TennoDock (#126): prüft bei jedem Push, dass Packs und Manifest zu den Bildern in assets/v1/ passen.
+# Die Bilder pflegt man von Hand (mit SOURCES.md und origin.json) und baut danach lokal mit `node assets-file/build.mjs`.
+# Der Workflow committet nichts und braucht nur Leserechte.
+# Im TennoDock-Repo liegt dieser Ordner unter `tools/tennodock-data/` (1:1 der Inhalt des Daten-Repos) und läuft dort nicht.
+# Doku: docs/pakete/126-assets.md im App-Repo.
+name: Assets
+
+on:
+  push:
+    paths:
+      - 'assets/**'
+      - 'assets-file/**'
+      - '.github/workflows/assets.yml'
+  pull_request:
+    paths:
+      - 'assets/**'
+      - 'assets-file/**'
+      - '.github/workflows/assets.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  assets:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24
+      - name: Test
+        run: node --test "assets-file/**/*.test.mjs"
+      - name: Check packs and manifest
+        run: node assets-file/build.mjs --check

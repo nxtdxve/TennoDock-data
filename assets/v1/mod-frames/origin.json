@@ -1,0 +1,22 @@
+{
+  "default": "wiki",
+  "files": {
+    "GalvanizedBottomLight": "genesis-assets",
+    "ImmortalRuneGlowChaos": "genesis-assets",
+    "ImmortalRuneGlowDecay": "genesis-assets",
+    "ImmortalRuneGlowForm": "genesis-assets",
+    "ImmortalRuneGlowLight": "genesis-assets",
+    "ImmortalRuneGlowOrder": "genesis-assets",
+    "ImmortalRuneGlowTime": "genesis-assets",
+    "ImmortalRuneGlowTruth": "genesis-assets",
+    "ImmortalRuneGlowVoid": "genesis-assets",
+    "PeculiarCornerLights": "genesis-assets",
+    "PeculiarFrameBottom": "genesis-assets",
+    "PeculiarFrameTop": "genesis-assets",
+    "PeculiarSideSmoke": "genesis-assets",
+    "RankSlotEmpty": "genesis-assets",
+    "RequiemModCharge": "genesis-assets",
+    "RequiemModFrame": "genesis-assets",
+    "Reset": "genesis-assets"
+  }
+}
