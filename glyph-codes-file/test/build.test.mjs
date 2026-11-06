@@ -2,7 +2,7 @@
 
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
-import { API_URL, buildFile, FILE, readGlyphCodesFile, readRevision, run } from '../build.mjs';
+import { API_URL, buildFile, FILE, outputLines, readGlyphCodesFile, readRevision, run } from '../build.mjs';
 import { SECTION } from './fixture.mjs';
 
 const NOW = Date.parse('2026-11-09T06:29:00Z');
@@ -37,6 +37,27 @@ describe('readRevision', () => {
     assert.equal(readRevision({ query: { pages: [{ title: 'Glyph', missing: true }] } }), undefined);
     assert.equal(readRevision(undefined), undefined);
     assert.equal(readRevision({ query: { pages: [{ revisions: [{ revid: '1', timestamp: 'x', slots: { main: { content: 'a' } } }] }] } }), undefined);
+  });
+
+  it('nimmt Zeit und Nummer nur in genau der Form von MediaWiki (sie landen in der Commit-Meldung)', () => {
+    const with_ = (revid, timestamp) => readRevision(JSON.parse(answer('abc', revid, timestamp)));
+    assert.equal(with_(1001, '2026-10-22T18:20:30Z\ncodes=1'), undefined);
+    assert.equal(with_(1001, '2026-10-22 18:20:30'), undefined);
+    assert.equal(with_(1001, '$(id)'), undefined);
+    assert.equal(with_(-1, '2026-10-22T18:20:30Z'), undefined);
+    assert.equal(with_(1.5, '2026-10-22T18:20:30Z'), undefined);
+  });
+});
+
+describe('outputLines', () => {
+  it('gibt Tag, Fassung und Zahl der Codes als Ausgaben des Schritts', () => {
+    assert.equal(outputLines({ written: true, asOf: '2026-10-22', revision: 1001, codes: 272 }), 'asOf=2026-10-22\nrevision=1001\ncodes=272\n');
+  });
+
+  it('scheitert bei allem anderen, statt es in die Ausgaben zu schreiben', () => {
+    assert.throws(() => outputLines({ written: true, asOf: '2026-10-22\nx=1', revision: 1001, codes: 1 }), /Unexpected/);
+    assert.throws(() => outputLines({ written: true, asOf: '2026-10-22', revision: Number.NaN, codes: 1 }), /Unexpected/);
+    assert.throws(() => outputLines({ written: true, asOf: '2026-10-22', revision: 1, codes: -1 }), /Unexpected/);
   });
 });
 

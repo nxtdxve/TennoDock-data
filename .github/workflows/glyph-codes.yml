@@ -40,11 +40,17 @@ jobs:
         id: build
         run: node glyph-codes-file/build.mjs
       - name: Commit
+        # Werte aus dem Lauf nur über die Umgebung, nie als Ausdruck direkt im Befehl (Script-Injection). Das Skript prüft sie
+        # zusätzlich streng (`outputLines`: Tag, ganze Zahlen).
+        env:
+          AS_OF: ${{ steps.build.outputs.asOf }}
+          REVISION: ${{ steps.build.outputs.revision }}
+          CODES: ${{ steps.build.outputs.codes }}
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add glyph-codes
           if git diff --cached --quiet; then echo 'Nothing new'; exit 0; fi
-          git commit -m "Glyph codes ${{ steps.build.outputs.asOf }} (revision ${{ steps.build.outputs.revision }}, ${{ steps.build.outputs.codes }} codes)"
+          git commit -m "Glyph codes $AS_OF (revision $REVISION, $CODES codes)"
           # Läuft ein anderer Workflow gerade auch, einmal auf den neuen Stand setzen und erneut versuchen.
           git push || { git pull --rebase origin main && git push; }

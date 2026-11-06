@@ -30,6 +30,8 @@ const VERSION = 1;
 const MIN_CODES = 50;
 const MIN_SHARE_OF_PREVIOUS = 0.5;
 const ATTEMPTS = 3;
+/** Zeit einer Fassung, wie MediaWiki sie liefert. */
+const ISO_TIME = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/;
 
 /**
  * @typedef {import('./lib/glyph-codes.mjs').GlyphCode} GlyphCode
@@ -72,7 +74,9 @@ export function readRevision(json) {
   const main = isRecord(slots) ? slots['main'] : undefined;
   const text = isRecord(main) ? main['content'] : undefined;
   const { revid, timestamp } = revision;
-  return typeof text === 'string' && typeof revid === 'number' && typeof timestamp === 'string' ? { text, revision: revid, revisedAt: timestamp } : undefined;
+  // Nummer und Zeit landen in der Datei und als Ausgabe des Schritts in der Commit-Meldung: nur in genau dieser Form.
+  if (typeof text !== 'string' || !Number.isSafeInteger(revid) || /** @type {number} */ (revid) <= 0) return undefined;
+  return typeof timestamp === 'string' && ISO_TIME.test(timestamp) ? { text, revision: /** @type {number} */ (revid), revisedAt: timestamp } : undefined;
 }
 
 /**
@@ -156,6 +160,19 @@ export async function run(deps) {
   return { written: true, ...result };
 }
 
+/**
+ * Ausgaben des Schritts für `GITHUB_OUTPUT` (Commit-Meldung). Jeder Wert wird noch einmal streng geprüft: Ein Zeilenumbruch
+ * könnte sonst weitere Ausgaben setzen. Der Workflow übergibt sie nur über `env:`, nie direkt im Befehl.
+ * @param {RunResult} result @returns {string}
+ */
+export function outputLines(result) {
+  const { asOf, revision, codes } = result;
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(asOf) || !Number.isSafeInteger(revision) || revision <= 0 || !Number.isSafeInteger(codes) || codes < 0) {
+    throw new Error('Unexpected values for the step outputs');
+  }
+  return `asOf=${asOf}\nrevision=${revision}\ncodes=${codes}\n`;
+}
+
 /** Dateien im Ordner `root`. @param {string} root @returns {Files} */
 export function folderFiles(root) {
   return {
@@ -178,7 +195,7 @@ if (import.meta.url === pathToFileURL(process.argv[1] ?? '').href) {
   const output = process.env['GITHUB_OUTPUT'];
   try {
     const result = await run({ fetchText: fetchWithAgent, files: folderFiles(process.env['DATA_DIR'] ?? 'glyph-codes'), now: Date.now(), log: (text) => console.log(text) });
-    if (output) await writeFile(output, `asOf=${result.asOf}\nrevision=${result.revision}\ncodes=${result.codes}\n`, { flag: 'a' });
+    if (output) await writeFile(output, outputLines(result), { flag: 'a' });
   } catch (error) {
     console.log(`::error::${error instanceof Error ? error.message : String(error)}`);
     process.exitCode = 1;
