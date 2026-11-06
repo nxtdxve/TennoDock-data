@@ -4,14 +4,18 @@
 
 import { createHash } from 'node:crypto';
 
-/** Familien in `assets/v1/`; jede hat einen eigenen Ordner, eine `SOURCES.md` und eine `origin.json`. */
-export const FAMILIES = ['mod-frames', 'syndicate-logos', 'focus-glyphs'];
+/**
+ * Familien in `assets/v1/`; jede hat einen eigenen Ordner, eine `SOURCES.md` und eine `origin.json`. Seit #138 dazu
+ * Spiel-Glyphen (Kategorien, Fundorte), Bilder der Sammelobjekte und die Symbole der Herausforderungen.
+ */
+export const FAMILIES = ['mod-frames', 'syndicate-logos', 'focus-glyphs', 'game-glyphs', 'collectibles', 'challenges'];
 
 /** Herkunft, auf die `origin.json` verweist. */
 export const SOURCES = {
   wiki: 'WARFRAME Wiki (wiki.warframe.com), images © Digital Extremes',
   'genesis-assets': 'WFCD/genesis-assets (Apache-2.0 for the collection), images © Digital Extremes',
   'tennodock-traced': 'Made for TennoDock: shape traced from the game\'s mod frame mask, colours and pixels from WARFRAME Wiki card images, images © Digital Extremes',
+  'browse-wf': 'Game files served by calamity-inc/browse.wf (MIT), paths from calamity-inc/warframe-public-export-plus (MIT), images © Digital Extremes',
 };
 
 export const FORMAT = 'tennodock-assets';

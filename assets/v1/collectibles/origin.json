@@ -1,0 +1,8 @@
+{
+  "default": "genesis-assets",
+  "files": {
+    "lore-fragment": "wiki",
+    "somachord": "wiki",
+    "challenges-tile": "browse-wf"
+  }
+}
