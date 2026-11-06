@@ -368,7 +368,9 @@ player set with Forma.
 
 - **Source:** [WFCD/warframe-items](https://github.com/WFCD/warframe-items) (`data/json/`, values from the WARFRAME
   Wiki). Each file names the commit it was built from (`commit`, `asOf`).
-- **License:** MIT (WFCD/warframe-items).
+- **License:** MIT (WFCD/warframe-items). WFCD takes the values from the WARFRAME Wiki, whose content is licensed
+  CC BY-NC-SA 3.0; whether that covers plain game facts like polarities is an open question that TennoDock settles before
+  its release.
 - **Limit:** no open source says which mod slot a built-in polarity sits on, so `p` is a list without positions.
 - **Updated:** the workflow checks the source once a week (Monday, about 06:29 UTC) and writes the file only when the
   polarities changed.
