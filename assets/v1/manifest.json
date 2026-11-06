@@ -5,7 +5,9 @@
   "sources": {
     "wiki": "WARFRAME Wiki (wiki.warframe.com), images © Digital Extremes",
     "genesis-assets": "WFCD/genesis-assets (Apache-2.0 for the collection), images © Digital Extremes",
-    "tennodock-traced": "Made for TennoDock: shape traced from the game's mod frame mask, colours and pixels from WARFRAME Wiki card images, images © Digital Extremes"
+    "tennodock-traced": "Made for TennoDock: shape traced from the game's mod frame mask, colours and pixels from WARFRAME Wiki card images, images © Digital Extremes",
+    "de-export": "Digital Extremes Public Export (content.warframe.com, path from ExportManifest), images © Digital Extremes",
+    "browse-wf": "Textures from the game files, unpacked and served by calamity-inc/browse.wf at paths from calamity-inc/warframe-public-export-plus; their MIT licence covers only their code and data, images © Digital Extremes without a licence"
   },
   "families": {
     "mod-frames": {
@@ -1242,6 +1244,1987 @@
           "w": 80,
           "h": 80,
           "src": "wiki"
+        }
+      }
+    },
+    "game-glyphs": {
+      "pack": "packs/game-glyphs.json",
+      "sha256": "aa8f6ea500e2c622e530017f9d8fd93c967201c40bb1a40b6a59bb3758d6448b",
+      "bytes": 64942,
+      "files": {
+        "archwing": {
+          "file": "game-glyphs/archwing.webp",
+          "sha256": "68970cdca9927d99f26735c5b33a521e49efaacbc830b38c65f107ae5f667122",
+          "bytes": 3046,
+          "w": 96,
+          "h": 96,
+          "src": "genesis-assets"
+        },
+        "blueprint-owned": {
+          "file": "game-glyphs/blueprint-owned.webp",
+          "sha256": "8f4cb409931e3097c335aa594fcdf713f5060a2e9571e5d960cb833a501f9ee0",
+          "bytes": 2766,
+          "w": 96,
+          "h": 96,
+          "src": "genesis-assets"
+        },
+        "blueprint": {
+          "file": "game-glyphs/blueprint.webp",
+          "sha256": "08fd47e1ea38787809d4d76a06ddb2f80c169d804a5214f9482fded9215f238c",
+          "bytes": 2100,
+          "w": 96,
+          "h": 96,
+          "src": "genesis-assets"
+        },
+        "companion": {
+          "file": "game-glyphs/companion.webp",
+          "sha256": "ce66ffe656a83ab3a57da4bba12a2b7f25818a624271203e5ca5c3f4752a365f",
+          "bytes": 1496,
+          "w": 96,
+          "h": 96,
+          "src": "genesis-assets"
+        },
+        "event": {
+          "file": "game-glyphs/event.webp",
+          "sha256": "03bd22fbc927454e3b293733e45ee915d324ff8451dc5adae35128417ae60ad2",
+          "bytes": 3128,
+          "w": 96,
+          "h": 96,
+          "src": "genesis-assets"
+        },
+        "gear": {
+          "file": "game-glyphs/gear.webp",
+          "sha256": "9e187b8673222a1c7a91f06b3c014f11baab97250159ca25927b104f040de38d",
+          "bytes": 2328,
+          "w": 96,
+          "h": 96,
+          "src": "genesis-assets"
+        },
+        "melee": {
+          "file": "game-glyphs/melee.webp",
+          "sha256": "53ade6ef94a728467621370928cb8cf2cff0618c0754304c941394773584982f",
+          "bytes": 2184,
+          "w": 96,
+          "h": 96,
+          "src": "genesis-assets"
+        },
+        "modular": {
+          "file": "game-glyphs/modular.webp",
+          "sha256": "07f41a0c394e56db4faa861e869fc52608d2d9ad643fefe06d1786c11b105933",
+          "bytes": 1058,
+          "w": 96,
+          "h": 96,
+          "src": "genesis-assets"
+        },
+        "nightwave": {
+          "file": "game-glyphs/nightwave.webp",
+          "sha256": "784aefca409596c0eb3b62e33fc4f1f06ad2dd3570cfc6cbb6e4e17a38d00e60",
+          "bytes": 2454,
+          "w": 96,
+          "h": 96,
+          "src": "de-export"
+        },
+        "operator": {
+          "file": "game-glyphs/operator.webp",
+          "sha256": "2cf4c7b64fc8284e6a2290cfaec7312dd819bd509ce27abd26af408bf87769da",
+          "bytes": 1274,
+          "w": 96,
+          "h": 96,
+          "src": "genesis-assets"
+        },
+        "other": {
+          "file": "game-glyphs/other.webp",
+          "sha256": "eb634923ebdbb0c85e9e7bf674585c3ff249317c661805b8ec0fa6ef50013565",
+          "bytes": 2104,
+          "w": 96,
+          "h": 96,
+          "src": "genesis-assets"
+        },
+        "primary": {
+          "file": "game-glyphs/primary.webp",
+          "sha256": "e7359d3247226af6e957e563fe845decaf18446b95c3b7bc46b36a06731ac0ac",
+          "bytes": 1574,
+          "w": 96,
+          "h": 96,
+          "src": "genesis-assets"
+        },
+        "prime-parts": {
+          "file": "game-glyphs/prime-parts.webp",
+          "sha256": "a68177e48735a4bf6609beb920474d7dba8c95e39e5d974ee3865b9aee9fdf64",
+          "bytes": 2300,
+          "w": 96,
+          "h": 96,
+          "src": "genesis-assets"
+        },
+        "quest": {
+          "file": "game-glyphs/quest.webp",
+          "sha256": "1c92149ede5a51f9e15f6aef8b5c1b47fee55222dead4af831fd101fc3c63949",
+          "bytes": 6994,
+          "w": 128,
+          "h": 128,
+          "src": "genesis-assets"
+        },
+        "secondary": {
+          "file": "game-glyphs/secondary.webp",
+          "sha256": "03b818f863125c5e4ad7674376580626a5b1e2cefad8e477b0d115788247d72f",
+          "bytes": 1978,
+          "w": 96,
+          "h": 96,
+          "src": "genesis-assets"
+        },
+        "sisters": {
+          "file": "game-glyphs/sisters.webp",
+          "sha256": "02173b77dfcd2c05e2d400001cac3b15ead8bf7d901ada5d3afe360c0d273da1",
+          "bytes": 1958,
+          "w": 96,
+          "h": 96,
+          "src": "de-export"
+        },
+        "standing": {
+          "file": "game-glyphs/standing.webp",
+          "sha256": "b0c2ff7acf2c6f26f7a7fcef2d6d6e01a5dcbb3590881a508d87b10484a1903e",
+          "bytes": 1416,
+          "w": 96,
+          "h": 96,
+          "src": "genesis-assets"
+        },
+        "syndicate": {
+          "file": "game-glyphs/syndicate.webp",
+          "sha256": "1c0809c7d05067be6dcaf0b54e5ebd86268267d869f9da14ae1325b65829b5b7",
+          "bytes": 922,
+          "w": 40,
+          "h": 42,
+          "src": "genesis-assets"
+        },
+        "tribute": {
+          "file": "game-glyphs/tribute.webp",
+          "sha256": "c1fa5af81f85ba3188e0436667f146cf37b2cfb5542283ff8d1f998e9ddefa9b",
+          "bytes": 1444,
+          "w": 96,
+          "h": 96,
+          "src": "genesis-assets"
+        },
+        "vendor": {
+          "file": "game-glyphs/vendor.webp",
+          "sha256": "9a1bdecce1f76b81b663e0c36aa7b2d93db67c3c72b6194d4688ecc5022bcd14",
+          "bytes": 616,
+          "w": 96,
+          "h": 96,
+          "src": "genesis-assets"
+        },
+        "warframe": {
+          "file": "game-glyphs/warframe.webp",
+          "sha256": "57a702c8dac9b6e747256ed2ec40a832551943a78d8e2c6f32a6769e77182eca",
+          "bytes": 2396,
+          "w": 96,
+          "h": 96,
+          "src": "genesis-assets"
+        },
+        "weapons": {
+          "file": "game-glyphs/weapons.webp",
+          "sha256": "7500af9d5c7d85114dbafaa008810d7936e2f9e16bb16d4e48a2dbb4408ad3e0",
+          "bytes": 2488,
+          "w": 96,
+          "h": 96,
+          "src": "genesis-assets"
+        }
+      }
+    },
+    "collectibles": {
+      "pack": "packs/collectibles.json",
+      "sha256": "fb7563490553b4d4926f9a67382816494ba928701a26e4f190d7768b5e491db4",
+      "bytes": 16361,
+      "files": {
+        "challenges-tile": {
+          "file": "collectibles/challenges-tile.webp",
+          "sha256": "27984df029e14b7fac737990deab7c261d485d0ff59f0e1c1dffad6c8c5f8d91",
+          "bytes": 4948,
+          "w": 128,
+          "h": 128,
+          "src": "browse-wf"
+        },
+        "lore-fragment": {
+          "file": "collectibles/lore-fragment.webp",
+          "sha256": "17f5dcab4be1ecd6e8bc4dd8f76d40c63a11bb87b1d9055c49410ce12911c7d9",
+          "bytes": 942,
+          "w": 32,
+          "h": 32,
+          "src": "wiki"
+        },
+        "lore-object": {
+          "file": "collectibles/lore-object.webp",
+          "sha256": "3e1b58116959d2d235e7f1403bd00c618a4635b4eef44ea477143d9add823126",
+          "bytes": 5372,
+          "w": 128,
+          "h": 128,
+          "src": "genesis-assets"
+        },
+        "somachord": {
+          "file": "collectibles/somachord.webp",
+          "sha256": "adcf0a50b56c40e24108a9f2355b8a8f4b8adbed17c18a6b8ced57a0925ef44e",
+          "bytes": 826,
+          "w": 32,
+          "h": 32,
+          "src": "wiki"
+        }
+      }
+    },
+    "challenges": {
+      "pack": "packs/challenges.json",
+      "sha256": "171308ee47044fb7b1899f000dec92be8f8fd328f6431fcb8b227bbe43850db1",
+      "bytes": 761514,
+      "files": {
+        "Alchemist": {
+          "file": "challenges/Alchemist.webp",
+          "sha256": "74bff7f0074ff7387cb8e7ad5444662f7d07f572c92eefc984969d3e13fa9f1c",
+          "bytes": 2808,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "Apply4Mods": {
+          "file": "challenges/Apply4Mods.webp",
+          "sha256": "b0aed91b119c240c0a35b66a292b5c853a4dea913a8c461ce40b4f365353f4f8",
+          "bytes": 2958,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "ApplyMod": {
+          "file": "challenges/ApplyMod.webp",
+          "sha256": "a0b5996253d75ce763cc8e6dab2a1eb6f19ab138d5ba62d7457d3e138032f167",
+          "bytes": 3036,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "BladeMastery1": {
+          "file": "challenges/BladeMastery1.webp",
+          "sha256": "70d8fb3964b3078441657f471f73b0fbfcdd1f94095dab3763d2c2ac80df648a",
+          "bytes": 3152,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "BladeMastery2": {
+          "file": "challenges/BladeMastery2.webp",
+          "sha256": "bfba3d0f36a17f59d8a5e2de183de60ae8dd34637c3db29d539378a67e894eca",
+          "bytes": 3206,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "BladeMastery3": {
+          "file": "challenges/BladeMastery3.webp",
+          "sha256": "669e0d09c1b1c136f86c40c788c08f6aa67cc5dd2634a1f15b8f34951d97c3c6",
+          "bytes": 3202,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "BladeProficiency1": {
+          "file": "challenges/BladeProficiency1.webp",
+          "sha256": "8bded19561dc1a722e6742a780cb7d5adbce51299aa39447804c9c389afb6510",
+          "bytes": 2456,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "BladeProficiency2": {
+          "file": "challenges/BladeProficiency2.webp",
+          "sha256": "53e6a4ab27a077f517acd29f7bb19ac175beb0b95b8e379228a5b841ebda7c50",
+          "bytes": 2624,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "BladeProficiency3": {
+          "file": "challenges/BladeProficiency3.webp",
+          "sha256": "47d46d2c9e379ca8990e7752a325e3663e4389615ea5d41ac866da52993d9041",
+          "bytes": 2670,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "BountyHunter": {
+          "file": "challenges/BountyHunter.webp",
+          "sha256": "bdf35c4613b027cf956f489d89499c76913469b3f907f303ecaa7b099236727b",
+          "bytes": 2420,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "BowMastery1": {
+          "file": "challenges/BowMastery1.webp",
+          "sha256": "3c530e760afe5716212576a3e63e77616419ec6ca71d922d7796433c728d253c",
+          "bytes": 3002,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "BowMastery2": {
+          "file": "challenges/BowMastery2.webp",
+          "sha256": "d19a3f03187452df383f2c5f647e51c8063d5f8d01139258d6751cc18a921877",
+          "bytes": 3064,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "BowMastery3": {
+          "file": "challenges/BowMastery3.webp",
+          "sha256": "4b19c77ec2dda4161aac3a052fba38dd829a475574e293c1900ac715cd2a0710",
+          "bytes": 3114,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "BowProficiency1": {
+          "file": "challenges/BowProficiency1.webp",
+          "sha256": "8739a2744fadff413574bb3aeec164f41f09850e8bbefcf5b6e469e04a3e3434",
+          "bytes": 2394,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "BowProficiency2": {
+          "file": "challenges/BowProficiency2.webp",
+          "sha256": "90b00b19a6f452ebcd650348e37f24c5fbc146783d72fe17febdc4981a5ec532",
+          "bytes": 2298,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "BowProficiency3": {
+          "file": "challenges/BowProficiency3.webp",
+          "sha256": "85f09a0864c6286724a7a1c76bdc1715b8e48562c5487a418ffd2d8c6ee178c5",
+          "bytes": 2686,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "BrawlerMastery1": {
+          "file": "challenges/BrawlerMastery1.webp",
+          "sha256": "38f588ae5271a72908967819ad8637b448054baf789d2edad1338628d0d415d1",
+          "bytes": 3334,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "BrawlerMastery2": {
+          "file": "challenges/BrawlerMastery2.webp",
+          "sha256": "3f0f7df757afa219e33dbf323e3e29a0d12d36b4fb492a14ae118e20ff9ba1d8",
+          "bytes": 3412,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "BrawlerMastery3": {
+          "file": "challenges/BrawlerMastery3.webp",
+          "sha256": "302c0c354666e3de5dd50fab0d8355f3154bc75a7463313c9efecb62dbc6f74c",
+          "bytes": 3398,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "BrawlerProficiency1": {
+          "file": "challenges/BrawlerProficiency1.webp",
+          "sha256": "ac639d3f91d4e103a8d8840d90e6fbc78a6dac151ca9d9c05ef41f9777f53920",
+          "bytes": 2786,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "BrawlerProficiency2": {
+          "file": "challenges/BrawlerProficiency2.webp",
+          "sha256": "eddd8a1aea8ed0ab7aa67ab5bc88f7d0154e3643a77c87556b729dab56c001c0",
+          "bytes": 2930,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "BrawlerProficiency3": {
+          "file": "challenges/BrawlerProficiency3.webp",
+          "sha256": "70b4c7d52d43f64e45b52e9104add2e40e3bebecb2d107c72b4b26596d8ba966",
+          "bytes": 3048,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "BurnInfestedPod": {
+          "file": "challenges/BurnInfestedPod.webp",
+          "sha256": "63b68125ffce1ddd39c8dfc2c982acc7f7840fb4f71aed528d44a323e2830ef3",
+          "bytes": 2722,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "ByDawnsEarlyLight": {
+          "file": "challenges/ByDawnsEarlyLight.webp",
+          "sha256": "c713eaabc7c5a623b4fe025d2354d4bb4ae47bda04c2e7debe3cd35f29c36488",
+          "bytes": 3224,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "ChainsOfHarrow": {
+          "file": "challenges/ChainsOfHarrow.webp",
+          "sha256": "beec0079c145d3504f60170de13ffbe7f21dbb9a136ffc9783e8116d73a28d1c",
+          "bytes": 2380,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "ChampionOfThePeople": {
+          "file": "challenges/ChampionOfThePeople.webp",
+          "sha256": "bd82e7666b270c21cb95581461f3ecddf73a8fb4c4b39c0b84b9bb86a91877c7",
+          "bytes": 2160,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "CombatSpecialist": {
+          "file": "challenges/CombatSpecialist.webp",
+          "sha256": "a496a0a54f5ce6ea9169790db0b892f1291dbce4a54d7f373c9256de22a1471e",
+          "bytes": 1952,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "CommandRank10": {
+          "file": "challenges/CommandRank10.webp",
+          "sha256": "b7fe394cca183f621d2cd3e0140e2f82b54761628f360357b7165ff9d587f34e",
+          "bytes": 2610,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "CompleteAllCorpusProxima": {
+          "file": "challenges/CompleteAllCorpusProxima.webp",
+          "sha256": "c0bc599bc24355d86b15d9d3693c0cd459e8815f0c722bc29cda32e76d475cc4",
+          "bytes": 2334,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "ControlFreak": {
+          "file": "challenges/ControlFreak.webp",
+          "sha256": "9d1345aef776e9c8be56190a12f239ed83701eb9349630943754fced3344898a",
+          "bytes": 1842,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "Craft10Items": {
+          "file": "challenges/Craft10Items.webp",
+          "sha256": "b626c73fa97fdcfc7a576d979a519a7de83f5f419c6a3d993a07b4194c82ba55",
+          "bytes": 2188,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "Craft1Item": {
+          "file": "challenges/Craft1Item.webp",
+          "sha256": "13b09792f13914003269ab8a5f9ff1bfbd2dc26621426f7b0350aae9c58060cc",
+          "bytes": 2040,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "Craft20Items": {
+          "file": "challenges/Craft20Items.webp",
+          "sha256": "8affeff377a1105c48cdaeb0d195a3babb1ddb0f30e2c7c70056ffbd01aa1436",
+          "bytes": 2316,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "CraftAnySoPWeapon": {
+          "file": "challenges/CraftAnySoPWeapon.webp",
+          "sha256": "90011ab6e9742a45e1a2ada00453d747b8c40c99b56cb11745d91dfadf5c3cfb",
+          "bytes": 2552,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "CustomizeWarframeColor": {
+          "file": "challenges/CustomizeWarframeColor.webp",
+          "sha256": "81bae041f53b7af880f644fba075dd4bcf629b086e02ba227ef1ac68756de3f2",
+          "bytes": 2228,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "DaggerMastery1": {
+          "file": "challenges/DaggerMastery1.webp",
+          "sha256": "e6b9310c093689fbc313bf7f85aebb7533e54aab872c3b99e6e5c74a097ffbae",
+          "bytes": 3128,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "DaggerMastery2": {
+          "file": "challenges/DaggerMastery2.webp",
+          "sha256": "031aa1c229190b390bf2f7d5bd30648220fceac34b4474899759961ec26cb1f1",
+          "bytes": 3204,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "DaggerMastery3": {
+          "file": "challenges/DaggerMastery3.webp",
+          "sha256": "d92f2a6fb67d85d876ee35305bc18f8ccece4020d29224f92a5d64176aa6b3a5",
+          "bytes": 3166,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "DaggerProficiency1": {
+          "file": "challenges/DaggerProficiency1.webp",
+          "sha256": "7b3d57b55db1f4308b0b62dc36a19f847deb98644455c9ca03105ba69b7cac28",
+          "bytes": 2430,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "DaggerProficiency2": {
+          "file": "challenges/DaggerProficiency2.webp",
+          "sha256": "9a87556309507509580397d71d19eabb79a7fabe659dc02686a9d583aae94e8d",
+          "bytes": 2584,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "DaggerProficiency3": {
+          "file": "challenges/DaggerProficiency3.webp",
+          "sha256": "735ef19115fa649c2038c1e5b67110dcf43b9875862960d144e33f751049a659",
+          "bytes": 2704,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "DarkSectors": {
+          "file": "challenges/DarkSectors.webp",
+          "sha256": "632d66d36615eff57c3216b42cb9923f94462e4ec7d9114a203488434dc044fe",
+          "bytes": 2032,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "DeathFromAbove": {
+          "file": "challenges/DeathFromAbove.webp",
+          "sha256": "97559dd6183efcd0d2e0517fc7f4f56d9097e7643363ba9fc704a9abc427f8fa",
+          "bytes": 2466,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "DedicationToTheCause": {
+          "file": "challenges/DedicationToTheCause.webp",
+          "sha256": "c7d0dc07a279165d4d9a55b0f9aa15662bf5fc92bf7fbaf75ef53e94a43f32b4",
+          "bytes": 2532,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "Earn1000000Credits": {
+          "file": "challenges/Earn1000000Credits.webp",
+          "sha256": "6567ec3d6e50c7cd59ba390e364db1d5c1e146e97f95bdf4b6367de491c293d9",
+          "bytes": 2552,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "Earn100000Credits": {
+          "file": "challenges/Earn100000Credits.webp",
+          "sha256": "db0c8a2097185b62f61e9717f38203ce98dbac8c4cf551b0808da134801bc8a9",
+          "bytes": 2610,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "Earn10000Credits": {
+          "file": "challenges/Earn10000Credits.webp",
+          "sha256": "988af9c2e285ddf5637c12884ce78984eaf96838b021914c89b020049d334de6",
+          "bytes": 2552,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "Earn1000Credits": {
+          "file": "challenges/Earn1000Credits.webp",
+          "sha256": "1b4a33a9724c7a5d1a7b71e3f1826b4977e4ae2fba19ace2db52a61bd646b40b",
+          "bytes": 2498,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "EggTimer": {
+          "file": "challenges/EggTimer.webp",
+          "sha256": "f6d1e9888c89ff4234121bf514885221cf23b5722208ded062bde1a2bfd68ccf",
+          "bytes": 2266,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "Find1000Mods": {
+          "file": "challenges/Find1000Mods.webp",
+          "sha256": "6090a79dcefcc6232b870c180b3adfd954fc57347958df6c4d866f0c940e0341",
+          "bytes": 2760,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "Find100Mods": {
+          "file": "challenges/Find100Mods.webp",
+          "sha256": "a085cb137177c47e594779d94e85c9e77dff251f267fa39eacb5649cd2915452",
+          "bytes": 2668,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "Find1Mod": {
+          "file": "challenges/Find1Mod.webp",
+          "sha256": "f1711ddec23c1b9d4a3a44744988f36d17a43393f44befba6e86259a6ab3d2fe",
+          "bytes": 2734,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "Find20Mods": {
+          "file": "challenges/Find20Mods.webp",
+          "sha256": "efc555b6b5f54bbd40b18bb8379e3cc11fac28ff558c9f821681dcfc16f72845",
+          "bytes": 2608,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "ForgedInFire": {
+          "file": "challenges/ForgedInFire.webp",
+          "sha256": "4ad73923c836f7625c4138d24c83397210222b7d892c802732553d1cfe78acac",
+          "bytes": 2396,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "FriendlyNeighborhoodTenno": {
+          "file": "challenges/FriendlyNeighborhoodTenno.webp",
+          "sha256": "93e421cc5d724f9768ab32ae7b8e20d907d4948fb77670da6969f3adf0da1d76",
+          "bytes": 2300,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "FromOnHigh": {
+          "file": "challenges/FromOnHigh.webp",
+          "sha256": "2569fd0b668aaa7b5b9e84d61aee3cd02482765d76a47499d8751896927ea4c3",
+          "bytes": 2548,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "FuseMods": {
+          "file": "challenges/FuseMods.webp",
+          "sha256": "c28df55448773f85615f66bd99493f1d946b95542436249da74614f551073257",
+          "bytes": 2664,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "GrandTheftDargyn": {
+          "file": "challenges/GrandTheftDargyn.webp",
+          "sha256": "42e58a6e77b4f31bd407dba5c0fd4498a4e367cf34ea14ac3eaefde6ace70c43",
+          "bytes": 2480,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "GunningForPromotion": {
+          "file": "challenges/GunningForPromotion.webp",
+          "sha256": "9600604578aff7f6b7a236b380efeacd04e17b5a554446b5128f95fb79dcef25",
+          "bytes": 2052,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "Hang10": {
+          "file": "challenges/Hang10.webp",
+          "sha256": "8cb8feb764f1470022ebc107871288a7b1679cd693b2a720ca3d0f570e2de558",
+          "bytes": 2350,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "HatsOffToYou": {
+          "file": "challenges/HatsOffToYou.webp",
+          "sha256": "833b51de24e0356b3cd43215e44518f0f6d7e3be4ee59150c2b08570f2e453c9",
+          "bytes": 2360,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "HeavyWeaponMastery1": {
+          "file": "challenges/HeavyWeaponMastery1.webp",
+          "sha256": "b31c82bd08e3a22362c884c17164b40fd4e685a7a232ea650d33365ad2c149f5",
+          "bytes": 3138,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "HeavyWeaponMastery2": {
+          "file": "challenges/HeavyWeaponMastery2.webp",
+          "sha256": "ad138e97a811414839a4465fd4df2950b907c498be987761af21b950465e2326",
+          "bytes": 3172,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "HeavyWeaponMastery3": {
+          "file": "challenges/HeavyWeaponMastery3.webp",
+          "sha256": "020680b58b704461342b823c281ea6826e4e65e27a8f9f276d0d85704190cde1",
+          "bytes": 3190,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "HeavyWeaponProficiency1": {
+          "file": "challenges/HeavyWeaponProficiency1.webp",
+          "sha256": "bcc350a6493075a04d6a97d58646c196c5f985aee733cd7ea92a1b81da30f265",
+          "bytes": 2566,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "HeavyWeaponProficiency2": {
+          "file": "challenges/HeavyWeaponProficiency2.webp",
+          "sha256": "4247f22549034e61a737e827b6011648e67847d5b495edd7b778779b684b1cd0",
+          "bytes": 2714,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "HeavyWeaponProficiency3": {
+          "file": "challenges/HeavyWeaponProficiency3.webp",
+          "sha256": "1578400c60550b6d49197ecc691c47dfe3779f369ff642f098b384b7daeee6d8",
+          "bytes": 2746,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "HiveFive": {
+          "file": "challenges/HiveFive.webp",
+          "sha256": "4f2eaa81c5c9b82bf94bb0be7d022a551468a5a6ae56d637631b4e42cda08fa2",
+          "bytes": 2200,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "IUsedToBullseyeKuakas": {
+          "file": "challenges/IUsedToBullseyeKuakas.webp",
+          "sha256": "04a0419515c325a6026b77d3409afc057da65458344de0c9882ded9c69020592",
+          "bytes": 2486,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "ImTheCaptainNow": {
+          "file": "challenges/ImTheCaptainNow.webp",
+          "sha256": "051ad163e0140fba738332e9d087a560f85372fcd44683b8e41fd2077fd430a4",
+          "bytes": 2486,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "IntoTheVoid": {
+          "file": "challenges/IntoTheVoid.webp",
+          "sha256": "d838c803beb222d6a20d0bcb691aecc9e0feb32bf52ed35fbe62ebcafd442cdb",
+          "bytes": 2306,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "KDriven": {
+          "file": "challenges/KDriven.webp",
+          "sha256": "69a33c15c502493e4085f089d0187e75656632d137846161d335bd5bb359c7d0",
+          "bytes": 2440,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "Kaboom": {
+          "file": "challenges/Kaboom.webp",
+          "sha256": "bd9dfd1eb509da68fe60648dfea5c632f4f5758a777a5e199244ae921a0629af",
+          "bytes": 2890,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "Kill100InMission": {
+          "file": "challenges/Kill100InMission.webp",
+          "sha256": "1a4e59dd367bdd1b44f5913e85bda42b38f8eda47959f2f3a53193f756149622",
+          "bytes": 2318,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "KillJuggernautDeimos": {
+          "file": "challenges/KillJuggernautDeimos.webp",
+          "sha256": "aa33a01492badcd676d9bd0b897482c2ffc09cb0689a2d68740a1d4dbec88702",
+          "bytes": 2806,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "KillPhorid": {
+          "file": "challenges/KillPhorid.webp",
+          "sha256": "d6d911385806a82ffb8796d7fa5dbe9dada87be273d91704636f482d07fe555a",
+          "bytes": 2518,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "Liberator": {
+          "file": "challenges/Liberator.webp",
+          "sha256": "2f7bd00f34d391a641d83d4e63f83c49a33acb740793eaaf56b3a01301965d56",
+          "bytes": 2388,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "MapricoFruitCollect": {
+          "file": "challenges/MapricoFruitCollect.webp",
+          "sha256": "f622e1ddb0bc7e4996293b8083128f2bc202a8e2bd0dd3c0e1f32fc33b891663",
+          "bytes": 2622,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "Marathoner": {
+          "file": "challenges/Marathoner.webp",
+          "sha256": "448a100448ac5875dc05d8cfa5f13b8002a9f01c5e463ddad411fec7d6d87efe",
+          "bytes": 2230,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "MasterAngler": {
+          "file": "challenges/MasterAngler.webp",
+          "sha256": "d1c39401e122da71f223f6e561053dac7fbb79674a340568f9a2ca10caf47708",
+          "bytes": 1978,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "Mercenary": {
+          "file": "challenges/Mercenary.webp",
+          "sha256": "abe5df9b0ce776c2b37507bc0b35b5ab3f75ddf65b3f97585657fb9869609cbb",
+          "bytes": 2214,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "Mercenary2": {
+          "file": "challenges/Mercenary2.webp",
+          "sha256": "abe5df9b0ce776c2b37507bc0b35b5ab3f75ddf65b3f97585657fb9869609cbb",
+          "bytes": 2214,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "MoaMoneyMoaProblems": {
+          "file": "challenges/MoaMoneyMoaProblems.webp",
+          "sha256": "45fb925301714568d8594aa094c9f0748d7c3feb2865aa94795537362d668ceb",
+          "bytes": 2276,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "MoneyCantBuyHappiness": {
+          "file": "challenges/MoneyCantBuyHappiness.webp",
+          "sha256": "f7adb39d1857b1a6fb5acc9150778ba09e7ea217902cbff85885f60aae030db0",
+          "bytes": 1894,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "NoBrainer": {
+          "file": "challenges/NoBrainer.webp",
+          "sha256": "6836fdaa7b16fb687888a4f1e0f5dff69bf1f9b20b38e9ca735b9077bbc07f82",
+          "bytes": 2480,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "NoWitnesses": {
+          "file": "challenges/NoWitnesses.webp",
+          "sha256": "950d102316848bcef7c66d87b9db8f3f13337a24bac0396637ce318c9d801dae",
+          "bytes": 2528,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "OctaviasAnthem": {
+          "file": "challenges/OctaviasAnthem.webp",
+          "sha256": "097c5890f6a0975fde5e8ae0a3e00b003b513184304a94f2bd564db55d4b8eef",
+          "bytes": 1784,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "OrbVallisExplorer": {
+          "file": "challenges/OrbVallisExplorer.webp",
+          "sha256": "d1e5250cc34a59fefcadd7b61cfb8b24d14471560e898367a513e877afa6845a",
+          "bytes": 2266,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "OrbVallisHunter": {
+          "file": "challenges/OrbVallisHunter.webp",
+          "sha256": "d4d225d18e6b5651346b2c8e97ae52c6401fd86fb3ef3715a55786678f75a6de",
+          "bytes": 2052,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "OrbVallisRacer": {
+          "file": "challenges/OrbVallisRacer.webp",
+          "sha256": "4903dd584698ebd02f509774040a20ae5f26f3f5ff47ed1930219a8b34898104",
+          "bytes": 2192,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "Own10Warframes": {
+          "file": "challenges/Own10Warframes.webp",
+          "sha256": "1297e423a91ffe4e1f788f0faecdeb632ec071820f84d9366d2fa20fe1329a62",
+          "bytes": 2978,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "Own1Sentinel": {
+          "file": "challenges/Own1Sentinel.webp",
+          "sha256": "7e75fa47611297019ee801ad63986441b6ba181b7f1bdf68c1040d7658f5a0b3",
+          "bytes": 2400,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "Own2Warframes": {
+          "file": "challenges/Own2Warframes.webp",
+          "sha256": "0f3f3ae2571ed87d4b269eb5aa97bac450f8cad3005b59140c87eaf6c4e80f37",
+          "bytes": 2690,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "Own5Warframes": {
+          "file": "challenges/Own5Warframes.webp",
+          "sha256": "0ee9ee3d43eafee6cfa5851081876bde4faad288c07d01c431494e27af202909",
+          "bytes": 2592,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "Parry1000Shots": {
+          "file": "challenges/Parry1000Shots.webp",
+          "sha256": "24025e31c1ca10778eeb66cbf137e883a1d1b8f49cde0ffee8d88a983efeb82c",
+          "bytes": 2302,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "PestControl": {
+          "file": "challenges/PestControl.webp",
+          "sha256": "0dafe4a0393041f71463890c56cf8407bd6824bd44c53c3128c51105b68c47b3",
+          "bytes": 2716,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "PistolMastery1": {
+          "file": "challenges/PistolMastery1.webp",
+          "sha256": "40b5a98835c1d7fbaec036ae1423d8aa625b501d6a648e7d320eb6169d6d1112",
+          "bytes": 3050,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "PistolMastery2": {
+          "file": "challenges/PistolMastery2.webp",
+          "sha256": "b4d04af436173a56afc3631c3f812d6458399a24d8c841c03fac25c834cc079e",
+          "bytes": 3134,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "PistolMastery3": {
+          "file": "challenges/PistolMastery3.webp",
+          "sha256": "34813ba9426a84b49ff77f645a638af3fe13784e91e19f40f89667bfb1268fc2",
+          "bytes": 3194,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "PistolProficiency1": {
+          "file": "challenges/PistolProficiency1.webp",
+          "sha256": "984140c639177681eaf6d4b820ce3c0b2391a47abc33a2676c3a05411b184424",
+          "bytes": 2758,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "PistolProficiency2": {
+          "file": "challenges/PistolProficiency2.webp",
+          "sha256": "487c499ce53a33fccd129fe19d2696f8fab092aade17abba584ef470ee199741",
+          "bytes": 2914,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "PistolProficiency3": {
+          "file": "challenges/PistolProficiency3.webp",
+          "sha256": "fdbcad587afbeec71e02b9b4f0a55bd4c550b5a7be093d90600d5e241dac99a2",
+          "bytes": 2980,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "PlainsProspector": {
+          "file": "challenges/PlainsProspector.webp",
+          "sha256": "da0d193f23b8fc71bb6af3f415b95156d4495cf2a7773b86ba368b907014e4cf",
+          "bytes": 2052,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "Play100Hours": {
+          "file": "challenges/Play100Hours.webp",
+          "sha256": "7b87ce8229ba5037aa1c26dc4fa882fe686e6d3afa2537407753404376fecb2d",
+          "bytes": 2784,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "Play10Hours": {
+          "file": "challenges/Play10Hours.webp",
+          "sha256": "3dd4e02cc4de497e75dc24e0a62232ae351bc840d5fffefbc2108f1b8989ee01",
+          "bytes": 2736,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "Play2Hours": {
+          "file": "challenges/Play2Hours.webp",
+          "sha256": "b6ebcfa692d9f823a9e4ff0e75034146c895b014309a1dfbac6d0b1bb5d11681",
+          "bytes": 2708,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "PlayerRank1": {
+          "file": "challenges/PlayerRank1.webp",
+          "sha256": "351c90d0e21fa67b57632e8ed047817130c1b6971fec79d8432f7bf5c8c096aa",
+          "bytes": 1908,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "PlayerRank10": {
+          "file": "challenges/PlayerRank10.webp",
+          "sha256": "3fbb4b1a028d845ae0abc4323220632842e03656839671b441dc0d2d29e24680",
+          "bytes": 2128,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "PlayerRank11": {
+          "file": "challenges/PlayerRank11.webp",
+          "sha256": "d694854cfcf7d54a2208abdb97b16313fabecac3d5ac4952a449f83cfce1e521",
+          "bytes": 2298,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "PlayerRank12": {
+          "file": "challenges/PlayerRank12.webp",
+          "sha256": "30d2704205be5f5bfeb244e1b5a9a77f095d2f21c701d47702e36932fc686d7c",
+          "bytes": 2548,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "PlayerRank13": {
+          "file": "challenges/PlayerRank13.webp",
+          "sha256": "9b952bcc9ecebb75aaf7f9bcc5bc70f05dc23da86da06a2970898150b8329206",
+          "bytes": 2154,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "PlayerRank14": {
+          "file": "challenges/PlayerRank14.webp",
+          "sha256": "3460fe44a94c7fb9597fc57b25ff14f5c8572689d6b0236bc963f22217cd0771",
+          "bytes": 2324,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "PlayerRank15": {
+          "file": "challenges/PlayerRank15.webp",
+          "sha256": "2f1d6e8aabe7b8f4e4e3616c202e6a4194124c79f2b0c17b62132f6cd441c097",
+          "bytes": 2502,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "PlayerRank16": {
+          "file": "challenges/PlayerRank16.webp",
+          "sha256": "44813866921b7f48b55e0d044ee36c16a1ee4825834141ad32cdb51ff0fd8d19",
+          "bytes": 2174,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "PlayerRank17": {
+          "file": "challenges/PlayerRank17.webp",
+          "sha256": "5e647663907ce5eb279325d6bf7a271c09ed3046140222e51e1bc59e8ab7995f",
+          "bytes": 2370,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "PlayerRank18": {
+          "file": "challenges/PlayerRank18.webp",
+          "sha256": "7374b0d13229e40a0a288b142d7bc080f441ab2b86748a7458f46d71372b6793",
+          "bytes": 2586,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "PlayerRank19": {
+          "file": "challenges/PlayerRank19.webp",
+          "sha256": "48bf298f96054f621015974331dd5f2558da4a5c2eef54254aae433e03320b32",
+          "bytes": 2198,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "PlayerRank2": {
+          "file": "challenges/PlayerRank2.webp",
+          "sha256": "8a198990feac2c9c1d52c9b771aa5a9384718a3258282b6e927bbfc1fe714004",
+          "bytes": 1938,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "PlayerRank20": {
+          "file": "challenges/PlayerRank20.webp",
+          "sha256": "14fdb72afdfa00a3cf4b1715fd3972d14e1dc4fb12bbe077e3d8878b62d1a9d5",
+          "bytes": 2380,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "PlayerRank21": {
+          "file": "challenges/PlayerRank21.webp",
+          "sha256": "1f02f4bbe46280439c3bb0bb8260b30c9189db931bec62dcea56d9e58d7f6704",
+          "bytes": 2654,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "PlayerRank22": {
+          "file": "challenges/PlayerRank22.webp",
+          "sha256": "5daeb6c7ac934e787dcdfb1fa8ab2697d607abc8e3b1064f657a7cb5e7ae8a95",
+          "bytes": 2280,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "PlayerRank23": {
+          "file": "challenges/PlayerRank23.webp",
+          "sha256": "ffe79b19cbc3d495220a7bd20e68a57fba58a61b25190aab41428f82d9dd08ca",
+          "bytes": 2304,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "PlayerRank24": {
+          "file": "challenges/PlayerRank24.webp",
+          "sha256": "cddc2ed391ec5564aa743c34cb123080a83f48fc518b35de678fe1c6c9d3e2d7",
+          "bytes": 2512,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "PlayerRank25": {
+          "file": "challenges/PlayerRank25.webp",
+          "sha256": "b4e01bb886be03676acea01260c91d70399a98bb0b360d106424166c745b66ae",
+          "bytes": 2332,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "PlayerRank26": {
+          "file": "challenges/PlayerRank26.webp",
+          "sha256": "28372ea0a0fb3f977b02236a1aae2c12c1636a2ab4b6b44659a62caf10678f6d",
+          "bytes": 2530,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "PlayerRank27": {
+          "file": "challenges/PlayerRank27.webp",
+          "sha256": "35f7e406ebd412b1380a6f526d35d265c88bf85f18b9204ec9cc3effbbb696e4",
+          "bytes": 2786,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "PlayerRank28": {
+          "file": "challenges/PlayerRank28.webp",
+          "sha256": "70a2a85954b48d9ab525e2b74d2f979345d20c319a73d4627f4b06dd1b52be49",
+          "bytes": 2344,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "PlayerRank29": {
+          "file": "challenges/PlayerRank29.webp",
+          "sha256": "e0ce11ce4b0d1db3429256a11cb702bd2a06e84c4f59ada8ec739a39c462ec4c",
+          "bytes": 2530,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "PlayerRank3": {
+          "file": "challenges/PlayerRank3.webp",
+          "sha256": "7facf3321096d39c334e0cd9e44833e57e429c745469e629a5aba1feaf94f3bf",
+          "bytes": 2076,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "PlayerRank30": {
+          "file": "challenges/PlayerRank30.webp",
+          "sha256": "11f4561b6866f905e07f15f3507d438433c33f01a4eeb0ab005f3bb56842ad05",
+          "bytes": 2732,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "PlayerRank4": {
+          "file": "challenges/PlayerRank4.webp",
+          "sha256": "98f1022986da1dd5eec89bb53fc7e47407802a80384aad2de5bdae3e2c87ec98",
+          "bytes": 2088,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "PlayerRank5": {
+          "file": "challenges/PlayerRank5.webp",
+          "sha256": "ae420284d23c6ab4ad1278612835116b026dfe91e23b50cfcde0adb0a6a35b04",
+          "bytes": 2196,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "PlayerRank6": {
+          "file": "challenges/PlayerRank6.webp",
+          "sha256": "11fda2793ce111b90b34099800cbedae75849ef9368190aa2596151d634f7db4",
+          "bytes": 2410,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "PlayerRank7": {
+          "file": "challenges/PlayerRank7.webp",
+          "sha256": "3acad188cb136bef0fa769bd28baa5545180c43e9789cc1d0f39030f67043bee",
+          "bytes": 2024,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "PlayerRank8": {
+          "file": "challenges/PlayerRank8.webp",
+          "sha256": "1afc6b0115d9d6995ea5b147fed48c4ba76f6dd96a4e81f75f1c51eb89a4bfc5",
+          "bytes": 2294,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "PlayerRank9": {
+          "file": "challenges/PlayerRank9.webp",
+          "sha256": "042c38d5a714d45795f77f9074a2fd5f467a6c9d1663de13e4412ce64d197047",
+          "bytes": 2472,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "PolarizeThat": {
+          "file": "challenges/PolarizeThat.webp",
+          "sha256": "d3178207b094bc2e70fbb796acabfecab5bc47d081820240cf1e524a3988c76b",
+          "bytes": 2174,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "PolarizeThis": {
+          "file": "challenges/PolarizeThis.webp",
+          "sha256": "28dcf60ee743cb3ab81b0d7806f58bccc7d9b12d4d38e6d0e1bbbfab644eb44a",
+          "bytes": 2150,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "PoleWeaponMastery1": {
+          "file": "challenges/PoleWeaponMastery1.webp",
+          "sha256": "7b918093701192e14229d069ad4690435e1b179058ed76955b90f69b29d13055",
+          "bytes": 3004,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "PoleWeaponMastery2": {
+          "file": "challenges/PoleWeaponMastery2.webp",
+          "sha256": "27f43e2d614efd047d466508f2161e7ef781769f7f6c42674b60bb4777822adc",
+          "bytes": 3042,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "PoleWeaponMastery3": {
+          "file": "challenges/PoleWeaponMastery3.webp",
+          "sha256": "47423ebd8497f10b962bf5e0663a740ed1a4fd80c36216d6ffcbd17f116a3a54",
+          "bytes": 3052,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "PoleWeaponProficiency1": {
+          "file": "challenges/PoleWeaponProficiency1.webp",
+          "sha256": "12e9a51a0b58f4521356929ee79d2b91a4a2ec9f51332d526ecd94e62501e96c",
+          "bytes": 2356,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "PoleWeaponProficiency2": {
+          "file": "challenges/PoleWeaponProficiency2.webp",
+          "sha256": "afb7e9c59953c6c58ccb416296bd017b48c7b1b56e8bd8bcbeca56ac7b63d6cb",
+          "bytes": 2540,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "PoleWeaponProficiency3": {
+          "file": "challenges/PoleWeaponProficiency3.webp",
+          "sha256": "60370c9ab914d3855ac2f9541b3735c3540a5338b7e5dcbd8d8f77d5831abeb6",
+          "bytes": 2592,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "Revive1000Allies": {
+          "file": "challenges/Revive1000Allies.webp",
+          "sha256": "f132300d0e58d84e931a23654d4bd119ffce4dc0934e0421ed1fe4d0f9666283",
+          "bytes": 2482,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "Revive100Allies": {
+          "file": "challenges/Revive100Allies.webp",
+          "sha256": "ca77bb0a982e16b4e865f3540adabdd06ede6119fc9fc5708d65a5f775ca3502",
+          "bytes": 2366,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "Revive10Allies": {
+          "file": "challenges/Revive10Allies.webp",
+          "sha256": "0c0dec84b405fae75618d9bdbd8c7b19e1841489066ab975e24b0561fa74847c",
+          "bytes": 2268,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "Revive1Ally": {
+          "file": "challenges/Revive1Ally.webp",
+          "sha256": "f673a2033fabf816e2f54f442c2c926f1738c7d77f1cfbbf3488819c741f25d1",
+          "bytes": 2234,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "RideInfestedHoverboard": {
+          "file": "challenges/RideInfestedHoverboard.webp",
+          "sha256": "1bc50879897b357dc493fff53bcb87d0dcb682bbe08092aadb661f49d5f4b4ed",
+          "bytes": 2840,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "RideOrDie": {
+          "file": "challenges/RideOrDie.webp",
+          "sha256": "74161ba607105baf1af0306c58c8f75c2c65e7a578baee7b9c9b21e2642e623f",
+          "bytes": 2216,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "RideTheWave": {
+          "file": "challenges/RideTheWave.webp",
+          "sha256": "83377ae2c3a314e64c5fdbaa233ec791b4600fbfc50bf19e656a5778ae8ed391",
+          "bytes": 2106,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "RifleMastery1": {
+          "file": "challenges/RifleMastery1.webp",
+          "sha256": "75f47c95d668013458477ec68dd09e153a01712ac1d83eb48525d78ea3618136",
+          "bytes": 3148,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "RifleMastery2": {
+          "file": "challenges/RifleMastery2.webp",
+          "sha256": "8fc27f3348645de3e74a09359b0b61e59651f7da89c1dafea6348287bf02868a",
+          "bytes": 3244,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "RifleMastery3": {
+          "file": "challenges/RifleMastery3.webp",
+          "sha256": "98ce436216a4da3b5f68ca99c65f16dce0551a26a466a75317cb7f98c34e41db",
+          "bytes": 3204,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "RifleProficiency1": {
+          "file": "challenges/RifleProficiency1.webp",
+          "sha256": "6650fc99b3dbf9aae107dae402558841f75b5c918d83a6b0d5abbba33a9b0c4c",
+          "bytes": 2604,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "RifleProficiency2": {
+          "file": "challenges/RifleProficiency2.webp",
+          "sha256": "3ddaab800b053e6d0fc750dd2e09b3c06d742d624f511d5194f14b43b753687e",
+          "bytes": 2960,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "RifleProficiency3": {
+          "file": "challenges/RifleProficiency3.webp",
+          "sha256": "e9f46c4427a38debbe00b921ee3ca763ccfcff7d0240ccab0b85139c4c2ce2be",
+          "bytes": 3044,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "SaviourOfCeres": {
+          "file": "challenges/SaviourOfCeres.webp",
+          "sha256": "63ab2a87fa4f538b5539ad661982d71f3f8979a1a5301708b034ff105f9c9e25",
+          "bytes": 2382,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "SaviourOfEarth": {
+          "file": "challenges/SaviourOfEarth.webp",
+          "sha256": "22c6e7d19c19a018e7a3b3bf63b516379d38402383486018698b021c83d16324",
+          "bytes": 2564,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "SaviourOfEuropa": {
+          "file": "challenges/SaviourOfEuropa.webp",
+          "sha256": "c4d979bcf87c743f3eea18f9eb41285bcddde5b6de75b30770092a56815d31a5",
+          "bytes": 2666,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "SaviourOfJupiter": {
+          "file": "challenges/SaviourOfJupiter.webp",
+          "sha256": "ab543cfb936cb8263345d9b9a7ef152e27743d5afb389d77cfc1a82f16ae8d12",
+          "bytes": 2462,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "SaviourOfMars": {
+          "file": "challenges/SaviourOfMars.webp",
+          "sha256": "6b4fa906913f037cd949822f96efd66fbb7379607bfb507150c69b1a07545f23",
+          "bytes": 2578,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "SaviourOfMercury": {
+          "file": "challenges/SaviourOfMercury.webp",
+          "sha256": "92ee540249a069c8ca89fe96f6f42d56c51619275ed6d45ccbbe6c80896db7fa",
+          "bytes": 2528,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "SaviourOfNeptune": {
+          "file": "challenges/SaviourOfNeptune.webp",
+          "sha256": "285144d103c5e420a68836f7122e90e45015a2f349fb985311549c507c5e996d",
+          "bytes": 2538,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "SaviourOfPhobos": {
+          "file": "challenges/SaviourOfPhobos.webp",
+          "sha256": "97d1222d406d4f6cbd5e94a38d0282d9b6ebe9c7d6690bab55af5b7815afb8c2",
+          "bytes": 2676,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "SaviourOfPluto": {
+          "file": "challenges/SaviourOfPluto.webp",
+          "sha256": "4064311557e0c792ce2090a734cd7e79e3ed7c1525ab0a0d3ec660b04640a4a8",
+          "bytes": 2614,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "SaviourOfSaturn": {
+          "file": "challenges/SaviourOfSaturn.webp",
+          "sha256": "7287a635034dd5d8d87221b6ef6a79213272fc594b9befe933439878e59348c5",
+          "bytes": 2518,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "SaviourOfSedna": {
+          "file": "challenges/SaviourOfSedna.webp",
+          "sha256": "1f543eea297dc518f63b75dc0da79ec054c15153561c9638695f806db6f01af2",
+          "bytes": 2536,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "SaviourOfUranus": {
+          "file": "challenges/SaviourOfUranus.webp",
+          "sha256": "d79a9c57cf2b019a56ba92592cdeb5706726f97ad23465001f108090b526e774",
+          "bytes": 2424,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "SaviourOfVenus": {
+          "file": "challenges/SaviourOfVenus.webp",
+          "sha256": "38287bf8de709d59c5ed81ad5335026953344b44e9aa74a2f85ab62c4fe0c7c1",
+          "bytes": 2532,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "SayasVigil": {
+          "file": "challenges/SayasVigil.webp",
+          "sha256": "3602b5179cd7f4087bed37543cbaf4114340f4897b210a70a156d3ead76839c2",
+          "bytes": 2874,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "Sell10000Credits": {
+          "file": "challenges/Sell10000Credits.webp",
+          "sha256": "ff7345cb20132ef08d91b6b45ce01151551946f74aff6bb48fbbe9ba5de466ab",
+          "bytes": 2388,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "SellItem": {
+          "file": "challenges/SellItem.webp",
+          "sha256": "dcfc2cdd1543af4de1421f849ef9eb3108636fa5ee48745ea387b7960823ab74",
+          "bytes": 2134,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "SentinelMastery1": {
+          "file": "challenges/SentinelMastery1.webp",
+          "sha256": "15605388f7a528df3f73bd5880806bffb516c50c2e1f8686d8c13fdd10e65d5b",
+          "bytes": 3212,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "SentinelMastery2": {
+          "file": "challenges/SentinelMastery2.webp",
+          "sha256": "6f24f406169f9394f8e62e09e74bb9a6cae05724cb6e19763fac0fdf0fbdb6b5",
+          "bytes": 3304,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "SentinelMastery3": {
+          "file": "challenges/SentinelMastery3.webp",
+          "sha256": "aaae7edb6b91d89c6a0aa5d5d34aa5935788d2f58a65533546522f90fb62a77b",
+          "bytes": 3352,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "SentinelProficiency1": {
+          "file": "challenges/SentinelProficiency1.webp",
+          "sha256": "42e2c7f14a7f1f9d0e905e4a73914ec6be2550c3958cbb11eda4a7bee7002de0",
+          "bytes": 2390,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "SentinelProficiency2": {
+          "file": "challenges/SentinelProficiency2.webp",
+          "sha256": "2339790a658eebc1ff72019b67845844c3103aee6ee7d821f8f38822a9f843d5",
+          "bytes": 2572,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "SentinelProficiency3": {
+          "file": "challenges/SentinelProficiency3.webp",
+          "sha256": "c6d0cf7360698213d62ce78a688f6a8f5780de23c2cadab2db55b254f207545e",
+          "bytes": 2624,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "SevenPrinciples": {
+          "file": "challenges/SevenPrinciples.webp",
+          "sha256": "46b43977533e0682e3079583c58d47ba1527ed762f9b1d8944ca0ee4039049b1",
+          "bytes": 2546,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "SharpShooter": {
+          "file": "challenges/SharpShooter.webp",
+          "sha256": "e0de9edd6e890bab43e49f1a2ebcb71ff53f65469250b1f80627936cb6aaaa27",
+          "bytes": 2968,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "ShotgunMastery1": {
+          "file": "challenges/ShotgunMastery1.webp",
+          "sha256": "c329217f267abf8d75308d409df24f519c0a2cb23c405a265d4e3bf43e9133c7",
+          "bytes": 3254,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "ShotgunMastery2": {
+          "file": "challenges/ShotgunMastery2.webp",
+          "sha256": "576dfedbc9e25b19227b6c754a4e2008b2be43f6b596fd177af030a24c28e440",
+          "bytes": 3354,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "ShotgunMastery3": {
+          "file": "challenges/ShotgunMastery3.webp",
+          "sha256": "18aff02104e1ff510ef0de75a230b887e7656f539b0ce0a2ab05f5d0ed1ae51f",
+          "bytes": 3364,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "ShotgunProficiency1": {
+          "file": "challenges/ShotgunProficiency1.webp",
+          "sha256": "923625e6443d871b407fd0aeb4240be4624027dd95d1cbd8f3812006014e91b2",
+          "bytes": 2764,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "ShotgunProficiency2": {
+          "file": "challenges/ShotgunProficiency2.webp",
+          "sha256": "3e4fb6d1b8d66334f8428fe5f1acd130e1055d6284d082fdcb341d8579bc026d",
+          "bytes": 2884,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "ShotgunProficiency3": {
+          "file": "challenges/ShotgunProficiency3.webp",
+          "sha256": "a9a91715601fbcdd7942cf4f4df81be2d172077959d87f478f68334ddf934471",
+          "bytes": 3000,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "ShurikenMastery1": {
+          "file": "challenges/ShurikenMastery1.webp",
+          "sha256": "653eda45c92dd85f7433d90c535a3d3c3a90d0e9920aa88be34c463b33170403",
+          "bytes": 3362,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "ShurikenMastery2": {
+          "file": "challenges/ShurikenMastery2.webp",
+          "sha256": "2cb6ed96fa577aa7eb976eac7c857458235a4b6c875695e3e24594785dc80206",
+          "bytes": 3388,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "ShurikenMastery3": {
+          "file": "challenges/ShurikenMastery3.webp",
+          "sha256": "251025c34545312afaf98201d42200051586ff6b0840d0945d16f6abcf23a24c",
+          "bytes": 3410,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "ShurikenProficiency1": {
+          "file": "challenges/ShurikenProficiency1.webp",
+          "sha256": "739f0ddeb1c58f1716748fb01548aab5e94c4b56c8e7d1087373b0d993584e1c",
+          "bytes": 2850,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "ShurikenProficiency2": {
+          "file": "challenges/ShurikenProficiency2.webp",
+          "sha256": "997a7233bc74186cb15e60932d75fa6d9a7752afdc70acd7e6c3693fc2e69abd",
+          "bytes": 3038,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "ShurikenProficiency3": {
+          "file": "challenges/ShurikenProficiency3.webp",
+          "sha256": "3de62f803055bc4b2c5641fa44a31dddbc0378f25b8c8546012baee7d6bfcb31",
+          "bytes": 3132,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "SledsOfSunshine": {
+          "file": "challenges/SledsOfSunshine.webp",
+          "sha256": "75ea904ffe7989f60c4aa61f8ce7bfd451b1522c8bfbfb8556b96c9add22db8d",
+          "bytes": 2628,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "Solve1000Ciphers": {
+          "file": "challenges/Solve1000Ciphers.webp",
+          "sha256": "b2abe4cbceddc99512c56a90f559787eafc4c432a13f72d2f409abf2d6b99f5a",
+          "bytes": 2446,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "Solve100Ciphers": {
+          "file": "challenges/Solve100Ciphers.webp",
+          "sha256": "818a5ae44ffec063208efa51cbc1d959c28d4dbf11a42f550c734cbe9be43de6",
+          "bytes": 2410,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "Solve10Ciphers": {
+          "file": "challenges/Solve10Ciphers.webp",
+          "sha256": "c25a4a10d35e2a0fb21c42fa0825a56c5ae72bb9490a9640d2a71ab074e85463",
+          "bytes": 2254,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "Solve1Cipher": {
+          "file": "challenges/Solve1Cipher.webp",
+          "sha256": "ca882c70ae1e6052e4d154b30ae08ee863b6c385b79154c95fee87e5d2da4e85",
+          "bytes": 2254,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "SolveCipherUnder5Seconds": {
+          "file": "challenges/SolveCipherUnder5Seconds.webp",
+          "sha256": "6b9213ecb21a27e398e6f0534df7bd6b96a1e1bef6b7c63114ed1bfd6ba819e1",
+          "bytes": 2648,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "SomeAssemblyRequired": {
+          "file": "challenges/SomeAssemblyRequired.webp",
+          "sha256": "cd5f0fb1cabbd5f67924dd6f140b6a53a1f70262d992cf220b86e88fe7819280",
+          "bytes": 2402,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "StayFrosty": {
+          "file": "challenges/StayFrosty.webp",
+          "sha256": "4f550f05d98141155b8d1eec12e55d0636459be5ae290e8f557efd8372a9a44f",
+          "bytes": 2286,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "StealthyHacking": {
+          "file": "challenges/StealthyHacking.webp",
+          "sha256": "7e6d273ba1ab1623466c31ab56ae0ca67d0e441b0a137f6bea9168737b7ce4ec",
+          "bytes": 2438,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "TennoAndHooch": {
+          "file": "challenges/TennoAndHooch.webp",
+          "sha256": "b5044c1d43e2c80bd6a57eb9bb5601e24bf48222af5f6e1cc8af01075d074f1b",
+          "bytes": 2496,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "TennoOfAllTrades": {
+          "file": "challenges/TennoOfAllTrades.webp",
+          "sha256": "3fcb4bdb966b492582300bfec561be878ae81f4b2cfd9e8c249a25781dceb430",
+          "bytes": 2116,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "ThatWhichKillsUsMakesUsStronger": {
+          "file": "challenges/ThatWhichKillsUsMakesUsStronger.webp",
+          "sha256": "57495ef982e7b9233db8e45df2388e6819fc39f2cf29f13e0aaa76226c26034d",
+          "bytes": 2390,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "The8FoldPath": {
+          "file": "challenges/The8FoldPath.webp",
+          "sha256": "eede6137767cbfdfb9c5e7cb21f3682690f5b12be23abe5ae4addcd1599b512e",
+          "bytes": 2300,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "TheAbyssGazesIntoYou": {
+          "file": "challenges/TheAbyssGazesIntoYou.webp",
+          "sha256": "ba246a2aadbdcc061a147f7cbe9f600a29af4e917691e293bca7ede479e40913",
+          "bytes": 2070,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "TheCameraAdds100Pounds": {
+          "file": "challenges/TheCameraAdds100Pounds.webp",
+          "sha256": "e2d71705739028b57a15e9672c52317fa95e097a3dff68e86d12c7626ac104b4",
+          "bytes": 1974,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "TheGreatEidolonHunt": {
+          "file": "challenges/TheGreatEidolonHunt.webp",
+          "sha256": "2192b0f19d550737245878df2cf51eb54c76448e69fb3d40a2c67bba3982d858",
+          "bytes": 2642,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "TheSacrifice": {
+          "file": "challenges/TheSacrifice.webp",
+          "sha256": "9457d3b9daf2414c2cef6718e65ed37b5694c3829628196d8b3a7d85fa7d3664",
+          "bytes": 2132,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "TheSwordAlone": {
+          "file": "challenges/TheSwordAlone.webp",
+          "sha256": "cedf1b3f49120dbde6e1bba3b0c41bcd870e0163bfc38082d95ab98e2b0b1d31",
+          "bytes": 1854,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "TheWarWithin": {
+          "file": "challenges/TheWarWithin.webp",
+          "sha256": "8b79caab14a9356a9769b9c163ff0d9a6765620f80254c32a355fd2971ac50bb",
+          "bytes": 2616,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "ThisIsWhatYouAre": {
+          "file": "challenges/ThisIsWhatYouAre.webp",
+          "sha256": "39d416617ff45204411d060e866f0319cf9a43408b9c620326413ac87bf60175",
+          "bytes": 2384,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "TombLooter": {
+          "file": "challenges/TombLooter.webp",
+          "sha256": "922e484170854f0eabb6272304add8f03782b7aaeca3354e2d24adee638fa174",
+          "bytes": 2284,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "WarframeRank2": {
+          "file": "challenges/WarframeRank2.webp",
+          "sha256": "8e3899c00fdf195628663aade225bf36806e2633769940360117532f9e7e0837",
+          "bytes": 2484,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "WeaponRank2": {
+          "file": "challenges/WeaponRank2.webp",
+          "sha256": "33cd733d9b8712a1da5ae3767b0f226d7139d4067c99c89343828a6a1d888246",
+          "bytes": 2522,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "WereGonnaNeedaBiggerBoat": {
+          "file": "challenges/WereGonnaNeedaBiggerBoat.webp",
+          "sha256": "6bc45c50591a6e7fce5942c17502c94831faf2abd37fd928fab0fb1389e0037e",
+          "bytes": 2236,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "WhatANightmare": {
+          "file": "challenges/WhatANightmare.webp",
+          "sha256": "2c072ff4a11360890e3b9c7bdbcb7da473f2307eefa6d57c780c83f5ee2472a2",
+          "bytes": 2406,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
+        },
+        "WithoutAHitch": {
+          "file": "challenges/WithoutAHitch.webp",
+          "sha256": "d64782d7da47eccfff0347c56071453a7ef81cc01bfb3b72ef758b5f4446ba69",
+          "bytes": 1882,
+          "w": 80,
+          "h": 80,
+          "src": "browse-wf"
         }
       }
     }
