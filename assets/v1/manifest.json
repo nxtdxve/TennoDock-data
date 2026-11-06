@@ -1249,8 +1249,8 @@
     },
     "game-glyphs": {
       "pack": "packs/game-glyphs.json",
-      "sha256": "27acbcbcf9466f64770606501106a63a2fda1482e6706c6977c93b0391de9a15",
-      "bytes": 68878,
+      "sha256": "0d2a49008fb97facfdad7068b7da9cb3996df0537ad2e19b564ab2909a9ca53f",
+      "bytes": 65870,
       "files": {
         "archwing": {
           "file": "game-glyphs/archwing.webp",
@@ -1318,8 +1318,8 @@
         },
         "nightwave": {
           "file": "game-glyphs/nightwave.webp",
-          "sha256": "ee23d0e527e00be3a7c66d80641c633ca561e9c851d71da56948546849ce24d4",
-          "bytes": 3668,
+          "sha256": "9ef438d04f60b2770024333df86cf9f5dfb44a3f6d9512a05246fbc6ff3f6fb7",
+          "bytes": 2822,
           "w": 96,
           "h": 96,
           "src": "de-export"
@@ -1374,8 +1374,8 @@
         },
         "sisters": {
           "file": "game-glyphs/sisters.webp",
-          "sha256": "aef27605ce498da51af4831bf50187b380cea60f944f4d17630e4dcd994cee72",
-          "bytes": 3696,
+          "sha256": "04b2517cc4cabb1e058a8b4ec01a20b967966ec662c3b5820954bb55cb2eeaa3",
+          "bytes": 2284,
           "w": 96,
           "h": 96,
           "src": "de-export"

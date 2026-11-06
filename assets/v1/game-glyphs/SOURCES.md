@@ -6,7 +6,7 @@ and dark mode. File name = key in `src/core/ui/game-glyphs.ts`.
 
 **Rights:** The images are © Digital Extremes (Warframe). Whether TennoDock may ship them in a published app is an open legal question for TennoDock's release phase (phase 9). They are used here for informative purposes only; TennoDock is not affiliated with Digital Extremes. The collection WFCD/genesis-assets is licensed Apache-2.0.
 
-`nightwave.webp` and `sisters.webp` are white sigils from Digital Extremes' Public Export (`content.warframe.com`, texture path and hash from `ExportManifest`): as an image they vanish on a light background, as a mask they work in both themes.
+`nightwave.webp` and `sisters.webp` are white sigils from Digital Extremes' Public Export (`content.warframe.com`, texture path and hash from `ExportManifest`): as an image they vanish on a light background, as a mask they work in both themes. Their alpha is doubled, because the sigils are half transparent.
 
 **Fetched** on 2026-11-06 from WFCD/genesis-assets, commit `730ff1a9211b249b3774dd7cc75fe353fd0b792a` (and the two sigils from the Public Export), scaled with Lanczos and saved as lossless WebP with the colour set to white, because only the alpha channel is used.
 `quest.webp`: alpha × 3, because the original has a soft glow that makes the mask too faint.
@@ -34,5 +34,5 @@ That the glyphs are the game's own menu graphics is derived from their file name
 | tribute.webp | Source "daily tribute"; page Daily Tribute | genesis-assets `webp/menu/Gift.webp` | 256×256 px, 2.4 KB | 96×96 px, 1.4 KB |
 | syndicate.webp | Source "syndicate" | genesis-assets `img/syndicate.png` | 40×42 px, 6.7 KB | 40×42 px, 0.9 KB |
 | standing.webp | Standing (syndicates) | genesis-assets `webp/general/standing.webp` | 128×128 px, 3.2 KB | 96×96 px, 1.4 KB |
-| nightwave.webp | Source "Nightwave" | DE Public Export, Nightwave Sigil, `/Lotus/Interface/Icons/Sigils/RadioLegionSigil.png` | 512×512 px, 30.4 KB | 96×96 px, 3.6 KB |
-| sisters.webp | Source "Sisters of Parvos" | DE Public Export, Sister of Parvos sigil (CorpusLichSigil), `/Lotus/Interface/Icons/Sigils/CorpusLichSigil.png` | 512×512 px, 26.8 KB | 96×96 px, 3.6 KB |
+| nightwave.webp | Source "Nightwave" | DE Public Export, Nightwave Sigil, `/Lotus/Interface/Icons/Sigils/RadioLegionSigil.png` | 512×512 px, 30.4 KB | 96×96 px, 2.8 KB |
+| sisters.webp | Source "Sisters of Parvos" | DE Public Export, Sister of Parvos sigil (CorpusLichSigil), `/Lotus/Interface/Icons/Sigils/CorpusLichSigil.png` | 512×512 px, 26.8 KB | 96×96 px, 2.2 KB |
