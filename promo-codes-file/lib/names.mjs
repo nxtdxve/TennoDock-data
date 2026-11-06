@@ -2,7 +2,8 @@
 // Englische Namen der Items für die Zuordnung der Belohnungen (#135). Quelle ist der DE-Export (Entscheidung vom 06.11.2026:
 // dieselbe Quelle wie die Bilder der App; public-export-plus hinkte nach, 5 von 14 Belohnungen fehlten dort):
 //
-//   1. Index `index_en.txt.lzma` von origin.warframe.com (rund 0,5 KB), entpackt mit `xz` vom Runner (keine npm-Abhängigkeit).
+//   1. Index `index_en.txt.lzma` (rund 0,5 KB), zuerst von content.warframe.com, dann von origin.warframe.com (`DE_INDEX_URLS`),
+//      entpackt mit `xz` vom Runner (keine npm-Abhängigkeit).
 //   2. Ist ein Hash bekannt und unverändert (nur Neuzuordnung, keine neue Belohnung), endet es hier.
 //   3. Sonst die Dateien in `DE_FILES` von content.warframe.com (rund 6,7 MB, ohne gzip), nur in der Action.
 //
@@ -12,7 +13,12 @@ import { spawn } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import { DE_FILES, deItems, indexFromItems, nameIndex, PLUS_DICT, PLUS_FILES } from './rewards.mjs';
 
-export const DE_INDEX_URL = 'https://origin.warframe.com/PublicExport/index_en.txt.lzma';
+/**
+ * Index des DE-Exports, in dieser Reihenfolge. `origin.warframe.com` antwortete dem GitHub-Runner am 06.11.2026 mit 403
+ * (lokal 200 mit demselben User-Agent, also wohl die IP des Rechenzentrums). `content.warframe.com` liefert denselben Index
+ * (gleicher Inhalt und ETag, `no-cache`) und auch die Export-Dateien.
+ */
+export const DE_INDEX_URLS = ['https://content.warframe.com/PublicExport/index_en.txt.lzma', 'https://origin.warframe.com/PublicExport/index_en.txt.lzma'];
 export const DE_FILE_BASE = 'https://content.warframe.com/PublicExport/Manifest/';
 export const PLUS_BASE = 'https://raw.githubusercontent.com/calamity-inc/warframe-public-export-plus/senpai/';
 
@@ -85,6 +91,26 @@ function fetchers(userAgent) {
   };
 }
 
+/**
+ * Index von der ersten Adresse in `DE_INDEX_URLS`, die antwortet; ein Fehlschlag vor einem Erfolg steht im Log. Wirft mit
+ * allen Gründen, wenn keine antwortet.
+ * @param {(url: string) => Promise<Uint8Array>} fetchBytes @param {(text: string) => void} log @returns {Promise<Uint8Array>}
+ */
+export async function fetchIndex(fetchBytes, log) {
+  /** @type {string[]} */
+  const failures = [];
+  for (const url of DE_INDEX_URLS) {
+    try {
+      const bytes = await fetchBytes(url);
+      if (failures.length > 0) log(`Public export index from ${new URL(url).host} (${failures.join('; ')})`);
+      return bytes;
+    } catch (error) {
+      failures.push(`${new URL(url).host}: ${error instanceof Error ? error.message : String(error)}`);
+    }
+  }
+  throw new Error(`no index (${failures.join('; ')})`);
+}
+
 /** @param {NameOptions} options @returns {Promise<Names>} */
 export async function loadNames(options) {
   const { userAgent, log, knownHash } = options;
@@ -93,7 +119,7 @@ export async function loadNames(options) {
   const fetchText = options.fetchText ?? net.fetchText;
   const unlzma = options.unlzma ?? unlzmaWithXz;
   try {
-    const index = parseIndex(await unlzma(await fetchBytes(DE_INDEX_URL)));
+    const index = parseIndex(await unlzma(await fetchIndex(fetchBytes, log)));
     const missing = DE_FILES.filter((file) => !index.has(file));
     if (missing.length > 0) throw new Error(`not in the index: ${missing.join(', ')}`);
     const hash = indexHash(index);

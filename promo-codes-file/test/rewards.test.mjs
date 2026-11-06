@@ -3,7 +3,7 @@
 import assert from 'node:assert/strict';
 import { spawnSync } from 'node:child_process';
 import { describe, it } from 'node:test';
-import { DE_FILE_BASE, DE_INDEX_URL, indexHash, loadNames, parseDeJson, parseIndex, PLUS_BASE, unlzmaWithXz } from '../lib/names.mjs';
+import { DE_FILE_BASE, DE_INDEX_URLS, indexHash, loadNames, parseDeJson, parseIndex, PLUS_BASE, unlzmaWithXz } from '../lib/names.mjs';
 import { deItems, indexFromItems, nameCandidates, nameIndex, nameKey, rewardPath } from '../lib/rewards.mjs';
 import { DE_EXPORT, DE_INDEX, PLUS_DICT, PLUS_EXPORT } from './fixture.mjs';
 
@@ -74,12 +74,16 @@ describe('Index des DE-Exports', () => {
 });
 
 describe('loadNames', () => {
-  /** Netz im Speicher: DE-Index, DE-Dateien und plus; `failDe`: der DE-Export ist nicht erreichbar. */
-  function fakeNet({ failDe = false } = {}) {
+  /**
+   * Netz im Speicher: DE-Index, DE-Dateien und plus; `failDe`: der DE-Export ist nicht erreichbar; `blocked`: Adressen des
+   * Index, die mit 403 antworten (wie `origin` für den GitHub-Runner).
+   */
+  function fakeNet({ failDe = false, blocked = [] } = {}) {
     const urls = [];
     const fetchBytes = async (url) => {
       urls.push(url);
       if (failDe) throw new Error('HTTP 503');
+      if (blocked.includes(url)) throw new Error(`HTTP 403 for ${url}`);
       return new Uint8Array([1, 2, 3]);
     };
     const fetchText = async (url) => {
@@ -97,7 +101,8 @@ describe('loadNames', () => {
     assert.equal(names.source, 'de');
     assert.equal(names.hash, indexHash(parseIndex(DE_INDEX)));
     assert.equal(rewardPath('3-day Affinity Booster', names.index), '/Lotus/Types/StoreItems/Boosters/AffinityBooster3DayStoreItem');
-    assert.equal(net.urls[0], DE_INDEX_URL);
+    assert.equal(net.urls[0], DE_INDEX_URLS[0]);
+    assert.ok(DE_INDEX_URLS[0]?.startsWith('https://content.warframe.com/'));
     assert.ok(net.urls.slice(1).every((url) => url.startsWith(DE_FILE_BASE)));
     assert.equal(new Set(net.urls).size, net.urls.length);
   });
@@ -106,7 +111,20 @@ describe('loadNames', () => {
     const net = fakeNet();
     const names = await loadNames({ ...net.options, knownHash: indexHash(parseIndex(DE_INDEX)) });
     assert.deepEqual(names, { source: 'unchanged', hash: indexHash(parseIndex(DE_INDEX)) });
-    assert.deepEqual(net.urls, [DE_INDEX_URL]);
+    assert.deepEqual(net.urls, [DE_INDEX_URLS[0]]);
+  });
+
+  it('Index zuerst von content, dann von origin (Runner-403 vom 06.11.2026), mit Grund im Log', async () => {
+    const net = fakeNet({ blocked: [DE_INDEX_URLS[0]] });
+    const logs = [];
+    const names = await loadNames({ ...net.options, log: (text) => logs.push(text) });
+    assert.equal(names.source, 'de');
+    assert.deepEqual(net.urls.slice(0, 2), DE_INDEX_URLS);
+    assert.ok(logs.some((text) => text.includes('from origin.warframe.com') && text.includes('content.warframe.com: HTTP 403')));
+    const both = fakeNet({ blocked: [...DE_INDEX_URLS] });
+    const fallback = await loadNames({ ...both.options, log: (text) => logs.push(text) });
+    assert.equal(fallback.source, 'plus');
+    assert.ok(logs.some((text) => text.includes('::warning::') && text.includes('no index')));
   });
 
   it('ohne DE-Export die Namen aus public-export-plus, ohne Hash', async () => {

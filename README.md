@@ -271,9 +271,9 @@ warframe.com, and can notify the player when a new code shows up. The app checks
   The table *Inactive Codes* is only used to check that the page is complete. The wiki says the list is incomplete;
   codes can expire or stop working at any time. Creator glyph codes are in `glyph-codes/` instead.
 - **Item names:** the English names of the game's public export by Digital Extremes (`index_en.txt.lzma` from
-  origin.warframe.com, unpacked with `xz`, and the export files from content.warframe.com), the same source as the
-  item images in the app. They are loaded only when a
-  reward is new. If the public export cannot be read, the names of
+  content.warframe.com, or from origin.warframe.com if that fails, unpacked with `xz`, and the export files from
+  content.warframe.com), the same source as the item images in the app. origin.warframe.com refused the GitHub runner
+  (HTTP 403); content.warframe.com serves the same index. They are loaded only when a reward is new. If the public export cannot be read, the names of
   [warframe-public-export-plus](https://github.com/calamity-inc/warframe-public-export-plus) (export files and
   `dict.en`) are used instead; that repository can lag behind new game updates. If neither can be read, the file is
   still written and the names are matched on a later run. A reward without a match keeps its text from the wiki.
