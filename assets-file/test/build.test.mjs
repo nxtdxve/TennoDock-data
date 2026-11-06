@@ -57,6 +57,7 @@ describe('Inhalt der Familien (was TennoDock braucht)', () => {
       ...['FrameTop', 'FrameBottom', 'Background'].map((part) => `Amalgam${part}`),
       ...['FrameTop', 'FrameBottom', 'SideSmoke', 'CornerLights'].map((part) => `Peculiar${part}`),
       ...['FrameTop', 'FrameBottom', 'SideLight'].map((part) => `Archon${part}`),
+      ...['FrameTop', 'FrameBottom'].map((part) => `Umbra${part}`),
       'RequiemModFrame',
       'RequiemModCharge',
       ...['Chaos', 'Decay', 'Form', 'Light', 'Order', 'Time', 'Truth', 'Void'].map((rune) => `ImmortalRuneGlow${rune}`),

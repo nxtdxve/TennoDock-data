@@ -118,6 +118,32 @@ standard layout of the cards.
 
 Open: the lower tab of Archon cards has a golden rim in the game; TennoDock uses `LegendaryLowerTab` until there is a part.
 
+## Umbra (made for TennoDock)
+
+The Umbral and Sacrificial mods show the Legendary frame with the set emblem on top; the wiki parts of the Legendary frame
+differ a little from the cards (corner lights, edges). These two parts were made on 2026-11-06 for TennoDock (approved by
+the maintainer) in the format and position of the Legendary parts, so they sit in the standard layout of the cards.
+
+- **Shape:** the opacity of the wiki parts `LegendaryFrameTop.png` and `LegendaryFrameBottom.png` (see above), laid onto the
+  cards where the frame lies on them.
+- **Colours and pixels:** from WARFRAME Wiki card images: the pixel-wise median of the five Umbral and Sacrificial mod cards
+  (250 × 369, uploaded 2023-10-19, fetched 2026-11-06), so that the mod image behind the frame drops out:
+  SacrificialPressureMod.png, SacrificialSteelMod.png, UmbralFiberMod.png, UmbralIntensifyMod.png, UmbralVitalityMod.png
+  (`https://wiki.warframe.com/images/<file>`).
+- **Fitting:** the cards at scale 0.96 to the parts; under the set emblem (TennoDock draws the emblem itself, from Digital
+  Extremes' Public Export) and at half-transparent edges the pixels of the Legendary parts; the cost capsule area taken
+  from the mirrored left side; the rank lights replaced by the colour of the empty groove (TennoDock draws its own rank
+  stars there); placed exactly at the position of the Legendary parts (bicubic). Mean difference to the wiki cards inside
+  the frame and the emblem: 16.7 of 255 (Legendary parts: 30.7; without rank lights, capsule and lower tab).
+- **Side light:** TennoDock uses `LegendarySideLight`; it is a glow, mostly half-transparent, and cannot be taken from
+  card images.
+- **Converted** to WebP (quality 0.9) in the browser.
+
+| File | Here | Shape | Colours and pixels (wiki cards) |
+|---|---|---|---|
+| UmbraFrameTop.webp | 281×117 px, 2.5 KB | LegendaryFrameTop.png | median, wiki crop x −9.4…260.4, y 2.5…114.8 |
+| UmbraFrameBottom.webp | 292×120 px, 6.5 KB | LegendaryFrameBottom.png | median, wiki crop x −14.0…266.3, y 255.7…370.9 |
+
 Not taken: the set emblems `…Header.png` (Digital Extremes serves all 19 at runtime), the duplicates `AvionicModsFrame…`,
 the Plexus frames `Avionic…` (not used yet), `RadialButtonOn/Off`, `ImmortalRuneGlowEmpty/Slash`, `RequiemModDamage` and
 the riven parts `Omega…` (TennoDock keeps the wiki parts `Riven…`).
