@@ -4,13 +4,14 @@
   "asOf": "2026-11-06",
   "sources": {
     "wiki": "WARFRAME Wiki (wiki.warframe.com), images © Digital Extremes",
-    "genesis-assets": "WFCD/genesis-assets (Apache-2.0 for the collection), images © Digital Extremes"
+    "genesis-assets": "WFCD/genesis-assets (Apache-2.0 for the collection), images © Digital Extremes",
+    "tennodock-traced": "Made for TennoDock: shape traced from the game's mod frame mask, colours and pixels from WARFRAME Wiki card images, images © Digital Extremes"
   },
   "families": {
     "mod-frames": {
       "pack": "packs/mod-frames.json",
-      "sha256": "07286c59cc0385bcbbb73691bb584608ee5abf5d7dd44954d5724c9de7c28a81",
-      "bytes": 650045,
+      "sha256": "57925933c8768a24490ef440e21b6d3e58ae29bb99718ace242fb64618e72695",
+      "bytes": 667702,
       "files": {
         "AmalgamBackground": {
           "file": "mod-frames/AmalgamBackground.webp",
@@ -67,6 +68,30 @@
           "w": 256,
           "h": 256,
           "src": "wiki"
+        },
+        "ArchonFrameBottom": {
+          "file": "mod-frames/ArchonFrameBottom.webp",
+          "sha256": "bf6cd91d45ef753557a0a9bdd14c51205a9ccb0526216a667b9b611fde9f2dc2",
+          "bytes": 5448,
+          "w": 292,
+          "h": 120,
+          "src": "tennodock-traced"
+        },
+        "ArchonFrameTop": {
+          "file": "mod-frames/ArchonFrameTop.webp",
+          "sha256": "4ca8163bc1dad6af37df86ffaf51d820f17bb63067dd22ccf3776316b72bdc40",
+          "bytes": 6244,
+          "w": 281,
+          "h": 117,
+          "src": "tennodock-traced"
+        },
+        "ArchonSideLight": {
+          "file": "mod-frames/ArchonSideLight.webp",
+          "sha256": "4a4f2bea147c6f2cf3954621b984d7a12aacb2252fb0a375cb6dce3eee5922e1",
+          "bytes": 1448,
+          "w": 16,
+          "h": 256,
+          "src": "tennodock-traced"
         },
         "BronzeBackground": {
           "file": "mod-frames/BronzeBackground.webp",

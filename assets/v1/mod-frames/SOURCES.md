@@ -67,6 +67,9 @@ riven set has no background of its own; the wiki names `SilverBackground.png` fo
 
 Fetched on 2026-11-06 from `modFrames/` (branch master, commit 730ff1a), converted to WebP (quality 0.9) in the browser;
 the rune glows scaled from 512 to 256 px. Peculiar parts were added to genesis-assets on 2026-03-02 (PR #9).
+The collection is licensed under the Apache License 2.0; a copy of the licence lies next to this file as
+`LICENSE-genesis-assets.txt` (fetched on 2026-11-06 from https://github.com/WFCD/genesis-assets/blob/master/LICENSE). The
+images are converted and some are scaled down; the rights to the images themselves stay with Digital Extremes.
 
 | File | Original file | URL | Date | Original | Here |
 |---|---|---|---|---|---|
@@ -87,6 +90,33 @@ the rune glows scaled from 512 to 256 px. Peculiar parts were added to genesis-a
 | RequiemModCharge.webp | RequiemModCharge.png | https://raw.githubusercontent.com/WFCD/genesis-assets/master/modFrames/RequiemModCharge.png | 2026-03-02 or earlier | 26×25 px, 3.6 KB | 26×25 px, 1.4 KB |
 | RequiemModFrame.webp | RequiemModFrame.png | https://raw.githubusercontent.com/WFCD/genesis-assets/master/modFrames/RequiemModFrame.png | 2026-03-02 or earlier | 254×386 px, 184.3 KB | 254×386 px, 22.6 KB |
 | Reset.png | Reset.png | https://raw.githubusercontent.com/WFCD/genesis-assets/master/modFrames/Reset.png | 2026-03-02 or earlier | 25×25 px, 0.8 KB | 25×25 px, 0.8 KB (PNG, larger as WebP) |
+
+## Archon (made for TennoDock)
+
+The game has its own frame for Archon mods; neither the wiki nor genesis-assets has its parts. These three parts were made
+on 2026-11-06 for TennoDock (approved by the maintainer) in the format and position of the Legendary parts, so they sit in the
+standard layout of the cards.
+
+- **Shape:** traced from the game's mod frame mask for Archon mods (top and bottom). The side light is the cross-section of
+  the strut in the top part.
+- **Colours and pixels:** from WARFRAME Wiki card images: the pixel-wise median of the five Archon mod cards (254 × 373,
+  uploaded 2023-10-19, fetched 2026-11-06), so that the mod image behind the frame drops out: ArchonContinuityMod.png,
+  ArchonFlowMod.png, ArchonIntensifyMod.png, ArchonStretchMod.png, ArchonVitalityMod.png
+  (`https://wiki.warframe.com/images/<file>`).
+- **Fitting:** the shape laid onto the wiki cards at scale 0.96, centred, top at y −8, bottom at y 182 (found by
+  correlation); the cost capsule area taken from the mirrored left side; the ten rank lights replaced by the colour of the
+  empty groove (TennoDock draws its own rank stars there); edge pixels coloured from the nearest safe inner pixel, opacity
+  from the shape; placed exactly at the position of the Legendary parts (bicubic). Mean difference to the wiki cards inside
+  the frame: 13.3 of 255 (without rank lights, capsule and lower tab).
+- **Converted** to WebP (quality 0.9) in the browser.
+
+| File | Here | Shape | Colours and pixels (wiki cards) |
+|---|---|---|---|
+| ArchonFrameTop.webp | 281×117 px, 6.1 KB | mod frame mask, top part, lower strut extended | median, wiki crop x −13…268, y 0…117 |
+| ArchonFrameBottom.webp | 292×120 px, 5.3 KB | mod frame mask, bottom part, upper strut extended | median, wiki crop x −18…274, y 264…384 |
+| ArchonSideLight.webp | 16×256 px, 1.4 KB | cross-section of the strut in the top part, right side | median, wiki crop x 239.9…251.0, y 27.5…281.1, stretched to 16 × 256 (mirrored on the left) |
+
+Open: the lower tab of Archon cards has a golden rim in the game; TennoDock uses `LegendaryLowerTab` until there is a part.
 
 Not taken: the set emblems `…Header.png` (Digital Extremes serves all 19 at runtime), the duplicates `AvionicModsFrame…`,
 the Plexus frames `Avionic…` (not used yet), `RadialButtonOn/Off`, `ImmortalRuneGlowEmpty/Slash`, `RequiemModDamage` and

@@ -11,6 +11,7 @@ export const FAMILIES = ['mod-frames', 'syndicate-logos', 'focus-glyphs'];
 export const SOURCES = {
   wiki: 'WARFRAME Wiki (wiki.warframe.com), images © Digital Extremes',
   'genesis-assets': 'WFCD/genesis-assets (Apache-2.0 for the collection), images © Digital Extremes',
+  'tennodock-traced': 'Made for TennoDock: shape traced from the game\'s mod frame mask, colours and pixels from WARFRAME Wiki card images, images © Digital Extremes',
 };
 
 export const FORMAT = 'tennodock-assets';

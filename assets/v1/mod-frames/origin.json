@@ -17,6 +17,9 @@
     "RankSlotEmpty": "genesis-assets",
     "RequiemModCharge": "genesis-assets",
     "RequiemModFrame": "genesis-assets",
-    "Reset": "genesis-assets"
+    "Reset": "genesis-assets",
+    "ArchonFrameTop": "tennodock-traced",
+    "ArchonFrameBottom": "tennodock-traced",
+    "ArchonSideLight": "tennodock-traced"
   }
 }
