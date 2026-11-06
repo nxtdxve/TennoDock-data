@@ -1,0 +1,26 @@
+// Erfundener Abschnitt „Creator Glyphs“ in der Form des Wikis (#122), für die Tests von Parser und Action.
+
+export const SECTION = [
+  '==Creator Glyphs==',
+  'Note: This list is <u>definitely</u> incomplete.',
+  '<div class="tabber-borderless"><tabber>',
+  '|-|# - A = ',
+  '{{GlyphBoxPromo|NightOwlGlyphW7.png|NightOwl}}',
+  '{{GlyphBoxPromo|Owl2Glyph.png|OwlTwo|OWLCODE}}',
+  '{{GlyphBoxPromo|FromTheMoonGlyphNew.png|AuntieMoon}}',
+  '<!-- {{GlyphBoxPromo|HiddenGlyph.png|Hidden}} -->',
+  '{{GlyphBoxPromo',
+  ' |ManyLinesGlyph.png',
+  ' |Many Lines',
+  ' |MANYLINES',
+  ' |Since [[Update 19|U19]], costs {{pc|10}}',
+  '}}',
+  '{{GlyphBoxPromo|SpacedGlyph.png|Not A Code}}',
+  '{{GlyphBoxPromo|NightOwlGlyph.png|nightowl}}',
+  '{{GlyphBoxPromo|NamedGlyph.png|Named|3=NAMEDCODE}}',
+  '{{GlyphBoxPromo|Reddit.png|r/warframe}}',
+  '{{GlyphBoxPromoNew|Other.png|Other}}',
+  '</tabber></div>',
+  "'''The following Creator Glyphs are known but (currently) not available via Promo Code'''",
+  '{{GlyphBox|GoneGlyphW9.png|Gone}}',
+].join('\n');

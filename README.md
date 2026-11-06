@@ -1,7 +1,7 @@
 # TennoDock data
 
 Public data files for [TennoDock](https://github.com/nxtdxve), a Warframe companion app for Overwolf. The app downloads
-them once a day; nothing in this repository is personal data.
+them at most once a day; nothing in this repository is personal data.
 
 ## Market prices
 
@@ -211,3 +211,51 @@ when a page needs it and keeps it on disk; without a network it shows simple car
   packs and the manifest with it.
 - `.github/workflows/assets.yml`: runs the tests and `node assets-file/build.mjs --check` on every push that touches the
   assets. It commits nothing.
+
+## Creator glyph codes
+
+`glyph-codes/v1/codes.json` holds the promo codes of creator glyphs: for every glyph its code, its name if it differs
+from the code, and its image on the wiki. TennoDock shows the code on the sheet of a glyph the player does not have yet,
+with a button to copy it and a link to redeem it on warframe.com.
+
+- **Source:** the [WARFRAME Wiki](https://wiki.warframe.com/w/Glyph#Creator_Glyphs), page *Glyph*, section
+  *Creator Glyphs* (template `GlyphBoxPromo`). The wiki says the list is incomplete; codes can change or stop working.
+- **License:** the wiki content is licensed under
+  [CC BY-NC-SA 3.0](https://creativecommons.org/licenses/by-nc-sa/3.0/). This file is an extract of it under the same
+  license; the file names its source page, the revision it was built from and the license.
+- **Updated:** once a week, on Mondays at about 06:29 UTC. A new file is written only when the list or the revision of
+  the page changed (same file, same ETag, no new download in the app).
+- TennoDock is not affiliated with Digital Extremes or the WARFRAME Wiki.
+
+### Format (version 1)
+
+```json
+{
+  "format": "tennodock-glyph-codes",
+  "v": 1,
+  "asOf": "2026-10-22",
+  "revisedAt": "2026-10-22T18:20:30Z",
+  "generatedAt": "2026-11-09T06:29:12Z",
+  "source": "wiki.warframe.com",
+  "page": "https://wiki.warframe.com/w/Glyph#Creator_Glyphs",
+  "revision": 2820835,
+  "license": "CC BY-NC-SA 3.0",
+  "codes": [
+    { "code": "ExampleCreator", "image": "ExampleCreatorGlyph.png" },
+    { "code": "EXAMPLECODE", "image": "ExampleGlyphW2.png", "name": "Example Name" }
+  ]
+}
+```
+
+- `asOf` and `revisedAt`: day and time of the revision of the wiki page the file was built from (`revision`).
+- `codes`: in the order of the wiki, each code once (compared without case). `code` is what the player types in;
+  `name` is only there if the wiki shows a name that differs from the code; `image` is the file name on the wiki.
+- Entries the script cannot read as a code (empty, with spaces) are left out. A run that reads fewer than 50 codes, or
+  fewer than half of the codes before, fails and keeps the file as it was.
+- An incompatible change gets a new folder (`glyph-codes/v2/`).
+
+### Other files
+
+- `glyph-codes-file/`: the script (Node 20 or newer, no dependencies) and its tests:
+  `node --test "glyph-codes-file/**/*.test.mjs"`. Run it locally with `node glyph-codes-file/build.mjs`.
+- `.github/workflows/glyph-codes.yml`: the weekly workflow. Run it by hand under *Actions › Glyph codes › Run workflow*.

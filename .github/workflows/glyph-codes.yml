@@ -1,0 +1,56 @@
+# Codes der Creator-Glyphen für TennoDock (#122): baut `glyph-codes/v1/codes.json` aus der Seite „Glyph“ im WARFRAME Wiki
+# (Abschnitt „Creator Glyphs“), einmal pro Woche. Ein Abruf bei wiki.warframe.com pro Lauf; ein Commit nur, wenn sich die
+# Liste oder die Fassung der Seite geändert hat.
+# Im TennoDock-Repo liegt dieser Ordner unter `tools/tennodock-data/` (1:1 der Inhalt des Daten-Repos) und läuft dort nicht.
+# Doku: docs/pakete/122-glyph-codes.md im App-Repo. Lizenz der Quelle: CC BY-NC-SA 3.0 (README, „Creator glyph codes“).
+name: Glyph codes
+
+on:
+  schedule:
+    # Montags, abseits des Preis-Laufs (04:17 und 10:17 UTC) und des KIM-Laufs (05:43 UTC).
+    - cron: '29 6 * * 1'
+  # Von Hand: Actions › Glyph codes › Run workflow, oder `gh workflow run glyph-codes.yml -R nxtdxve/TennoDock-data`.
+  workflow_dispatch:
+  # Eine Änderung am Skript gilt sofort. Commits des Workflows selbst (GITHUB_TOKEN) lösen keinen neuen Lauf aus.
+  push:
+    branches: [main]
+    paths:
+      - 'glyph-codes-file/**'
+      - '.github/workflows/glyph-codes.yml'
+
+permissions:
+  contents: write # Dateien committen
+
+concurrency:
+  group: glyph-codes
+  cancel-in-progress: false
+
+jobs:
+  glyph-codes:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24
+      - name: Test
+        run: node --test "glyph-codes-file/**/*.test.mjs"
+      - name: Build
+        id: build
+        run: node glyph-codes-file/build.mjs
+      - name: Commit
+        # Werte aus dem Lauf nur über die Umgebung, nie als Ausdruck direkt im Befehl (Script-Injection). Das Skript prüft sie
+        # zusätzlich streng (`outputLines`: Tag, ganze Zahlen).
+        env:
+          AS_OF: ${{ steps.build.outputs.asOf }}
+          REVISION: ${{ steps.build.outputs.revision }}
+          CODES: ${{ steps.build.outputs.codes }}
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add glyph-codes
+          if git diff --cached --quiet; then echo 'Nothing new'; exit 0; fi
+          git commit -m "Glyph codes $AS_OF (revision $REVISION, $CODES codes)"
+          # Läuft ein anderer Workflow gerade auch, einmal auf den neuen Stand setzen und erneut versuchen.
+          git push || { git pull --rebase origin main && git push; }
