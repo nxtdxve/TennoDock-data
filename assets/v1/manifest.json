@@ -10,8 +10,8 @@
   "families": {
     "mod-frames": {
       "pack": "packs/mod-frames.json",
-      "sha256": "57925933c8768a24490ef440e21b6d3e58ae29bb99718ace242fb64618e72695",
-      "bytes": 667702,
+      "sha256": "8193a419734034fca06986906f32148dd71a3e97fc788db2d640b3460871959d",
+      "bytes": 680053,
       "files": {
         "AmalgamBackground": {
           "file": "mod-frames/AmalgamBackground.webp",
@@ -547,6 +547,22 @@
           "bytes": 474,
           "w": 45,
           "h": 26,
+          "src": "wiki"
+        },
+        "UmbraFrameBottom": {
+          "file": "mod-frames/UmbraFrameBottom.webp",
+          "sha256": "5c443aff6ded382282db3c18d4e82b71660db69777ccc32a4909823a6efe2cc5",
+          "bytes": 6664,
+          "w": 292,
+          "h": 120,
+          "src": "wiki"
+        },
+        "UmbraFrameTop": {
+          "file": "mod-frames/UmbraFrameTop.webp",
+          "sha256": "b84b59c39c134b039ae7ae61fff139dffa7900e35286547f43b7aa6819d05fd6",
+          "bytes": 2530,
+          "w": 281,
+          "h": 117,
           "src": "wiki"
         }
       }
