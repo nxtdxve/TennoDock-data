@@ -1,5 +1,6 @@
 // @ts-check
-// Baut die Tagesdatei der Marktpreise (#99) und die Verlaufsdatei der Prime-Sets (#54) im öffentlichen Daten-Repo. Läuft
+// Baut die Tagesdatei der Marktpreise (#99), die Verlaufsdatei der Prime-Sets (#54) und die Markt-Analyse (#47) im
+// öffentlichen Daten-Repo. Läuft
 // in der GitHub Action (Workflow `prices.yml`), von Hand mit:
 //
 //   node price-file/build.mjs                    fehlende Tage holen, Dateien bauen, falls neu
@@ -12,12 +13,14 @@
 // fehlenden Tage des Fensters von relics.run (beim ersten Lauf 14, sonst einer), als kompakte Tage in `prices/days/`.
 // Fehlt relics.run seit 2 Tagen, der Rückfall bei warframe.market (`WFM_FALLBACK`: `prime` = Ducat-Liste, 1 Abruf;
 // `full` = Statistik pro Item, rund 3'900 Abrufe; `off`). Zum Schluss `prices/v1/prices.json`, nur wenn sie plausibel ist;
-// sonst bleibt die alte liegen. Danach `prices/v1/trends.json` aus denselben Tagen (lib/trends.mjs). Keine Abhängigkeiten
-// ausser Node (ab 20). Doku: docs/pakete/99-preise-alle.md und 54-vault-tracker.md im App-Repo
+// sonst bleibt die alte liegen. Danach `prices/v1/trends.json` aus denselben Tagen (lib/trends.mjs) und
+// `analytics/v1/market.json` (lib/analytics.mjs). Keine Abhängigkeiten ausser Node (ab 20). Doku: docs/pakete/99-preise-alle.md,
+// 54-vault-tracker.md und 47-analytics.md im App-Repo
 
 import { mkdir, readdir, readFile, rm, writeFile } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
 import { pathToFileURL } from 'node:url';
+import { buildAnalytics, checkAnalytics, encodeAnalytics, readAnalyticsFile } from './lib/analytics.mjs';
 import { addDays, daysBetween, utcDay, windowDays } from './lib/days.mjs';
 import { buildPrices, checkPrices, encodePrices, readDay, readPriceFile, WINDOW_DAYS, writeDay } from './lib/prices.mjs';
 import { compactDucatsDay, compactRelicsDay, DUCATS_URL, parseItems, RELICS_ITEMS_URL, relicsDayUrl, statisticsDays, statisticsUrl, WFM_ITEMS_URL } from './lib/sources.mjs';
@@ -44,7 +47,11 @@ export const FALLBACK_AFTER_DAYS = 2;
  * @typedef {{ written: boolean, asOf: string, items?: number, relicsBehind: number, warnings: string[] }} RunResult
  * @typedef {{ fetchText: FetchText, files: Files, now: number, log(text: string): void, sleep(ms: number): Promise<void>, backfill?: boolean, minSets?: number }} TrendDeps
  * @typedef {{ written: boolean, asOf: string, sets: number, backfilled: number }} TrendResult
- * @typedef {{ fetchText: FetchText, files: Files, now: number, log(text: string): void, sleep(ms: number): Promise<void>, fallback?: Fallback, rebuild?: boolean, backfill?: boolean, minItems?: number, minSets?: number }} BuildDeps
+ * @typedef {{ files: Files, out: Files, now: number, log(text: string): void, minItems?: number }} AnalyticsDeps
+ *   `files`: Tage in `prices/`; `out`: der Ordner `analytics/`.
+ * @typedef {{ written: boolean, asOf: string, items: number, outliers: number }} AnalyticsResult
+ * @typedef {{ fetchText: FetchText, files: Files, now: number, log(text: string): void, sleep(ms: number): Promise<void>, fallback?: Fallback, rebuild?: boolean, backfill?: boolean, minItems?: number, minSets?: number, analyticsFiles?: Files, minAnalyticsItems?: number }} BuildDeps
+ *   `analyticsFiles`: Ordner `analytics/`; ohne ihn keine Analyse (Tests der Tagesdatei).
  * @typedef {{ failed: boolean, outputs: Record<string, string> }} BuildResult
  */
 
@@ -324,9 +331,41 @@ export async function runTrends(deps) {
 }
 
 /**
- * Tagesdatei, dann Verlauf. Der Verlauf läuft auch, wenn die Tagesdatei nicht geschrieben wurde (er braucht nur die Tage),
- * und sein Fehler hält die Tagesdatei nie auf: `failed` gilt nur für die Tagesdatei, ein Fehler beim Verlauf steht in
- * `outputs.trends_failed`. Die Action meldet ihn erst nach dem Commit (Schritt „Report trends“).
+ * Markt-Analyse (#47): Kennzahlen der letzten 7 Tage und der 7 Tage davor aus den Tagen in `prices/days/`, ohne Abruf.
+ * Geschrieben nur, wenn sie plausibel ist und sich ausser `generatedAt` etwas geändert hat; sonst bleibt die alte liegen.
+ * @param {AnalyticsDeps} deps
+ * @returns {Promise<AnalyticsResult>}
+ */
+export async function runAnalytics(deps) {
+  const days = await readDays(deps.files);
+  const asOf = days.map((day) => day.day).sort().at(-1);
+  if (!asOf) throw new Error('Analytics: no day data');
+  const analytics = buildAnalytics(days, { asOf });
+  const sources = new Set(days.map((day) => (day.source === 'relics.run' ? 'relics.run' : 'warframe.market')));
+  const file = encodeAnalytics(analytics, { generatedAt: new Date(deps.now).toISOString().replace(/\.\d{3}Z$/, 'Z'), source: [...sources].sort().join(' + ') });
+  const previousText = await deps.out.read('v1/market.json');
+  let previous;
+  try {
+    previous = previousText ? readAnalyticsFile(previousText) : undefined;
+  } catch {
+    previous = undefined;
+  }
+  const reason = checkAnalytics(file, previous, deps.minItems);
+  if (reason) throw new Error(`Analytics not written: ${reason}`);
+  if (previous && JSON.stringify({ ...previous, generatedAt: '' }) === JSON.stringify({ ...file, generatedAt: '' })) {
+    deps.log(`Analytics up to date (asOf ${asOf})`);
+    return { written: false, asOf, items: file.items, outliers: analytics.outliers };
+  }
+  await deps.out.write('v1/market.json', JSON.stringify(file));
+  deps.log(`Written: analytics/v1/market.json (asOf ${asOf}, ${file.items} items, ${analytics.outliers} outlier rows left out)`);
+  return { written: true, asOf, items: file.items, outliers: analytics.outliers };
+}
+
+/**
+ * Tagesdatei, dann Verlauf, dann Analyse. Verlauf und Analyse laufen auch, wenn die Tagesdatei nicht geschrieben wurde (sie
+ * brauchen nur die Tage), und ihr Fehler hält die Tagesdatei nie auf: `failed` gilt nur für die Tagesdatei, Fehler stehen in
+ * `outputs.trends_failed` und `outputs.analytics_failed`. Die Action meldet sie erst nach dem Commit (Schritte „Report trends“
+ * und „Report analytics“).
  * @param {BuildDeps} deps
  * @returns {Promise<BuildResult>}
  */
@@ -351,6 +390,15 @@ export async function build(deps) {
   } catch (error) {
     deps.log(`::error::${message(error)}`);
     outputs['trends_failed'] = 'true';
+  }
+  if (deps.analyticsFiles) {
+    try {
+      await runAnalytics({ files: deps.files, out: deps.analyticsFiles, now: deps.now, log: deps.log, ...(deps.minAnalyticsItems !== undefined ? { minItems: deps.minAnalyticsItems } : {}) });
+      outputs['analytics_failed'] = 'false';
+    } catch (error) {
+      deps.log(`::error::${message(error)}`);
+      outputs['analytics_failed'] = 'true';
+    }
   }
   return { failed, outputs };
 }
@@ -386,8 +434,9 @@ if (import.meta.url === pathToFileURL(process.argv[1] ?? '').href) {
     fallback: fallback === 'off' || fallback === 'full' ? fallback : 'prime',
     rebuild: ['1', 'true'].includes(process.env['REBUILD'] ?? ''),
     backfill: ['1', 'true'].includes(process.env['TRENDS_BACKFILL'] ?? ''),
+    analyticsFiles: folderFiles(process.env['ANALYTICS_DIR'] ?? 'analytics'),
   });
   if (output) await writeFile(output, Object.entries(outputs).map(([key, value]) => `${key}=${value}\n`).join(''), { flag: 'a' });
-  // In der Action meldet ein eigener Schritt den Verlauf nach dem Commit; von Hand scheitert der Lauf gleich.
-  if (failed || (!output && outputs['trends_failed'] === 'true')) process.exitCode = 1;
+  // In der Action melden eigene Schritte Verlauf und Analyse nach dem Commit; von Hand scheitert der Lauf gleich.
+  if (failed || (!output && (outputs['trends_failed'] === 'true' || outputs['analytics_failed'] === 'true'))) process.exitCode = 1;
 }

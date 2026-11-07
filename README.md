@@ -13,7 +13,10 @@ them at most once or twice a day; nothing in this repository is personal data.
 - **Source:** the daily statistics files of [relics.run](https://relics.run/history/), which come from
   [warframe.market](https://warframe.market). If relics.run has no new file for two days, the workflow falls back to
   warframe.market itself (the daily list of Prime prices).
-- **Updated:** every day at about 04:20 UTC, for the previous day. A second run at 10:20 UTC catches a late or failed run.
+- **Updated:** every day, for the previous day, usually between 02:30 and 04:30 UTC. GitHub starts scheduled runs hours
+  late, so the workflow is scheduled every hour from 18:17 to 04:17 UTC: a run before relics.run has the new day asks
+  once and ends, the first run after it builds the files, later runs fetch nothing. A run at 10:17 UTC catches a day
+  when all of them failed.
 - TennoDock is not affiliated with Digital Extremes, warframe.market or relics.run.
 
 ### Format (version 1)
@@ -50,7 +53,8 @@ them at most once or twice a day; nothing in this repository is personal data.
   them to compute the 14-day price from one download a day.
 - `prices/items.json`: warframe.market item ids with their game path and slug.
 - `price-file/`: the script (Node 20 or newer, no dependencies) and its tests: `node --test "price-file/**/*.test.mjs"`.
-  Run it locally with `node price-file/build.mjs`; `REBUILD=1` rebuilds the file without a new day.
+  Run it locally with `node price-file/build.mjs`; `REBUILD=1` rebuilds the file without a new day. It also writes the
+  price trends and the market analytics (below).
 - `.github/workflows/prices.yml`: the daily workflow. Run it by hand under *Actions › Prices › Run workflow*.
 
 ## Price trends
@@ -95,6 +99,55 @@ day for the last 90 days. TennoDock shows it on its Vault Tracker page, next to 
 - `d`: 90 daily values; index `i` is the day `dayStart + i`, the last one is `asOf`.
 - `null`: no trade that week or day (or no data yet). A set without any value is missing.
 - An incompatible change gets a new folder (`prices/v2/`).
+
+## Market analytics
+
+`analytics/v1/market.json` tells, for every item that sold in the last 14 days, how much platinum changed hands, how
+many sold and how its price moved. TennoDock shows it on its Analytics page, next to the items the player owns.
+
+- **What the numbers are:** the last 7 days (UTC, up to `asOf`) and the 7 days before, from the same daily files as the
+  market prices, in the same run, without any extra download. Platinum is the daily median price times the number sold,
+  summed over all ranks or refinements of an item.
+- **Outliers:** players report their sales on warframe.market themselves, and some report absurd prices (99,999
+  platinum). A day of an item is left out when its median is more than `outlierFactor` (5) times the reference and at
+  least 100 platinum. The reference is the lower of the median sell offer that day and the median of the item's other
+  days; without either, a day above 5,000 platinum is left out. The number of rows left out is in the workflow log.
+- **Price change:** only for the main variant (the rank or refinement with the most platinum), with at least `minTrades`
+  (10) sales in both weeks and a price of at least `minPrice` (10) platinum in one of them. Otherwise `null`.
+- **Errors:** like the price trends, a failing analytics build never holds back the price file. The workflow fails after
+  the commit (step *Report analytics*), so GitHub sends a mail. The file is only written when something changed.
+
+### Format (version 1)
+
+```json
+{
+  "format": "tennodock-market",
+  "v": 1,
+  "asOf": "2026-11-06",
+  "generatedAt": "2026-11-07T03:12:00Z",
+  "source": "relics.run",
+  "windowDays": 7,
+  "minTrades": 10,
+  "minPrice": 10,
+  "outlierFactor": 5,
+  "items": 3550,
+  "days": [["2026-10-24", 2384205, 102325], ["2026-11-06", 1847896, 80454]],
+  "dirs": {
+    "Powersuits/Geode/": { "CitrinePrime": [214167, 3031, 252014, 3535, 70, 0] },
+    "Upgrades/CosmeticEnhancers/Utility/": { "GolemArcaneRadialEnergyOnEnergyPickup": [106321, 2000, 113757, 2351, 120, 0, "r5"] }
+  }
+}
+```
+
+- `days`: the whole market per day, oldest first, up to 14 days: `[day, platinum, items sold]`, without outliers. A
+  fourth value `"partial"` marks a day from the warframe.market fallback, which only knows Prime items.
+- `dirs`: game paths without the leading `/Lotus/`, grouped by folder, as in the price file. Per item:
+  `[platinum last 7 days, sold last 7 days, platinum 7 days before, sold 7 days before, price, change, variant]`.
+  - `price`: price of the main variant in the last 7 days, the median of its daily medians weighted by the number sold
+    (from the week before when it did not sell since).
+  - `change`: price change of the main variant in percent against the week before, rounded, or `null` (see above).
+  - `variant`: the main variant as in the price file (`r5`, `intact`, …); missing for items without variants.
+- An incompatible change gets a new folder (`analytics/v2/`).
 
 ## KIM conversations
 

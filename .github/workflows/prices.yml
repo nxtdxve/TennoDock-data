@@ -1,5 +1,6 @@
 # Marktpreise für TennoDock (#99): baut `prices/v1/prices.json` einmal am Tag aus der Tagesdatei von relics.run, dazu den
-# Preisverlauf der Prime-Sets `prices/v1/trends.json` (#54) aus denselben Tagen.
+# Preisverlauf der Prime-Sets `prices/v1/trends.json` (#54) und die Markt-Analyse `analytics/v1/market.json` (#47) aus
+# denselben Tagen.
 # Im TennoDock-Repo liegt dieser Ordner unter `tools/tennodock-data/` (1:1 der Inhalt des Daten-Repos) und läuft dort nicht:
 # GitHub liest Workflows nur aus `.github/workflows/` im Wurzelordner. Doku: docs/pakete/99-preise-alle.md im App-Repo.
 name: Prices
@@ -7,8 +8,11 @@ name: Prices
 on:
   schedule:
     # relics.run veröffentlicht den Vortag um rund 02:21 UTC und die Item-Liste um rund 03:36 UTC.
-    - cron: '17 4 * * *'
-    # Zweiter Versuch, falls der erste fehlschlug oder ausfiel. Ist die Datei schon aktuell, holt er nichts.
+    # GitHub legt geplante Läufe seit Herbst 2026 4 bis 8 Stunden zu spät an (#47: `createdAt` = `startedAt`, alle Workflows
+    # dieses Repos, auch andere Minuten). Darum stündlich ab dem Vorabend: Ein Lauf vor 02:21 fragt relics.run einmal (404)
+    # und endet ohne Commit, der erste danach baut, alle späteren finden „Up to date“ ohne Abruf.
+    - cron: '17 18-23,0-4 * * *'
+    # Rückfall, falls alle davor ausfielen. Ist die Datei schon aktuell, holt er nichts.
     - cron: '17 10 * * *'
   # Von Hand: Actions › Prices › Run workflow, oder `gh workflow run prices.yml -R nxtdxve/TennoDock-data`.
   workflow_dispatch:
@@ -64,7 +68,7 @@ jobs:
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add prices
+          git add prices analytics
           if git diff --cached --quiet; then echo 'Nothing new'; exit 0; fi
           git commit -m "Prices ${{ steps.build.outputs.asOf }}"
           git push
@@ -89,4 +93,10 @@ jobs:
         if: ${{ !cancelled() && steps.build.outputs.trends_failed == 'true' }}
         run: |
           echo '::error::The price trends were not written, see the errors of the build step'
+          exit 1
+      # Die Analyse (#47) ebenso: Ihr Fehler hält Tagesdatei und Verlauf nicht auf, die Mail kommt nach dem Commit.
+      - name: Report analytics
+        if: ${{ !cancelled() && steps.build.outputs.analytics_failed == 'true' }}
+        run: |
+          echo '::error::The market analytics were not written, see the errors of the build step'
           exit 1
