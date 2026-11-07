@@ -22,12 +22,13 @@ const CLAN_SIGILS = new Set(['/Lotus/Upgrades/Skins/Sigils/ClanSigilBasic', '/Lo
 const REPLACED = new Set(['/Lotus/Upgrades/Skins/Sigils/MasterySigil']);
 
 /**
- * Am PC nicht erhältlich nach Pfad (wie `notOnPcByPath` in der App): China-Client und Treue-Siegel der Konsolen.
+ * Am PC nicht erhältlich nach Pfad (wie `notOnPcByPath` in der App): China-Client und Treue-Siegel der Konsolen. `WeGame…`
+ * nicht: Die Lunar-Renewal-Sigils gibt es am PC zum Mondneujahr im Markt oder bei Baro (Wiki „Sigils“, Review M1).
  * @param {string} path
  */
 export function notOnPcByPath(path) {
   const file = path.slice(path.lastIndexOf('/') + 1);
-  return path.includes('/ChangYou/') || /^CY[A-Z]/.test(file) || file.startsWith('WeGame') || /^(PS4|XBone)\w*YearSigil$|^Switch\d*Sigil$/.test(file);
+  return path.includes('/ChangYou/') || /^CY[A-Z]/.test(file) || /^(PS4|XBone)\w*YearSigil$|^Switch\d*Sigil$/.test(file);
 }
 
 /**

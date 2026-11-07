@@ -34,8 +34,9 @@ export const FRAGMENT_PAGES = ['Cephalon', 'Fish', 'Glass', 'Ghoul', 'Revenant',
 // weiter in demselben Abruf.
 export const PAGES = [...FRAGMENT_PAGES, 'Somachord/Tones', 'Frame Fighter', 'Captura', 'Syandana', 'Ephemera', 'Module:Sigils/data', 'Module:Vendors/data', 'Sigils', 'Decorations/Orbiter Decorations'];
 const PREX_PAGE = 'Decorations/Orbiter Decorations';
-/** Dateien von public-export-plus für die Regeln der App (`lib/covered.mjs`). */
-const RULE_FILES = ['ExportCustoms', 'ExportResources', 'ExportBundles', 'ExportSyndicates'];
+/** Dateien von public-export-plus für die Regeln der App (`lib/covered.mjs`), mit ihrem Schlüssel in `GameData`. */
+const RULE_FILES = /** @type {const} */ ({ customs: 'ExportCustoms', resources: 'ExportResources', bundles: 'ExportBundles', syndicates: 'ExportSyndicates' });
+const RULE_KEYS = /** @type {(keyof typeof RULE_FILES)[]} */ (Object.keys(RULE_FILES));
 export const FILES = { collectibles: 'v1/collectibles.json', items: 'v1/items.json', missing: 'v1/missing.json' };
 const API = 'https://wiki.warframe.com/api.php';
 // Mit Kontakt, wie es die Wiki-Betreiber erwarten: Projekt und Repo, keine E-Mail.
@@ -44,9 +45,11 @@ const FORMAT = { collectibles: 'tennodock-sources-collectibles', items: 'tennodo
 const VERSION = 1;
 /**
  * Untergrenzen der Prüfung; ein Abschnitt darf auch nicht unter die Hälfte des bisherigen fallen. `game`: so viele Items muss
- * der Spiel-Export mindestens liefern, sonst bleibt missing.json stehen (rund 14'500 im November 2026).
+ * der Spiel-Export mindestens liefern, sonst bleibt missing.json stehen (rund 14'500 im November 2026). `customs` bis
+ * `syndicates`: Einträge der Regel-Dateien von plus (im November 2026 4'766, 3'524, 1'164 und 40); fehlt eine oder hat sie
+ * weniger, bleibt missing.json ebenfalls stehen (Review K5).
  */
-export const MINIMUM = { fragments: 100, songs: 50, fighters: 30, items: 400, game: 5000 };
+export const MINIMUM = { fragments: 100, songs: 50, fighters: 30, items: 400, game: 5000, customs: 2000, resources: 1500, bundles: 500, syndicates: 20 };
 const MIN_SHARE_OF_PREVIOUS = 0.5;
 const ATTEMPTS = 3;
 const ISO_TIME = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/;
@@ -60,7 +63,8 @@ const ISO_TIME = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/;
  * @typedef {{ read(path: string): Promise<string | undefined>, write(path: string, text: string): Promise<void> }} Files
  * @typedef {{ pages: Record<string, string>, revisedAt: string }} WikiPages
  * @typedef {{ items: NamedPath[], names: Map<string, string>, codex: unknown, dict: unknown, vendors: unknown, source: 'de' | 'plus', customs?: unknown, resources?: unknown, bundles?: unknown, syndicates?: unknown }} GameData
- *   `customs` bis `syndicates`: Dateien von public-export-plus für die Regeln der App (`lib/covered.mjs`); fehlen sie, zählt nur das Wiki.
+ *   `customs` bis `syndicates`: Dateien von public-export-plus für die Regeln der App (`lib/covered.mjs`); fehlt eine oder ist sie
+ *   fast leer (`MINIMUM`), bleibt missing.json stehen.
  * @typedef {{ format: string, v: number, asOf: string, generatedAt: string, source: string, license: string, fragments: Record<string, string>, songs: Record<string, SongSource>, fighters: Record<string, string> }} CollectiblesFile
  * @typedef {{ format: string, v: number, asOf: string, generatedAt: string, source: string, license: string, items: Record<string, Source[]>, vendors: Record<string, string> }} ItemsFile
  * @typedef {{ format: string, v: number, asOf: string, generatedAt: string, categories: Record<string, MissingCategory> }} MissingFile
@@ -280,9 +284,12 @@ export async function run(deps) {
   const c = /** @type {CollectiblesFile | undefined} */ (collectibles);
   const i = /** @type {ItemsFile | undefined} */ (items);
   const previous = /** @type {MissingFile | undefined} */ (readFile2(/** @type {string | undefined} */ (await files.read(FILES.missing)), FORMAT.missing));
-  // Ist die Grundlage leer oder kaputt (Spiel-Export ohne Items), bleibt missing.json, wie es ist (Review K9).
-  const usable = game.items.length >= minimum.game;
-  if (!usable) log(`::warning::Only ${game.items.length} game items; missing.json stays as it is`);
+  // Ist die Grundlage leer oder kaputt (Spiel-Export ohne Items, Review K9) oder fehlt eine Regel-Datei bzw. ist sie fast
+  // leer (Review K5), bleibt missing.json, wie es ist: Sonst stünde dort, was die App längst kennt.
+  const short = RULE_KEYS.filter((key) => Object.keys(isRecord(game[key]) ? game[key] : {}).length < minimum[key]);
+  const usable = game.items.length >= minimum.game && short.length === 0;
+  if (game.items.length < minimum.game) log(`::warning::Only ${game.items.length} game items; missing.json stays as it is`);
+  for (const key of short) log(`::warning::Rule file ${key} has ${Object.keys(isRecord(game[key]) ? game[key] : {}).length} entries (minimum ${minimum[key]}); missing.json stays as it is`);
   const missing = usable ? buildMissing(game, c, i, previous, now) : previous;
   if (usable && missing && (!previous || content(previous) !== content(missing))) {
     await files.write(FILES.missing, `${JSON.stringify(missing, null, 1)}\n`);
@@ -336,8 +343,17 @@ async function get(url) {
  */
 export async function loadGameData(log) {
   const plus = async (/** @type {string} */ file) => JSON.parse(await (await get(`${PLUS_BASE}${file}.json`)).text());
-  // Regeln der App für missing.json (#164 Nacharbeit): rund 7,8 MB mehr pro Lauf, nur in der Action.
-  const [codex, dict, vendors, customs, resources, bundles, syndicates] = await Promise.all(['ExportCodex', PLUS_DICT, 'ExportVendors', ...RULE_FILES].map(plus));
+  const [codex, dict, vendors] = await Promise.all(['ExportCodex', PLUS_DICT, 'ExportVendors'].map(plus));
+  // Regeln der App für missing.json (#164 Nacharbeit): rund 7,8 MB mehr pro Lauf, nur in der Action. Einzeln: Fehlt eine,
+  // laufen die Wiki-Dateien trotzdem; `run` lässt missing.json dann stehen (Review K5).
+  const [customs, resources, bundles, syndicates] = await Promise.all(
+    Object.values(RULE_FILES).map((file) =>
+      plus(file).catch((/** @type {unknown} */ error) => {
+        log(`::warning::${file} not available (${error instanceof Error ? error.message : String(error)}); missing.json stays as it is`);
+        return undefined;
+      }),
+    ),
+  );
   /** @type {NamedPath[]} */
   let items;
   /** @type {'de' | 'plus'} */

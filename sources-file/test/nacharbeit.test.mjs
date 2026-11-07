@@ -60,10 +60,13 @@ describe('Regeln der App (#164 Nacharbeit)', () => {
     assert.equal(cosmeticRule(`${SIGILS}AllianceSigilBasic`, 'Alliance Sigil'), 'clan');
     assert.equal(cosmeticRule('/Lotus/Upgrades/Skins/Effects/Kuva/KuvaEphemeraA', 'Vengeful Flame Ephemera'), 'kuvaLich');
     assert.equal(cosmeticRule(`${SIGILS}FormaSigil`, 'Forma Sigil'), undefined);
-    assert.equal(notOnPcByPath(`${SIGILS}WeGameNewYearSnakeSigil`), true);
+    // Lunar Renewal (WeGame) gibt es am PC (Review M1).
+    assert.equal(notOnPcByPath(`${SIGILS}WeGameNewYearSnakeSigil`), false);
+    assert.equal(notOnPcByPath('/Lotus/Upgrades/Skins/Rhino/ChangYou/CYRhinoRubedoSkin'), true);
     assert.equal(notOnPcByPath(`${SIGILS}PS4FirstYearSigil`), true);
     assert.equal(notOnPcByPath(`${SIGILS}CNYRoosterCYSigil`), false);
-    assert.equal(appSource(`${SIGILS}WeGameNewYearSnakeSigil`, known, 'Lunar Renewal Snake Sigil'), 'notOnPc');
+    assert.equal(appSource(`${SIGILS}WeGameNewYearSnakeSigil`, known, 'Lunar Renewal Snake Sigil'), undefined);
+    assert.equal(appSource(`${SIGILS}PS4ThreeYearSigil`, known, 'Three Year Sigil'), 'notOnPc');
     assert.equal(appSource(`${SIGILS}FormaSigil`, known, 'Forma Sigil'), undefined);
   });
 

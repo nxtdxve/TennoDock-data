@@ -31,7 +31,7 @@ const content = {
 /** @param {Record<string, string>} pages @param {string} [timestamp] */
 const answer = (pages, timestamp = '2026-11-01T10:00:00Z') =>
   JSON.stringify({ query: { pages: Object.entries(pages).map(([title, text]) => ({ title, revisions: [{ timestamp, slots: { main: { content: text } } }] })) } });
-const minimum = { fragments: 1, songs: 1, fighters: 1, items: 1, game: 1 };
+const minimum = { fragments: 1, songs: 1, fighters: 1, items: 1, game: 1, customs: 0, resources: 0, bundles: 0, syndicates: 0 };
 
 /** Dateien im Speicher. */
 function memory() {
@@ -101,6 +101,19 @@ describe('build (#164)', () => {
     assert.equal(files.store.get(FILES.missing), before);
     assert.deepEqual(result.written, []);
     assert.ok(logs.some((text) => text.includes('missing.json stays')));
+  });
+
+  it('Regel-Datei fehlt oder ist fast leer: Wiki-Dateien ja, missing.json bleibt, mit Warnung (Review K5)', async () => {
+    const files = memory();
+    const deps = { fetchText: async () => ({ status: 200, text: answer(content) }), files, now: NOW, log: () => {} };
+    await run({ ...deps, loadGame: async () => game, minimum });
+    const before = files.store.get(FILES.missing);
+    const logs = [];
+    const more = { ...game, items: [...game.items, { path: '/Lotus/Types/Items/MiscItems/PhotoboothTileNewer', name: 'Newer Scene' }], customs: { a: {} } };
+    const result = await run({ ...deps, loadGame: async () => more, minimum: { ...minimum, customs: 2 }, now: NOW + 86400000, log: (/** @type {string} */ text) => logs.push(text) });
+    assert.equal(files.store.get(FILES.missing), before);
+    assert.ok(!result.written.includes(FILES.missing));
+    assert.ok(logs.some((text) => text.includes('Rule file customs has 1 entries')));
   });
 
   it('Schalter aus: kein Abruf beim Wiki, die Dateien bleiben, „fehlt“ wird weiter geprüft', async () => {
