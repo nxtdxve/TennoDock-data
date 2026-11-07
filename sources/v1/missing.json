@@ -1,0 +1,932 @@
+{
+ "format": "tennodock-sources-missing",
+ "v": 1,
+ "asOf": "2026-11-07",
+ "generatedAt": "2026-11-07T12:39:37Z",
+ "categories": {
+  "fragments": {
+   "total": 181,
+   "missing": [
+    {
+     "path": "/Lotus/Types/Lore/Fragments/LoreCardFragments/AshLoreCardFragment",
+     "name": "Ash Prex",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Types/Lore/Fragments/LoreCardFragments/BrawlerLoreCardFragment",
+     "name": "Atlas Prex",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Types/Lore/Fragments/LoreCardFragments/CalibanLoreCardFragment",
+     "name": "Caliban Prex",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Types/Lore/Fragments/LoreCardFragments/CyteLoreCardFragment",
+     "name": "Cyte-09 Prex",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Types/Lore/Fragments/LoreCardFragments/DagathLoreCardFragment",
+     "name": "Dagath Prex",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Types/Lore/Fragments/LoreCardFragments/DanteLoreCardFragment",
+     "name": "Dante Prex",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Types/Lore/Fragments/LoreCardFragments/DevourerLoreCardFragment",
+     "name": "Grendel Prex",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Types/Lore/Fragments/LoreCardFragments/EmberLoreCardFragment",
+     "name": "Ember Prex",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Types/Lore/Fragments/LoreCardFragments/GarudaLoreCardFragment",
+     "name": "Garuda Prex",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Types/Lore/Fragments/LoreCardFragments/GyreLoreCardFragment",
+     "name": "Gyre Prex",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Types/Lore/Fragments/LoreCardFragments/IvaraLoreCardFragment",
+     "name": "Ivara Prex",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Types/Lore/Fragments/LoreCardFragments/JadeLoreCardFragment",
+     "name": "Jade Prex",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Types/Lore/Fragments/LoreCardFragments/LavosLoreCardFragment",
+     "name": "Lavos Prex",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Types/Lore/Fragments/LoreCardFragments/NezhaLoreCardFragment",
+     "name": "Nezha Prex",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Types/Lore/Fragments/LoreCardFragments/NokkoLoreCardFragment",
+     "name": "Nokko Prex",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Types/Lore/Fragments/LoreCardFragments/NovaLoreCardFragment",
+     "name": "Nova Prex",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Types/Lore/Fragments/LoreCardFragments/OraxiaLoreCardFragment",
+     "name": "Oraxia Prex",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Types/Lore/Fragments/LoreCardFragments/ProteaLoreCardFragment",
+     "name": "Protea Prex",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Types/Lore/Fragments/LoreCardFragments/RunnerLoreCardFragment",
+     "name": "Gauss Prex",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Types/Lore/Fragments/LoreCardFragments/SiriusOrionLoreCardFragment",
+     "name": "Sirius & Orion Prex",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Types/Lore/Fragments/LoreCardFragments/StyanaxLoreCardFragment",
+     "name": "Styanax Prex",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Types/Lore/Fragments/LoreCardFragments/TempleLoreCardFragment",
+     "name": "Temple Prex",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Types/Lore/Fragments/LoreCardFragments/TitaniaLoreCardFragment",
+     "name": "Titania Prex",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Types/Lore/Fragments/LoreCardFragments/UrielLoreCardFragment",
+     "name": "Uriel Prex",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Types/Lore/Fragments/LoreCardFragments/VaubanLoreCardFragment",
+     "name": "Vauban Prex",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Types/Lore/Fragments/LoreCardFragments/VorunaLoreCardFragment",
+     "name": "Voruna Prex",
+     "since": "2026-11-07"
+    }
+   ]
+  },
+  "songs": {
+   "total": 86,
+   "missing": [
+    {
+     "path": "/Lotus/Types/Lore/Fragments/MusicFragments/DuviriShadowsAndSummoningsSongFragment",
+     "name": "Shadows and Summoning",
+     "since": "2026-11-07"
+    }
+   ]
+  },
+  "fighters": {
+   "total": 44,
+   "missing": []
+  },
+  "captura": {
+   "total": 205,
+   "missing": [
+    {
+     "path": "/Lotus/Types/Items/MiscItems/PhotoboothTileDuviriIsleSignatureAmphitheatre",
+     "name": "Amphitheater Scene",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Types/Items/MiscItems/PhotoboothTileQuestTauNarmerThroneRoom",
+     "name": "Praghasa Awakened Scene",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Types/Items/MiscItems/PhotoboothTileTWWMountainPeakHub",
+     "name": "Yuvan Peak Scene",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Types/Items/MiscItems/PhotoboothTileWolfSixPrison",
+     "name": "Saturn Six Scene",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Types/Items/PhotoBooth/JadeShadows/PhotoboothTileJS2AshShipInterior",
+     "name": "Scoria's Angel Scene",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Types/Items/PhotoBooth/JadeShadows/PhotoboothTileJS2GarShipInterior",
+     "name": "Kuva Wytch Scene",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Types/Items/PhotoBooth/JadeShadows/PhotoboothTileJS2Hub",
+     "name": "Pontis Tower Scene",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Types/Items/PhotoBooth/Vania/PhotoboothTileMallHubTennoProtoRelayBase",
+     "name": "Dominion of Höllvandeim Scene",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Types/Items/PhotoBooth/Vania/PhotoboothTileVaniaTailorShop",
+     "name": "Central Mall Backroom Scene",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Types/Items/PhotoBooth/Zariman/PhotoboothTileZarCellBlock",
+     "name": "Zariman Brig Scene",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Types/Items/PhotoBooth/Zariman/PhotoboothTileZarMelicaLab",
+     "name": "Melica's Laboratory Scene",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Types/Items/PhotoBooth/Zariman/PhotoboothTileZarMelicaLabTreasureRoom",
+     "name": "Glacial Laboratory Scene",
+     "since": "2026-11-07"
+    }
+   ]
+  },
+  "sigils": {
+   "total": 337,
+   "missing": [
+    {
+     "path": "/Lotus/Upgrades/Skins/Sigils/AllianceSigilBasic",
+     "name": "Alliance Sigil",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Sigils/ClanSigilBasic",
+     "name": "Clan Sigil",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Sigils/CNYRoosterCYSigil",
+     "name": "Year of The Rooster Sigil",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Sigils/CNYRoosterPWSigil",
+     "name": "Phoenix Coronet Sigil",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Sigils/Community10YearAnniversarySigil",
+     "name": "10 Year Anniversary Community Sigil",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Sigils/Cyte09Sigil",
+     "name": "Cyte-09 Target Sigil",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Sigils/DanteSigil",
+     "name": "Dante's Noctua Sigil",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Sigils/DogDays2023ASigil",
+     "name": "Splash and Dash Sigil",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Sigils/DogDays2023BSigil",
+     "name": "Chillwave Sigil",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Sigils/DogDays2023CSigil",
+     "name": "Scorcher Sigil",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Sigils/DogDays2025Sigil",
+     "name": "Splashdown Sigil",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Sigils/DogDaysKubrowSigil",
+     "name": "Dropkick Drahk Sigil",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Sigils/FireSigil",
+     "name": "Flaming Sigil",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Sigils/FormaSigil",
+     "name": "Forma Sigil",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Sigils/FrozenSigil",
+     "name": "Glacium Sigil",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Sigils/GeodeSigil",
+     "name": "Citrine Sigil",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Sigils/HeirloomSigil",
+     "name": "Deca Heirloom Sigil",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Sigils/HeirloomVaubanSigilSumo",
+     "name": "Vauban Heirloom Schema Sigil",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Sigils/JadeSigil",
+     "name": "Jade Ophanim Sigil",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Sigils/KahlSupporterPackSigil",
+     "name": "Kahl's Fortitude Sigil",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Sigils/KoumeiSigil",
+     "name": "Koumei Ito Sigil",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Sigils/LotusGuideSigil",
+     "name": "Guide of the Lotus",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Sigils/MasterySigil",
+     "name": "Legacy Mastery Sigil",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Sigils/MechEventSigil",
+     "name": "Operation Orphix Venom Sigil",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Sigils/MonquisCYSigil",
+     "name": "Primate Sigil",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Sigils/MonquisSigil",
+     "name": "Monquis Sigil",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Sigils/NarmerEyeSigil",
+     "name": "Narmer Eye Sigil",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Sigils/NecramechSigilSnake",
+     "name": "Snake Necramech Sigil",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Sigils/NewWar2021Sigil",
+     "name": "Archon Nira Sigil",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Sigils/NightwaveDrippy2Sigil",
+     "name": "Drippy Splash Sigil",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Sigils/NightwaveDrippyGraffitiSigil",
+     "name": "Drippy Dog Days Sigil",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Sigils/SigilSnake",
+     "name": "Snake Sigil",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Sigils/SparkSigil",
+     "name": "Flickering Sigil",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Sigils/TempleSigil",
+     "name": "Temple Sigil",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Sigils/TennoGenSigil",
+     "name": "TennoGen Sigil",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Sigils/TennoVIP2026ChinaSigil",
+     "name": "TennoVIP Xi'an 2026 Sigil",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Sigils/TranslatorSigil",
+     "name": "Tenno Translator Sigil",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Sigils/TwitchNecraloidSigil",
+     "name": "Necraloid Sigil",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Sigils/TwitchPromo2021Sigil",
+     "name": "Verv Sigil",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Sigils/TwoToneSigil",
+     "name": "Glyphed Sigil",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Sigils/VorDuviriSigil",
+     "name": "Prisma Vor Sigil",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Sigils/WeGameNewYearDragonSigil",
+     "name": "Lunar Renewal Soar Sigil",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Sigils/WeGameNewYearSnakeSigil",
+     "name": "Lunar Renewal Snake Sigil",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Sigils/WikiaSigil",
+     "name": "Tenno Chronicler Sigil",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Sigils/XBoneJadeSigil",
+     "name": "Stoka Jade Sigil",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Sigils/YareliSigil",
+     "name": "Yareli Aquablade Sigil",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Sigils/ZarimanSupporterPackSigil",
+     "name": "Zariman Sigil",
+     "since": "2026-11-07"
+    }
+   ]
+  },
+  "syandanas": {
+   "total": 303,
+   "missing": [
+    {
+     "path": "/Lotus/Upgrades/Skins/Scarves/BaroCape2RazzaExilisScarf",
+     "name": "Ki'Teer Razza Elixis Syandana",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Scarves/DOTDWolfBackpack",
+     "name": "Saturn Six Day of the Dead Syandana",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Scarves/DraculaCapeSyandana",
+     "name": "Dhampyre Syandana",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Scarves/HydroidDeluxeBlazers",
+     "name": "Burangara Longcoat",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Scarves/LavosDeluxeSyandana",
+     "name": "Aculea Syandana",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Scarves/ObsidianCrowSyandana",
+     "name": "Obsidian Corvus Syandana",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Scarves/ObsidianSamiaScarf",
+     "name": "Obsidian Samia Syandana",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Scarves/QuillCanistersSyandana",
+     "name": "Khora's Spikes",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Scarves/SWAkSuraScarf",
+     "name": "Ak-Sura Syandana",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Scarves/SWAlocanaSyandana",
+     "name": "Alocana Syandana",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Scarves/SWAlyaScarf",
+     "name": "Ayla Syandana",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Scarves/SWArcturusScarf",
+     "name": "Arcturus Syandana",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Scarves/SWArmalystSyandana",
+     "name": "Armalyst Syandana",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Scarves/SWAropanexSyandana",
+     "name": "Aropanex Syandana",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Scarves/SWBodoScarf",
+     "name": "Bodo Syandana",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Scarves/SWBoltaraScarf",
+     "name": "Boltara Syandana",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Scarves/SWChemtankSyandana",
+     "name": "Chemtank Syandana",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Scarves/SWCoronaScarf",
+     "name": "Corona Syandana",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Scarves/SWCovenantScarf",
+     "name": "Covenant Syandana",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Scarves/SWCryonaScarf",
+     "name": "Cryona Syandana",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Scarves/SWDeruScarf",
+     "name": "Deru Syandana",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Scarves/SWDespotScarf",
+     "name": "Despot Cape Syandana",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Scarves/SWDiablilloSyandana",
+     "name": "Diablillo Syandana",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Scarves/SWDisconnectScarf",
+     "name": "Disconnect Syandana",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Scarves/SWDominusCape",
+     "name": "Dominus Syandana",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Scarves/SWDraugenSyandana",
+     "name": "Draugen Syandana",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Scarves/SWDueVolpiScarf",
+     "name": "Due Volpi Syandana",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Scarves/SWEklisSyandana",
+     "name": "Eklis Syandana",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Scarves/SWEzrielSyandana",
+     "name": "Ezriel Syandana",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Scarves/SWFeiSyandana",
+     "name": "Fei Syandana",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Scarves/SWGothicaSyandana",
+     "name": "Gothica Syandana",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Scarves/SWIcariusScarf",
+     "name": "Icarius Syandana",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Scarves/SWIncubusScarf",
+     "name": "Incubus Ribbon Syandana",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Scarves/SWJotunheimMusic",
+     "name": "Jotunheim Music Syandana",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Scarves/SWJotunheimScarf",
+     "name": "Jotunheim Syandana",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Scarves/SWKunshuScarf",
+     "name": "Kunshu Syandana",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Scarves/SWLaprosysSyandana",
+     "name": "Laprosys Syandana",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Scarves/SWLunariusSyandana",
+     "name": "Lunarius Syandana",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Scarves/SWMaharliqaScarf",
+     "name": "Maharliqa Syandana",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Scarves/SWMithraScarf",
+     "name": "Mithra Syandana",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Scarves/SWMushussuScarf",
+     "name": "Mushussu Syandana",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Scarves/SWNaruScarf",
+     "name": "Naru Syandana",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Scarves/SWNighthunterSyandana",
+     "name": "Night Hunter Syandana",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Scarves/SWOfficiumScarf",
+     "name": "Officium Syandana",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Scarves/SWPaxisScarf",
+     "name": "Paxis Syandana",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Scarves/SWPistrisScarf",
+     "name": "Pistris Syandana",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Scarves/SWRaijiScarf",
+     "name": "Raiji Syandana",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Scarves/SWRanulystSyandana",
+     "name": "Ranulyst Syandana",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Scarves/SWRauSyandana",
+     "name": "Rau Syandana",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Scarves/SWReliquiaSyandana",
+     "name": "Reliquia Syandana",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Scarves/SWRepalaScarf",
+     "name": "Repala Syandana",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Scarves/SWRetrorolystSyandana",
+     "name": "Retrorolyst Syandana",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Scarves/SWRhodoraSyandana",
+     "name": "Rhodora Syandana",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Scarves/SWRSixSariScarf",
+     "name": "Sari Syandana",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Scarves/SWRSixSpitefireScarf",
+     "name": "Graxx Spitefire Syandana",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Scarves/SWRThreeAquirosScarf",
+     "name": "Aquiros Syandana",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Scarves/SWRThreeJattukScarf",
+     "name": "Jattuk Mantle",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Scarves/SWRThreeNsaruScarf",
+     "name": "Nsaru Syandana",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Scarves/SWSarvaHarnessScarf",
+     "name": "Sarva Harness Syandana",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Scarves/SWScapulisScarf",
+     "name": "Scapulis Syandana",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Scarves/SWSciathinScarf",
+     "name": "Sciathin Syandana",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Scarves/SWScyllaScarf",
+     "name": "Scylla Syandana",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Scarves/SWSenvictisSyandana",
+     "name": "Senvictis Syandana",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Scarves/SWSeraphimScarf",
+     "name": "Seraphim Syandana",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Scarves/SWSetharSyandana",
+     "name": "Sethar Syandana",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Scarves/SWSetkaScarf",
+     "name": "Setka Syandana",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Scarves/SWShirokuSyandana",
+     "name": "Shiroku Syandana",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Scarves/SWShurihoshiScarf",
+     "name": "Shurihoshi Syandana",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Scarves/SWSildargScarf",
+     "name": "Sildarg Syandana",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Scarves/SWSolidaScarf",
+     "name": "Solida Syandana",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Scarves/SWSovereignScarf",
+     "name": "Sovereign Syandana",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Scarves/SWStyxSyandana",
+     "name": "Styx Syandana",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Scarves/SWSydekoScarf",
+     "name": "Sydeko Syandana",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Scarves/SWTenuiSyandana",
+     "name": "Tenui Syandana",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Scarves/SWTeploScarf",
+     "name": "Teplo Syandana",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Scarves/SWTonacaScarf",
+     "name": "Tonaca Syandana",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Scarves/SWTsujinasaSyandana",
+     "name": "Tsujinasa Syandana",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Scarves/SWValestiScarf",
+     "name": "Valesti Syandana",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Scarves/SWXikonosSyandana",
+     "name": "Xikonos Syandana",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Scarves/SWZaikhyaScarf",
+     "name": "Zaikhya Syandana",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Scarves/SWZamariuSyandana",
+     "name": "Zamariu Syandana",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Scarves/ValdurBackCape",
+     "name": "Valdur's Syandana",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Scarves/ZephyrQTCCSyandana",
+     "name": "Conquera Uplift Syandana",
+     "since": "2026-11-07"
+    }
+   ]
+  },
+  "ephemeras": {
+   "total": 109,
+   "missing": [
+    {
+     "path": "/Lotus/Upgrades/Skins/Effects/BaroEphemeraA",
+     "name": "Ki'Teer Ephemera",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Effects/BaroEvilEphemeraB",
+     "name": "Eskhatos Infinitas Ephemera",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Effects/BaruukPrimeEphemera",
+     "name": "Vaaditum Prime Ephemera",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Effects/DogDaysEphemera",
+     "name": "Dog Days Ephemera",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Effects/EphemeraGaraPrime",
+     "name": "Catena Prime Ephemera",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Effects/HydroidDeluxeEphemera",
+     "name": "Soaker Ephemera",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Effects/NokkoEphemera",
+     "name": "Sprodling Ephemera",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Effects/OraxiaEphemera",
+     "name": "Zygiella Ephemera",
+     "since": "2026-11-07"
+    },
+    {
+     "path": "/Lotus/Upgrades/Skins/Effects/ProteaPrimeEphemera",
+     "name": "Temporal Prime Ephemera",
+     "since": "2026-11-07"
+    }
+   ]
+  }
+ }
+}
