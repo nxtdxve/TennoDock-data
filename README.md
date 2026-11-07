@@ -408,3 +408,76 @@ player set with Forma.
   `node --test "polarity-file/**/*.test.mjs"`. Run it locally with `node polarity-file/build.mjs`; `REBUILD=1` rebuilds
   without a new commit. A file whose content did not change is not written again.
 - `.github/workflows/polarities.yml`: the weekly workflow. Run it by hand under *Actions › Polarities › Run workflow*.
+
+## Item sources
+
+`sources/v1/` holds where to find items that the game data does not tell: the place of every lore fragment, Somachord
+song and Frame Fighter fragment (`collectibles.json`), how to get Captura scenes, Sigils, Syandanas and Ephemeras and the
+names of some vendors (`items.json`), and the items of these kinds that still have no source (`missing.json`). TennoDock
+shows them on the item sheet and in its Collectibles page, next to what it reads from the game data itself.
+
+- **Source:** the [WARFRAME Wiki](https://wiki.warframe.com): the pages *Fragments/…*, *Somachord/Tones*,
+  *Frame Fighter*, *Captura*, *Syandana*, *Ephemera* and the modules *Sigils/data* and *Vendors/data*, all in one request
+  to the MediaWiki API per run. Game paths and English names come from Digital Extremes' public export (fallback:
+  [warframe-public-export-plus](https://github.com/calamity-inc/warframe-public-export-plus), MIT), the lists of
+  fragments from public-export-plus (`ExportCodex`, names from `dict.en`), vendor manifests from its `ExportVendors`.
+- **License:** the wiki content is licensed under
+  [CC BY-NC-SA 3.0](https://creativecommons.org/licenses/by-nc-sa/3.0/). `collectibles.json` and `items.json` are
+  extracts of it under the same license; both files name their source and license. `missing.json` holds only game paths
+  and names. Details per file: `sources/v1/SOURCES.md`.
+- **Updated:** once a week, on Tuesdays at about 06:37 UTC. A file is written only when its content changed.
+- **Switch:** `SOURCES_WIKI: 'off'` in `.github/workflows/sources.yml` stops all requests to the wiki; the two wiki files
+  stay as they are and `missing.json` is still checked against the public export. `SOURCES_ISSUE: 'on'` opens an issue on
+  the first run of a month with the items that have had no source since the previous month (off by default).
+- TennoDock is not affiliated with Digital Extremes or the WARFRAME Wiki.
+
+### Format (version 1)
+
+```json
+{
+  "format": "tennodock-sources-collectibles",
+  "v": 1,
+  "asOf": "2026-10-29",
+  "generatedAt": "2026-11-10T06:37:12Z",
+  "source": "wiki.warframe.com",
+  "license": "CC BY-NC-SA 3.0",
+  "fragments": { "/Lotus/Types/Lore/Fragments/EarthFragmentA": "Earth" },
+  "songs": { "/Lotus/Types/Lore/Fragments/MusicFragments/ArchwingSongFragment": { "place": "Neptune" } },
+  "fighters": { "/Lotus/Types/Lore/Fragments/FrameFighterFragments/AshFighterFragment": "Uranus" }
+}
+```
+
+```json
+{
+  "format": "tennodock-sources-items",
+  "v": 1,
+  "asOf": "2026-10-29",
+  "generatedAt": "2026-11-10T06:37:12Z",
+  "source": "wiki.warframe.com",
+  "license": "CC BY-NC-SA 3.0",
+  "items": {
+    "/Lotus/Types/Items/MiscItems/PhotoboothTileCetusTown": [{ "k": "syndicate", "t": "Purchased from Ostron offerings (Rank 5: Kin)" }]
+  },
+  "vendors": { "Deimos/OtakLastWishManifest": "Otak" }
+}
+```
+
+- `asOf`: day of the newest revision among the wiki pages. Places and texts are English, as on the wiki.
+- `fragments`, `fighters`: game path → place. `songs`: game path → `place` (where the fragment is), `vendor` (who sells
+  the song) and/or `how` (another way, e.g. a quest).
+- `items`: game path → list of sources, each with a rough kind `k` (`market`, `baro`, `varzia`, `primeAccess`, `event`,
+  `syndicate`, `vendor`, `nightwave`, `quest`, `drop`, `tribute`, `reward`, `default`, `unavailable`, `other`) and the
+  text `t` from the wiki (cut at the first sentence when longer than 160 characters).
+- `vendors`: vendor manifest (without `/Lotus/Types/Game/VendorManifests/`) → name of the vendor on the wiki, when at
+  least three and more than half of its items match one vendor.
+- `missing.json` (`tennodock-sources-missing`): per kind (`fragments`, `songs`, `fighters`, `captura`, `sigils`,
+  `syandanas`, `ephemeras`) the number of items and the list of items without an entry, each with `path`, `name` and
+  `since` (the day it was first seen without one).
+- A run that reads fewer than a minimum, or fewer than half of the entries before, fails and keeps the files as they were.
+  An incompatible change gets a new folder (`sources/v2/`).
+
+### Other files
+
+- `sources-file/`: the script (Node 22 or newer, no dependencies; `xz` for the public export) and its tests:
+  `node --test "sources-file/**/*.test.mjs"`. Run it locally with `node sources-file/build.mjs`.
+- `.github/workflows/sources.yml`: the weekly workflow. Run it by hand under *Actions › Sources › Run workflow*.
