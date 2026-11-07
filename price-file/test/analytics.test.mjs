@@ -5,6 +5,7 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 import { build, runAnalytics } from '../build.mjs';
 import {
+  baseVariant,
   buildAnalytics,
   checkAnalytics,
   cleanRows,
@@ -73,6 +74,17 @@ describe('cleanRows', () => {
   });
 });
 
+describe('baseVariant', () => {
+  it('is rank 0 for ranks and intact for relics, otherwise none', () => {
+    assert.equal(baseVariant(['r0', 'r10']), 'r0');
+    assert.equal(baseVariant(['r5']), 'r0');
+    assert.equal(baseVariant(['intact', 'radiant']), 'intact');
+    assert.equal(baseVariant(['blueprint', 'crafted']), undefined);
+    assert.equal(baseVariant(['']), undefined);
+    assert.equal(baseVariant([]), undefined);
+  });
+});
+
 describe('buildAnalytics', () => {
   it('sums platinum and sales per week and finds the main variant', () => {
     // Rang 0: viele billige Verkäufe; Rang 10: weniger, aber mehr Platin → Hauptvariante.
@@ -88,6 +100,19 @@ describe('buildAnalytics', () => {
     assert.equal(mod.price, 100);
     // 21 Verkäufe der Hauptvariante pro Woche, 80 → 100 Platin.
     assert.equal(mod.change, 25);
+  });
+
+  it('adds price and change of rank 0 when the main variant is another rank, as people mostly own it unranked', () => {
+    const days = fortnight((day, index) => ({ closed: { [`${MOD}|r0`]: [index >= 7 ? 12 : 10, 10], [`${MOD}|r10`]: [100, 3] } }));
+    const mod = buildAnalytics(days, { asOf: ASOF }).items.get(MOD);
+    assert.equal(mod?.variant, 'r10');
+    assert.deepEqual(mod?.base, { price: 12, change: 20 });
+    // Rang 0 ist selbst die Hauptvariante: nichts doppelt.
+    const cheap = buildAnalytics(fortnight(() => ({ closed: { [`${MOD}|r0`]: [10, 50], [`${MOD}|r10`]: [100, 1] } })), { asOf: ASOF }).items.get(MOD);
+    assert.equal(cheap?.variant, 'r0');
+    assert.equal(cheap?.base, undefined);
+    // Rang 0 nie verkauft: keine Grundvariante.
+    assert.equal(buildAnalytics(fortnight(() => ({ closed: { [`${MOD}|r10`]: [100, 3] } })), { asOf: ASOF }).items.get(MOD)?.base, undefined);
   });
 
   it('gives no change with fewer than 10 sales of the main variant in either week', () => {
@@ -143,6 +168,13 @@ describe('encodeAnalytics', () => {
     assert.deepEqual(file.dirs['Types/Recipes/WarframeRecipes/']?.['ExamplePrimeHelmetBlueprint'], [23, 7, 23, 7, 3.3, null]);
     assert.deepEqual(file.days[0], [addDays(ASOF, -13), 803, 11]);
     assert.deepEqual([file.windowDays, file.minTrades, file.minPrice, file.outlierFactor], [7, 10, 10, 5]);
+  });
+
+  it('appends price and change of the base variant, null without enough sales', () => {
+    // Rang 0 mit 7 Verkäufen pro Woche: Preis ja, Änderung nein.
+    const days = fortnight(() => ({ closed: { [`${MOD}|r10`]: [100, 3], [`${MOD}|r0`]: [8.25, 1] } }));
+    const file = encodeAnalytics(buildAnalytics(days, { asOf: ASOF }), { generatedAt: '2026-11-07T03:00:00Z', source: 'relics.run' });
+    assert.deepEqual(file.dirs['Upgrades/Mods/Example/']?.['ExampleMod'], [2158, 28, 2158, 28, 100, 0, 'r10', 8.3, null]);
   });
 });
 

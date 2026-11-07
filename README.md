@@ -134,7 +134,7 @@ many sold and how its price moved. TennoDock shows it on its Analytics page, nex
   "days": [["2026-10-24", 2384205, 102325], ["2026-11-06", 1847896, 80454]],
   "dirs": {
     "Powersuits/Geode/": { "CitrinePrime": [214167, 3031, 252014, 3535, 70, 0] },
-    "Upgrades/CosmeticEnhancers/Utility/": { "GolemArcaneRadialEnergyOnEnergyPickup": [106321, 2000, 113757, 2351, 120, 0, "r5"] }
+    "Upgrades/Mods/Warframe/Expert/": { "AvatarPowerMaxModExpert": [55672, 906, 47586, 829, 92, 2, "r10", 38.5, 10] }
   }
 }
 ```
@@ -142,11 +142,14 @@ many sold and how its price moved. TennoDock shows it on its Analytics page, nex
 - `days`: the whole market per day, oldest first, up to 14 days: `[day, platinum, items sold]`, without outliers. A
   fourth value `"partial"` marks a day from the warframe.market fallback, which only knows Prime items.
 - `dirs`: game paths without the leading `/Lotus/`, grouped by folder, as in the price file. Per item:
-  `[platinum last 7 days, sold last 7 days, platinum 7 days before, sold 7 days before, price, change, variant]`.
+  `[platinum last 7 days, sold last 7 days, platinum 7 days before, sold 7 days before, price, change, variant, base price, base change]`.
   - `price`: price of the main variant in the last 7 days, the median of its daily medians weighted by the number sold
     (from the week before when it did not sell since).
   - `change`: price change of the main variant in percent against the week before, rounded, or `null` (see above).
   - `variant`: the main variant as in the price file (`r5`, `intact`, …); missing for items without variants.
+  - `base price`, `base change`: the same for the base variant (rank 0 for mods and arcanes, intact for relics), the
+    form most players own, when it is not the main variant and sold in the last 14 days; otherwise missing. The base
+    change is `null` under the same rules as `change`.
 - An incompatible change gets a new folder (`analytics/v2/`).
 
 ## KIM conversations

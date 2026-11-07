@@ -29,10 +29,13 @@ export const MIN_ANALYTICS_SHARE = 0.8;
 /**
  * @typedef {import('./sources.mjs').CompactDay} CompactDay
  * @typedef {{ median: number, volume: number }} TradeRow
- * @typedef {{ platinum: number, sold: number, platinumBefore: number, soldBefore: number, price: number, change?: number, variant: string }} ItemStats
+ * @typedef {{ price: number, change?: number }} VariantPrice
+ * @typedef {{ platinum: number, sold: number, platinumBefore: number, soldBefore: number, price: number, change?: number, variant: string, base?: VariantPrice }} ItemStats
+ *   `base`: Preis und Änderung der Grundvariante (Rang 0 bzw. Intakt), wenn sie nicht die Hauptvariante ist; so hat man
+ *   Mods, Arcanes und Relikte meist (#47, Review M5). Fehlt, wenn die Grundvariante im Fenster nicht verkauft wurde.
  * @typedef {{ day: string, platinum: number, sold: number, partial: boolean }} MarketDay
  * @typedef {{ asOf: string, items: Map<string, ItemStats>, days: MarketDay[], outliers: number }} Analytics
- * @typedef {[platinum: number, sold: number, platinumBefore: number, soldBefore: number, price: number, change: number | null, variant?: string]} ItemEntry
+ * @typedef {[platinum: number, sold: number, platinumBefore: number, soldBefore: number, price: number, change: number | null, variant?: string, basePrice?: number, baseChange?: number | null]} ItemEntry
  * @typedef {[day: string, platinum: number, sold: number, partial?: 'partial']} DayEntry
  * @typedef {{ format: string, v: number, asOf: string, generatedAt: string, source: string, windowDays: number,
  *   minTrades: number, minPrice: number, outlierFactor: number, items: number, days: DayEntry[],
@@ -53,6 +56,35 @@ export function isOutlier(median, offer, history) {
   for (const value of [offer, history]) if (value !== undefined && value > 0) references.push(value);
   if (references.length === 0) return median > OUTLIER_WITHOUT_REFERENCE;
   return median >= OUTLIER_MIN_PRICE && median > OUTLIER_FACTOR * Math.min(...references);
+}
+
+/** Ränge (`r0` …) und Veredelungen von Relikten haben eine Grundvariante; andere Varianten (Blaupause, Fische …) nicht. */
+const REFINEMENTS = ['intact', 'exceptional', 'flawless', 'radiant'];
+
+/** Grundvariante zu den Varianten eines Items: `r0` bei Rängen, `intact` bei Relikten, sonst keine. @param {readonly string[]} variants */
+export function baseVariant(variants) {
+  if (variants.length > 0 && variants.every((variant) => /^r\d+$/.test(variant))) return 'r0';
+  if (variants.length > 0 && variants.every((variant) => REFINEMENTS.includes(variant))) return 'intact';
+  return undefined;
+}
+
+/**
+ * Preis und Änderung einer Variante: Preis der letzten Woche, sonst der Woche davor; Änderung nur mit genug Verkäufen in
+ * beiden Wochen und genug Platin in einer davon. `undefined` ohne Verkauf.
+ * @param {{ sold: number, soldBefore: number, now: [number, number][], before: [number, number][] }} variant
+ * @returns {VariantPrice | undefined}
+ */
+function variantPrice(variant) {
+  const now = weightedMedian(variant.now);
+  const before = weightedMedian(variant.before);
+  const price = now ?? before;
+  if (price === undefined) return undefined;
+  /** @type {VariantPrice} */
+  const result = { price };
+  if (now !== undefined && before !== undefined && variant.sold >= TREND_MIN_TRADES && variant.soldBefore >= TREND_MIN_TRADES && Math.max(now, before) >= TREND_MIN_PRICE) {
+    result.change = Math.round((now / before - 1) * 100);
+  }
+  return result;
 }
 
 /**
@@ -136,15 +168,14 @@ export function buildAnalytics(days, { asOf }) {
     const sum = (/** @type {'platinum' | 'sold' | 'platinumBefore' | 'soldBefore'} */ field) => variants.reduce((total, variant) => total + variant[field], 0);
     if (sum('sold') + sum('soldBefore') === 0) continue;
     const main = /** @type {(typeof variants)[number]} */ ([...variants].sort((a, b) => b.platinum - a.platinum || b.platinumBefore - a.platinumBefore || a.variant.localeCompare(b.variant))[0]);
-    const now = weightedMedian(main.now);
-    const before = weightedMedian(main.before);
-    const price = now ?? before;
-    if (price === undefined) continue;
+    const mainPrice = variantPrice(main);
+    if (!mainPrice) continue;
     /** @type {ItemStats} */
-    const stats = { platinum: sum('platinum'), sold: sum('sold'), platinumBefore: sum('platinumBefore'), soldBefore: sum('soldBefore'), price, variant: main.variant };
-    if (now !== undefined && before !== undefined && main.sold >= TREND_MIN_TRADES && main.soldBefore >= TREND_MIN_TRADES && Math.max(now, before) >= TREND_MIN_PRICE) {
-      stats.change = Math.round((now / before - 1) * 100);
-    }
+    const stats = { platinum: sum('platinum'), sold: sum('sold'), platinumBefore: sum('platinumBefore'), soldBefore: sum('soldBefore'), ...mainPrice, variant: main.variant };
+    const baseName = baseVariant(variants.map((variant) => variant.variant));
+    const base = baseName !== undefined && baseName !== main.variant ? variants.find((variant) => variant.variant === baseName) : undefined;
+    const basePrice = base && variantPrice(base);
+    if (basePrice) stats.base = basePrice;
     items.set(path, stats);
   }
   return { asOf, items, days: [...market.values()], outliers };
@@ -171,6 +202,7 @@ export function encodeAnalytics(analytics, header) {
     /** @type {ItemEntry} */
     const entry = [Math.round(item.platinum), item.sold, Math.round(item.platinumBefore), item.soldBefore, round1(item.price), item.change ?? null];
     if (item.variant) entry.push(item.variant);
+    if (item.variant && item.base) entry.push(round1(item.base.price), item.base.change ?? null);
     (dirs[rest.slice(0, split)] ??= {})[rest.slice(split)] = entry;
     count++;
   }
