@@ -31,7 +31,7 @@ const content = {
 /** @param {Record<string, string>} pages @param {string} [timestamp] */
 const answer = (pages, timestamp = '2026-11-01T10:00:00Z') =>
   JSON.stringify({ query: { pages: Object.entries(pages).map(([title, text]) => ({ title, revisions: [{ timestamp, slots: { main: { content: text } } }] })) } });
-const minimum = { fragments: 1, songs: 1, fighters: 1, items: 1 };
+const minimum = { fragments: 1, songs: 1, fighters: 1, items: 1, game: 1 };
 
 /** Dateien im Speicher. */
 function memory() {
@@ -70,6 +70,17 @@ describe('build (#164)', () => {
     const second = await run({ ...deps, now: NOW + 7 * 86400000 });
     assert.deepEqual(second.written, []);
     assert.match(outputLines(second), /^asOf=2026-11-01\nplaces=3\nitems=1\nmissing=\d+\n$/);
+  });
+
+  it('leerer Spiel-Export: missing.json bleibt, wie es ist (Review K9)', async () => {
+    const files = memory();
+    await run({ fetchText: async () => ({ status: 200, text: answer(content) }), loadGame: async () => game, files, now: NOW, log: () => {}, minimum });
+    const before = files.store.get(FILES.missing);
+    const logs = [];
+    const result = await run({ fetchText: async () => ({ status: 200, text: answer(content) }), loadGame: async () => ({ ...game, items: [] }), files, now: NOW + 86400000, log: (text) => logs.push(text), minimum, wiki: false });
+    assert.equal(files.store.get(FILES.missing), before);
+    assert.deepEqual(result.written, []);
+    assert.ok(logs.some((text) => text.includes('missing.json stays')));
   });
 
   it('Schalter aus: kein Abruf beim Wiki, die Dateien bleiben, „fehlt“ wird weiter geprüft', async () => {

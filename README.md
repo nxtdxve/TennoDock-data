@@ -474,7 +474,8 @@ shows them on the item sheet and in its Collectibles page, next to what it reads
   `syandanas`, `ephemeras`) the number of items and the list of items without an entry, each with `path`, `name` and
   `since` (the day it was first seen without one).
 - A run that reads fewer than a minimum, or fewer than half of the entries before, fails and keeps the files as they were.
-  An incompatible change gets a new folder (`sources/v2/`).
+  If the public export delivers almost no items, `missing.json` stays as it is. An incompatible change gets a new folder
+  (`sources/v2/`).
 
 ### Other files
 

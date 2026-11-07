@@ -34,8 +34,11 @@ const API = 'https://wiki.warframe.com/api.php';
 const USER_AGENT = 'TennoDock-data/1 (+https://github.com/nxtdxve/TennoDock-data; weekly list of item sources)';
 const FORMAT = { collectibles: 'tennodock-sources-collectibles', items: 'tennodock-sources-items', missing: 'tennodock-sources-missing' };
 const VERSION = 1;
-/** Untergrenzen der Prüfung; ein Abschnitt darf auch nicht unter die Hälfte des bisherigen fallen. */
-export const MINIMUM = { fragments: 100, songs: 50, fighters: 30, items: 400 };
+/**
+ * Untergrenzen der Prüfung; ein Abschnitt darf auch nicht unter die Hälfte des bisherigen fallen. `game`: so viele Items muss
+ * der Spiel-Export mindestens liefern, sonst bleibt missing.json stehen (rund 14'500 im November 2026).
+ */
+export const MINIMUM = { fragments: 100, songs: 50, fighters: 30, items: 400, game: 5000 };
 const MIN_SHARE_OF_PREVIOUS = 0.5;
 const ATTEMPTS = 3;
 const ISO_TIME = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/;
@@ -257,14 +260,17 @@ export async function run(deps) {
   }
   const c = /** @type {CollectiblesFile | undefined} */ (collectibles);
   const i = /** @type {ItemsFile | undefined} */ (items);
-  const previous = readFile2(/** @type {string | undefined} */ (await files.read(FILES.missing)), FORMAT.missing);
-  const missing = buildMissing(game, c, i, /** @type {MissingFile | undefined} */ (previous), now);
-  if (!previous || content(previous) !== content(missing)) {
+  const previous = /** @type {MissingFile | undefined} */ (readFile2(/** @type {string | undefined} */ (await files.read(FILES.missing)), FORMAT.missing));
+  // Ist die Grundlage leer oder kaputt (Spiel-Export ohne Items), bleibt missing.json, wie es ist (Review K9).
+  const usable = game.items.length >= minimum.game;
+  if (!usable) log(`::warning::Only ${game.items.length} game items; missing.json stays as it is`);
+  const missing = usable ? buildMissing(game, c, i, previous, now) : previous;
+  if (usable && missing && (!previous || content(previous) !== content(missing))) {
     await files.write(FILES.missing, `${JSON.stringify(missing, null, 1)}\n`);
     written.push(FILES.missing);
   }
   const places = c ? Object.keys(c.fragments).length + Object.keys(c.songs).length + Object.keys(c.fighters).length : 0;
-  const count = Object.values(missing.categories).reduce((sum, category) => sum + category.missing.length, 0);
+  const count = Object.values(missing?.categories ?? {}).reduce((sum, category) => sum + category.missing.length, 0);
   log(`${written.length > 0 ? `Written: ${written.join(', ')}` : 'Sources up to date'} (${places} places, ${i ? Object.keys(i.items).length : 0} item sources, ${count} missing)`);
   return { written, asOf: c?.asOf ?? day(now), places, items: i ? Object.keys(i.items).length : 0, missing: count, unmatched };
 }
