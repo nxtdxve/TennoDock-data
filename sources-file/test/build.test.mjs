@@ -72,6 +72,26 @@ describe('build (#164)', () => {
     assert.match(outputLines(second), /^asOf=2026-11-01\nplaces=3\nitems=1\nmissing=\d+\n$/);
   });
 
+  it('Nacharbeit: Prex-Karten aus der Seite der Dekorationen, missing.json ohne das, was die App ohne Wiki kennt', async () => {
+    const files = memory();
+    const card = `${LORE}LoreCardFragments/AshLoreCardFragment`;
+    const withRules = {
+      ...game,
+      items: [...game.items, { path: '/Lotus/Types/Items/MiscItems/PhotoboothTileShop', name: 'Shop Scene' }],
+      codex: { ...game.codex, loreFragments: { ...game.codex.loreFragments, [card]: { name: '/L/AshPrex' } } },
+      dict: { ...game.dict, '/L/AshPrex': 'Ash Prex' },
+      resources: { '/Lotus/Types/Items/MiscItems/PhotoboothTileShop': { platinumCost: 50 } },
+    };
+    const pages = { ...content, 'Decorations/Orbiter Decorations': '{{Table row/Prex|Ash|source=Hidden pickup ([[Leverian]])|requirement=mastered}}' };
+    await run({ fetchText: async () => ({ status: 200, text: answer(pages) }), loadGame: async () => withRules, files, now: NOW, log: () => {}, minimum });
+    const collectibles = JSON.parse(files.store.get(FILES.collectibles) ?? '{}');
+    assert.equal(collectibles.fragments[card], 'Leverian, after mastering Ash');
+    const missing = JSON.parse(files.store.get(FILES.missing) ?? '{}');
+    assert.deepEqual(missing.categories.captura.missing.map((/** @type {{ name: string }} */ item) => item.name), ['New Scene']);
+    assert.equal(missing.categories.captura.total, 3);
+    assert.deepEqual(missing.categories.fragments.missing, []);
+  });
+
   it('leerer Spiel-Export: missing.json bleibt, wie es ist (Review K9)', async () => {
     const files = memory();
     await run({ fetchText: async () => ({ status: 200, text: answer(content) }), loadGame: async () => game, files, now: NOW, log: () => {}, minimum });

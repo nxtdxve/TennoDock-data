@@ -473,10 +473,17 @@ names of some vendors (`items.json`), and the items of these kinds that still ha
 shows them on the item sheet and in its Collectibles page, next to what it reads from the game data itself.
 
 - **Source:** the [WARFRAME Wiki](https://wiki.warframe.com): the pages *Fragments/…*, *Somachord/Tones*,
-  *Frame Fighter*, *Captura*, *Syandana*, *Ephemera* and the modules *Sigils/data* and *Vendors/data*, all in one request
+  *Frame Fighter*, *Captura*, *Syandana*, *Ephemera*, *Sigils* (only for Sigils the module leaves without a source),
+  *Decorations/Orbiter Decorations* (Prex cards) and the modules *Sigils/data* and *Vendors/data*, all in one request
   to the MediaWiki API per run. Game paths and English names come from Digital Extremes' public export (fallback:
   [warframe-public-export-plus](https://github.com/calamity-inc/warframe-public-export-plus), MIT), the lists of
   fragments from public-export-plus (`ExportCodex`, names from `dict.en`), vendor manifests from its `ExportVendors`.
+- **What counts as missing:** an item of these kinds with no entry in the two wiki files and no source that TennoDock
+  reads from the game data itself (`sources-file/lib/covered.mjs`, the same rules as the app): sold in the Market or in
+  a Market bundle, sold by a vendor or syndicate, a standard item, unlocked with another item, not available on PC,
+  in a Supporter Pack, replaced by a newer version, or a rule by name or path (Prime Access, Twitch, TennoCon, clan and
+  alliance sigils). For this, the build also reads `ExportCustoms`, `ExportResources`, `ExportBundles` and
+  `ExportSyndicates` from public-export-plus.
 - **License:** the wiki content is licensed under
   [CC BY-NC-SA 3.0](https://creativecommons.org/licenses/by-nc-sa/3.0/). `collectibles.json` and `items.json` are
   extracts of it under the same license; both files name their source and license. `missing.json` holds only game paths

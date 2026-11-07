@@ -2,9 +2,9 @@
 
 | File | Content | Source | License |
 |---|---|---|---|
-| `collectibles.json` | Place of every lore fragment, Somachord song and Frame Fighter fragment | WARFRAME Wiki (wiki.warframe.com): *Fragments/Cephalon*, *Fragments/Fish*, *Fragments/Glass*, *Fragments/Ghoul*, *Fragments/Revenant*, *Fragments/Solaris United*, *Fragments/Partnership*, *Fragments/The Tenets*, *Fragments/Duviri*, *Fragments/Albrecht*, *Fragments/Isleweaver*, *Somachord/Tones*, *Frame Fighter* | CC BY-NC-SA 3.0 |
-| `items.json` | How to get Captura scenes, Sigils, Syandanas and Ephemeras; names of vendors | WARFRAME Wiki: *Captura*, *Syandana*, *Ephemera*, *Module:Sigils/data*, *Module:Vendors/data* | CC BY-NC-SA 3.0 |
-| `missing.json` | Items of these kinds without an entry | Digital Extremes public export (game paths and names), warframe-public-export-plus `ExportCodex` and `dict.en` (MIT) | game data © Digital Extremes |
+| `collectibles.json` | Place of every lore fragment, Somachord song and Frame Fighter fragment | WARFRAME Wiki (wiki.warframe.com): *Fragments/Cephalon*, *Fragments/Fish*, *Fragments/Glass*, *Fragments/Ghoul*, *Fragments/Revenant*, *Fragments/Solaris United*, *Fragments/Partnership*, *Fragments/The Tenets*, *Fragments/Duviri*, *Fragments/Albrecht*, *Fragments/Isleweaver*, *Somachord/Tones*, *Frame Fighter*, *Decorations/Orbiter Decorations* (Prex cards) | CC BY-NC-SA 3.0 |
+| `items.json` | How to get Captura scenes, Sigils, Syandanas and Ephemeras; names of vendors | WARFRAME Wiki: *Captura*, *Syandana*, *Ephemera*, *Module:Sigils/data*, *Sigils*, *Module:Vendors/data* | CC BY-NC-SA 3.0 |
+| `missing.json` | Items of these kinds without an entry and without a source TennoDock reads from the game data | Digital Extremes public export (game paths and names), warframe-public-export-plus `ExportCodex`, `dict.en`, `ExportCustoms`, `ExportResources`, `ExportBundles`, `ExportVendors`, `ExportSyndicates` (MIT) | game data © Digital Extremes |
 
 - Game paths and English names come from the public export of Digital Extremes (content.warframe.com), with
   warframe-public-export-plus as fallback; they only connect the wiki entries to the game.

@@ -348,6 +348,96 @@ export function sigilSources(module, items) {
   return { found, unmatched };
 }
 
+/** Fett gesetzte Namen in einer Zeile Wikitext. @param {string} [line] @returns {string[]} */
+const bold = (line = '') => [...line.matchAll(/'''(.+?)'''/g)].map((match) => plain(match[1] ?? ''));
+
+/** Zeilen eines Abschnitts, die Fliesstext sind (keine Vorlage, Tabelle, Liste oder Datei). @param {string} text */
+const proseLines = (text) =>
+  text
+    .split(/\r?\n/)
+    .map((line) => line.trim())
+    .filter((line) => line && !/^(?:\{\{|\}\}|\||!|\*|#|:|\[\[(?:File|Image):|<)/i.test(line));
+
+/**
+ * Sigils der Seite `Sigils` (#164 Nacharbeit) für Sigils, die `Module:Sigils/data` ohne Fundort lässt: der Satz direkt vor
+ * dem Kasten (`{{SigilBox|name = …}}`), der das Sigil fett nennt („The '''Glacium Sigil''' is available from …“), sonst
+ * der letzte Satz davor im Abschnitt, sonst die Überschrift (wie `sigilSource`). Ein Satz ohne erkennbare Art und ohne Wort
+ * für einen Erwerb zählt nicht (eher eine Beschreibung).
+ * @param {string} text @param {readonly NamedPath[]} items @returns {{ found: Record<string, Source[]>, unmatched: string[] }}
+ */
+export function sigilPageSources(text, items) {
+  const byName = pathsByName(items, CATEGORIES.sigils);
+  /** @type {Record<string, Source[]>} */
+  const found = {};
+  /** @type {string[]} */
+  const unmatched = [];
+  let heading = '';
+  /** @type {string[]} */
+  let lines = [];
+  let from = 0;
+  for (const match of text.matchAll(/^(={2,6})[ \t]*(.*?)[ \t]*\1[ \t]*$|\{\{\s*SigilBox\b/gim)) {
+    const index = match.index ?? 0;
+    if (match[1]) {
+      heading = plain(match[2] ?? '');
+      lines = [];
+      from = index + match[0].length;
+      continue;
+    }
+    const [box] = templates(text.slice(index), 'SigilBox');
+    const end = text.indexOf('}}', index);
+    const segment = proseLines(text.slice(from, index));
+    if (segment.length > 0) lines = segment;
+    from = end < 0 ? index : end + 2;
+    const name = plain(box?.named['name'] ?? '');
+    if (!name) continue;
+    // Der Satz, der dieses Sigil fett nennt; sonst einer direkt davor, der ein Sigil fett nennt („Tenno Translator Sigil“
+    // im Text, „Tenno Translator Emblem“ im Kasten); sonst der letzte allgemeine Satz des Abschnitts (ohne fetten Namen).
+    const own = lines.find((candidate) => bold(candidate).some((b) => nameKey(b) === nameKey(name))) ?? (segment.length > 0 ? segment.findLast((candidate) => bold(candidate).length > 0) : undefined);
+    const line = own ?? lines.findLast((candidate) => bold(candidate).length === 0);
+    const names = [name, ...bold(line)];
+    // Art aus dem ganzen Satz („… sold for a limited time. … no longer available“), Text gekürzt.
+    const full = line ? plain(line) : '';
+    /** @type {Source | undefined} */
+    let source = full && !NOT_A_SOURCE.test(full) ? { k: classify(full), t: shorten(full) } : undefined;
+    if (source?.k === 'other' && !ACQUIRED.test(full)) source = undefined;
+    source ??= heading && !/^(?:Other|Notes|Media|Patch History)\b/i.test(heading) ? sigilSource(heading) : undefined;
+    if (!source) continue;
+    const paths = pathOf(byName, names);
+    if (!paths) unmatched.push(name);
+    for (const path of paths ?? []) found[path] ??= [source];
+  }
+  return { found, unmatched };
+}
+
+// --- Prex ---
+
+/**
+ * Fundort der Prex-Karten (#164 Nacharbeit) aus der Seite `Decorations/Orbiter Decorations`: Vorlage
+ * `{{Table row/Prex|<Name>|…|source=Hidden pickup ([[Leverian]])|requirement=…}}`, zugeordnet über „<Name> Prex“ zu den
+ * Karten im Codex (`ExportCodex.loreFragments`, Ordner `LoreCardFragments`). „Hidden pickup (Ort)“ ergibt den Ort; verlangt
+ * die Karte einen gemeisterten Warframe, folgt „after mastering <Name>“. Karten ausserhalb des Codex (Heirloom, Heart of
+ * Deimos, Tennotober) bleiben in `unmatched`.
+ * @param {string} text @param {readonly NamedPath[]} fragments @returns {{ found: Record<string, string>, unmatched: string[] }}
+ */
+export function prexPlaces(text, fragments) {
+  const byName = pathsByName(fragments, [/\/LoreCardFragments\//]);
+  /** @type {Record<string, string>} */
+  const found = {};
+  /** @type {string[]} */
+  const unmatched = [];
+  for (const { positional, named } of templates(text, 'Table row/Prex')) {
+    const name = plain(positional[0] ?? '');
+    const source = plain(named['source'] ?? '');
+    if (!name || !source) continue;
+    const place = /^Hidden pickup \((.+)\)$/i.exec(source)?.[1] ?? source;
+    const after = /\bmastered\b/i.test(named['requirement'] ?? '') ? `, after mastering ${name}` : '';
+    const paths = pathOf(byName, [`${name} Prex`]);
+    if (!paths) unmatched.push(name);
+    for (const path of paths ?? []) found[path] = shorten(`${place}${after}`);
+  }
+  return { found, unmatched };
+}
+
 // --- Händler ---
 
 /**

@@ -13,7 +13,9 @@
 //     Abschaltbar: `SOURCES_WIKI=off` (im Workflow eine Zeile). Dann bleiben `collectibles.json` und `items.json` stehen,
 //     `missing.json` wird weiter gegen den DE-Export geprüft.
 //   - DE-Export (content.warframe.com): Pfade und englische Namen; Rückfall public-export-plus.
-//   - public-export-plus (GitHub, MIT): `ExportCodex` (Listen der Fragmente), `dict.en` (deren Namen), `ExportVendors`.
+//   - public-export-plus (GitHub, MIT): `ExportCodex` (Listen der Fragmente), `dict.en` (deren Namen), `ExportVendors`;
+//     für missing.json auch `ExportCustoms`, `ExportResources`, `ExportBundles` und `ExportSyndicates`: Was die App ohne
+//     Wiki zuordnet (Markt, Händler, Syndikate, Regeln, `lib/covered.mjs`), fehlt nicht.
 // Keine Abhängigkeiten ausser Node (ab 22) und `xz` (auf GitHub-Runnern vorhanden). Doku: docs/pakete/164-sources.md im App-Repo.
 
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
@@ -21,13 +23,19 @@ import { dirname, join } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { DE_FILE_BASE, fetchIndex, parseDeJson, parseIndex, PLUS_BASE, unlzmaWithXz } from '../promo-codes-file/lib/names.mjs';
 import { DE_FILES, deItems, PLUS_DICT, PLUS_FILES, plusItems } from '../promo-codes-file/lib/rewards.mjs';
-import { CATEGORIES, capturaSources, codexNames, fighterNames, fighterPlaces, fragmentPlaces, missingIn, missingReport, sigilSources, songSources, tableSources, vendorNames } from './lib/sources.mjs';
+import { appSource, gameSources } from './lib/covered.mjs';
+import { CATEGORIES, capturaSources, codexNames, fighterNames, fighterPlaces, fragmentPlaces, missingIn, missingReport, prexPlaces, sigilPageSources, sigilSources, songSources, tableSources, vendorNames } from './lib/sources.mjs';
 
 export const SOURCE = 'wiki.warframe.com';
 export const LICENSE = 'CC BY-NC-SA 3.0';
 /** Seiten, alle in einem Abruf (die API nimmt bis zu 50 Titel). */
 export const FRAGMENT_PAGES = ['Cephalon', 'Fish', 'Glass', 'Ghoul', 'Revenant', 'Solaris United', 'Partnership', 'The Tenets', 'Duviri', 'Albrecht', 'Isleweaver'].map((set) => `Fragments/${set}`);
-export const PAGES = [...FRAGMENT_PAGES, 'Somachord/Tones', 'Frame Fighter', 'Captura', 'Syandana', 'Ephemera', 'Module:Sigils/data', 'Module:Vendors/data'];
+// #164 Nacharbeit: `Sigils` (Sätze zu Sigils ohne Fundort im Modul) und `Decorations/Orbiter Decorations` (Prex-Karten),
+// weiter in demselben Abruf.
+export const PAGES = [...FRAGMENT_PAGES, 'Somachord/Tones', 'Frame Fighter', 'Captura', 'Syandana', 'Ephemera', 'Module:Sigils/data', 'Module:Vendors/data', 'Sigils', 'Decorations/Orbiter Decorations'];
+const PREX_PAGE = 'Decorations/Orbiter Decorations';
+/** Dateien von public-export-plus für die Regeln der App (`lib/covered.mjs`). */
+const RULE_FILES = ['ExportCustoms', 'ExportResources', 'ExportBundles', 'ExportSyndicates'];
 export const FILES = { collectibles: 'v1/collectibles.json', items: 'v1/items.json', missing: 'v1/missing.json' };
 const API = 'https://wiki.warframe.com/api.php';
 // Mit Kontakt, wie es die Wiki-Betreiber erwarten: Projekt und Repo, keine E-Mail.
@@ -51,7 +59,8 @@ const ISO_TIME = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/;
  * @typedef {{ status: number, text: string, retryAfter?: number }} Response
  * @typedef {{ read(path: string): Promise<string | undefined>, write(path: string, text: string): Promise<void> }} Files
  * @typedef {{ pages: Record<string, string>, revisedAt: string }} WikiPages
- * @typedef {{ items: NamedPath[], names: Map<string, string>, codex: unknown, dict: unknown, vendors: unknown, source: 'de' | 'plus' }} GameData
+ * @typedef {{ items: NamedPath[], names: Map<string, string>, codex: unknown, dict: unknown, vendors: unknown, source: 'de' | 'plus', customs?: unknown, resources?: unknown, bundles?: unknown, syndicates?: unknown }} GameData
+ *   `customs` bis `syndicates`: Dateien von public-export-plus für die Regeln der App (`lib/covered.mjs`); fehlen sie, zählt nur das Wiki.
  * @typedef {{ format: string, v: number, asOf: string, generatedAt: string, source: string, license: string, fragments: Record<string, string>, songs: Record<string, SongSource>, fighters: Record<string, string> }} CollectiblesFile
  * @typedef {{ format: string, v: number, asOf: string, generatedAt: string, source: string, license: string, items: Record<string, Source[]>, vendors: Record<string, string> }} ItemsFile
  * @typedef {{ format: string, v: number, asOf: string, generatedAt: string, categories: Record<string, MissingCategory> }} MissingFile
@@ -162,21 +171,26 @@ export async function fetchPages(deps) {
 export function buildFiles(wiki, game, now) {
   const { pages } = wiki;
   const codex = isRecord(game.codex) ? game.codex : {};
-  const fragments = fragmentPlaces(pages, codexNames(codex['loreFragments'], game.dict));
+  const loreFragments = codexNames(codex['loreFragments'], game.dict);
+  const fragments = fragmentPlaces(pages, loreFragments);
+  const prex = prexPlaces(pages[PREX_PAGE] ?? '', loreFragments);
+  for (const [path, place] of Object.entries(prex.found)) fragments.found[path] ??= place;
   const songs = songSources(pages['Somachord/Tones'] ?? '', codexNames(codex['songs'], game.dict));
   const fighters = fighterPlaces(pages['Frame Fighter'] ?? '', fighterNames(codex['fighterFrames'], game.names));
   const captura = capturaSources(pages['Captura'] ?? '', game.items);
   const syandanas = tableSources(pages['Syandana'] ?? '', game.items, CATEGORIES.syandanas);
   const ephemeras = tableSources(pages['Ephemera'] ?? '', game.items, CATEGORIES.ephemeras);
   const sigils = sigilSources(pages['Module:Sigils/data'] ?? '', game.items);
+  // Die Seite füllt nur Lücken des Moduls (#164 Nacharbeit).
+  const sigilPage = sigilPageSources(pages['Sigils'] ?? '', game.items);
   const head = { asOf: wiki.revisedAt.slice(0, 10), generatedAt: stamp(now), source: SOURCE, license: LICENSE };
   /** @type {Record<string, Source[]>} */
   const items = {};
-  for (const part of [captura, syandanas, ephemeras, sigils]) for (const [path, sources] of Object.entries(part.found)) items[path] ??= sources;
+  for (const part of [captura, syandanas, ephemeras, sigils, sigilPage]) for (const [path, sources] of Object.entries(part.found)) items[path] ??= sources;
   return {
     collectibles: { format: FORMAT.collectibles, v: VERSION, ...head, fragments: sortKeys(fragments.found), songs: sortKeys(songs.found), fighters: sortKeys(fighters.found) },
     items: { format: FORMAT.items, v: VERSION, ...head, items: sortKeys(items), vendors: sortKeys(vendorNames(pages['Module:Vendors/data'] ?? '', game.vendors, game.names)) },
-    unmatched: { fragments: fragments.unmatched, songs: songs.unmatched, fighters: fighters.unmatched, captura: captura.unmatched, syandanas: syandanas.unmatched, ephemeras: ephemeras.unmatched, sigils: sigils.unmatched },
+    unmatched: { fragments: fragments.unmatched, prex: prex.unmatched, songs: songs.unmatched, fighters: fighters.unmatched, captura: captura.unmatched, syandanas: syandanas.unmatched, ephemeras: ephemeras.unmatched, sigils: sigils.unmatched },
   };
 }
 
@@ -187,7 +201,8 @@ function sortKeys(record) {
 
 /**
  * „Fundort fehlt“: alle Items der abgedeckten Arten (DE-Export) und alle Fragmente, Lieder und Frame-Fighter-Fragmente
- * (public-export-plus) ohne Eintrag in den beiden Dateien.
+ * (public-export-plus) ohne Eintrag in den beiden Dateien. Seit #164 (Nacharbeit) fehlt auch nicht, was die App ohne Wiki
+ * zuordnet (`lib/covered.mjs`): Markt, Händler, Syndikate, Regeln, am PC nicht erhältlich.
  * @param {GameData} game @param {CollectiblesFile | undefined} collectibles @param {ItemsFile | undefined} items
  * @param {MissingFile | undefined} previous @param {number} now @returns {MissingFile}
  */
@@ -195,13 +210,17 @@ export function buildMissing(game, collectibles, items, previous, now) {
   const today = day(now);
   const codex = isRecord(game.codex) ? game.codex : {};
   const covered = new Set([...Object.keys(items?.items ?? {}), ...Object.keys(collectibles?.fragments ?? {}), ...Object.keys(collectibles?.songs ?? {}), ...Object.keys(collectibles?.fighters ?? {})]);
+  const known = gameSources(game);
   /** @type {Record<string, NamedPath[]>} */
   const lists = {
     fragments: codexNames(codex['loreFragments'], game.dict),
     songs: codexNames(codex['songs'], game.dict),
     fighters: codexNames(codex['fighterFrames'], game.dict),
   };
-  for (const [category, prefixes] of Object.entries(CATEGORIES)) lists[category] = game.items.filter((item) => prefixes.some((prefix) => prefix.test(item.path)));
+  for (const [category, prefixes] of Object.entries(CATEGORIES)) {
+    lists[category] = game.items.filter((item) => prefixes.some((prefix) => prefix.test(item.path)));
+    for (const { path, name } of lists[category]) if (appSource(path, known, name)) covered.add(path);
+  }
   /** @type {Record<string, MissingCategory>} */
   const categories = {};
   for (const [category, list] of Object.entries(lists)) categories[category] = missingIn(list, covered, previous?.categories[category]?.missing, today);
@@ -317,7 +336,8 @@ async function get(url) {
  */
 export async function loadGameData(log) {
   const plus = async (/** @type {string} */ file) => JSON.parse(await (await get(`${PLUS_BASE}${file}.json`)).text());
-  const [codex, dict, vendors] = await Promise.all(['ExportCodex', PLUS_DICT, 'ExportVendors'].map(plus));
+  // Regeln der App für missing.json (#164 Nacharbeit): rund 7,8 MB mehr pro Lauf, nur in der Action.
+  const [codex, dict, vendors, customs, resources, bundles, syndicates] = await Promise.all(['ExportCodex', PLUS_DICT, 'ExportVendors', ...RULE_FILES].map(plus));
   /** @type {NamedPath[]} */
   let items;
   /** @type {'de' | 'plus'} */
@@ -334,7 +354,7 @@ export async function loadGameData(log) {
     source = 'plus';
   }
   const names = new Map(items.map((item) => [item.path, item.name]));
-  return { items: items.map(({ path, name }) => ({ path, name })), names, codex, dict, vendors, source };
+  return { items: items.map(({ path, name }) => ({ path, name })), names, codex, dict, vendors, source, customs, resources, bundles, syndicates };
 }
 
 if (import.meta.url === pathToFileURL(process.argv[1] ?? '').href) {
