@@ -493,7 +493,10 @@ player set with Forma.
 - **License:** MIT (WFCD/warframe-items). WFCD takes the values from the WARFRAME Wiki, whose content is licensed
   CC BY-NC-SA 3.0; whether that covers plain game facts like polarities is an open question that TennoDock settles before
   its release.
-- **Limit:** no open source says which mod slot a built-in polarity sits on, so `p` is a list without positions.
+- **Mod slot positions (`pm`):** no open source says which mod slot a built-in polarity sits on. Positions are kept by
+  hand in `polarity-file/positions.json`, one entry per item with its source and date, and merged as `pm` while they still
+  match the WFCD list. An item without `pm` keeps `p` as a list. Source of the current positions: Overframe (see *Mod slot
+  positions* below).
 - **Updated:** the workflow checks the source once a week (Monday, about 06:29 UTC) and writes the file only when the
   polarities changed.
 - TennoDock is not affiliated with Digital Extremes or WFCD.
@@ -516,10 +519,40 @@ player set with Forma.
 }
 ```
 
-- `items`: game path → `p` built-in polarities of the mod slots (order as on the wiki, no positions), `a` Aura slot
-  (a list for frames with two Aura slots), `x` Exilus slot, `s` Stance slot. A missing key means no built-in polarity.
+- `items`: game path → `p` built-in polarities of the mod slots (order as on the wiki), `pm` the mod slot of each entry of
+  `p` in the same order (only when known), `a` Aura slot (a list for frames with two Aura slots), `x` Exilus slot, `s`
+  Stance slot. A missing key means no built-in polarity (or, for `pm`, unknown positions).
+- Mod slots count like the game data: the highest slot is top left of the in-game mod grid, slot 0 bottom right (for 8 slots:
+  top row 7 6 5 4, bottom row 3 2 1 0).
+- `positionSources`: the sources of the `pm` values in this file, only when there are any.
 - Polarities use the names of the game data: `AP_ATTACK` (Madurai), `AP_DEFENSE` (Vazarin), `AP_TACTIC` (Naramon),
   `AP_POWER` (Zenurik), `AP_WARD` (Unairu), `AP_PRECEPT` (Penjaga), `AP_UMBRA`, `AP_ANY` (universal, Aura or Omni Forma).
+
+### Mod slot positions
+
+`polarity-file/positions.json` is edited by hand, never fetched by the workflow:
+
+```json
+{
+  "format": "tennodock-polarity-positions",
+  "v": 1,
+  "items": {
+    "/Lotus/Powersuits/Example/Example": { "p": ["AP_TACTIC", "AP_ATTACK"], "pm": [7, 0], "source": "…", "date": "2026-11-08", "note": "…" }
+  }
+}
+```
+
+- `p` is the WFCD list the positions belong to. If WFCD later changes the list of an item (rework), its positions are left
+  out and the run summary of the workflow names the item.
+- `pm` must stay on the item's normal mod slots: 0–7 for Warframes, Archwings and weapons, 0–9 for companions, 0–11 for
+  Necramechs. Entries outside are left out and named in the run summary.
+- `source`, `date` and `note` say where a position comes from. Data from a third party is only added with its permission;
+  the source and the terms are named here.
+- **Current entries:** 596 items, source [Overframe](https://overframe.gg) (`ArtifactSlots` of its item database), saved
+  once from the website by the TennoDock maintainer on 2026-11-08 and used with Overframe's permission as a one-time
+  import (`note`: "one-time import with permission"). Nothing is fetched from Overframe again, neither by the workflow nor
+  by the app. Nine items are left out because Overframe and WFCD name different built-in polarities for them; they keep
+  `p` as a list. TennoDock is not affiliated with Overframe or MOBA Network.
 
 ### Other files
 
