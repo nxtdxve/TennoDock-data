@@ -2,7 +2,7 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import { COMMIT_URL, OUTPUT, POSITIONS, rawUrl, run } from '../build.mjs';
-import { applyPositions, entryOf, polarityOf, polarityTable, POSITIONS_FORMAT, SOURCE_FILES } from '../lib/polarities.mjs';
+import { applyPositions, entryOf, polarityOf, polarityTable, POSITIONS_FORMAT, slotCounts, SOURCE_FILES } from '../lib/polarities.mjs';
 
 test('rechnet die Namen aus dem Wiki in die Polaritäten des Spielstands um, „aura“ und „universal“ als Omni', () => {
   assert.equal(polarityOf('madurai'), 'AP_ATTACK');
@@ -82,7 +82,24 @@ test('nimmt keine falschen Plätze und verlangt Quelle und Datum', () => {
     assert.deepEqual(applyPositions(items, positions({ [VOLT]: entry(['AP_TACTIC', 'AP_ATTACK'], pm) })).problems, [`${VOLT}: bad positions`]);
   }
   assert.deepEqual(applyPositions(items, positions({ [VOLT]: { p: ['AP_TACTIC', 'AP_ATTACK'], pm: [7, 0] } })).problems, [`${VOLT}: source or date missing`]);
+  // Falsche Form (Liste statt Eintrag, ohne p): eigene Meldung, nicht „WFCD list changed“ (Review #194, K3).
+  assert.deepEqual(applyPositions(items, positions({ [VOLT]: [7, 0] })).problems, [`${VOLT}: bad entry (needs p, pm, source, date)`]);
+  assert.deepEqual(applyPositions(items, positions({ [VOLT]: { pm: [7, 0], source: 'Test', date: '2026-11-08' } })).problems, [`${VOLT}: bad entry (needs p, pm, source, date)`]);
   assert.throws(() => applyPositions(items, { format: 'andere', v: 1, items: {} }), /wrong format/);
+});
+
+test('begrenzt die Plätze pro Art: Warframe und Waffe 0–7, Begleiter 0–9, Necramech 0–11 (Review #194, S3)', () => {
+  const lists = SOURCE_FILES.map((file) =>
+    file === 'Warframes' ? [{ uniqueName: VOLT }, { uniqueName: '/Lotus/Powersuits/EntratiMech/Mech', productCategory: 'MechSuits' }] : file === 'Pets' ? [{ uniqueName: '/Lotus/Types/Pet' }] : file === 'Primary' ? [{ uniqueName: '/Lotus/Weapons/Gun' }] : [],
+  );
+  const counts = slotCounts(lists);
+  assert.deepEqual(counts, { [VOLT]: 8, '/Lotus/Powersuits/EntratiMech/Mech': 12, '/Lotus/Types/Pet': 10, '/Lotus/Weapons/Gun': 8 });
+  const items = { [VOLT]: { p: ['AP_TACTIC', 'AP_ATTACK'] }, '/Lotus/Powersuits/EntratiMech/Mech': { p: ['AP_ATTACK'] }, '/Lotus/Types/Pet': { p: ['AP_PRECEPT'] } };
+  const result = applyPositions(items, positions({ [VOLT]: entry(['AP_TACTIC', 'AP_ATTACK'], [9, 8]), '/Lotus/Powersuits/EntratiMech/Mech': entry(['AP_ATTACK'], [11]), '/Lotus/Types/Pet': entry(['AP_PRECEPT'], [9]) }), counts);
+  // Warframe auf Exilus (9) und Aura (8): abgelehnt. Necramech 11 und Begleiter 9: gültig.
+  assert.deepEqual(result.problems, [`${VOLT}: bad positions`]);
+  assert.deepEqual(result.items['/Lotus/Powersuits/EntratiMech/Mech'], { p: ['AP_ATTACK'], pm: [11] });
+  assert.deepEqual(result.items['/Lotus/Types/Pet'], { p: ['AP_PRECEPT'], pm: [9] });
 });
 
 test('schreibt pm und die Quellen in die Datei; ohne positions.json bleibt alles wie bisher', async () => {

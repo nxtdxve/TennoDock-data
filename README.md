@@ -479,7 +479,9 @@ player set with Forma.
 ```
 
 - `p` is the WFCD list the positions belong to. If WFCD later changes the list of an item (rework), its positions are left
-  out and the workflow log names the item.
+  out and the run summary of the workflow names the item.
+- `pm` must stay on the item's normal mod slots: 0–7 for Warframes, Archwings and weapons, 0–9 for companions, 0–11 for
+  Necramechs. Entries outside are left out and named in the run summary.
 - `source`, `date` and `note` say where a position comes from. Data from a third party is only added with its permission;
   the source and the terms are named here before such entries are published.
 

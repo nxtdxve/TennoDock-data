@@ -17,7 +17,7 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
 import { pathToFileURL } from 'node:url';
-import { applyPositions, polarityTable, SOURCE_FILES } from './lib/polarities.mjs';
+import { applyPositions, polarityTable, slotCounts, SOURCE_FILES } from './lib/polarities.mjs';
 
 export const SOURCE = 'WFCD/warframe-items';
 const BRANCH = 'master';
@@ -41,7 +41,7 @@ const MIN_SHARE_OF_PREVIOUS = 0.8;
  * @typedef {import('./lib/polarities.mjs').Entry} Entry
  * @typedef {{ format: string, v: number, asOf: string, generatedAt: string, source: string, commit: string, license: string, positionSources?: string[], items: Record<string, Entry> }} PolarityFile
  * @typedef {{ fetchText: FetchText, files: Files, now: number, log(text: string): void, rebuild?: boolean, minItems?: number }} RunDeps
- * @typedef {{ written: boolean, commit?: string, asOf?: string, items?: number }} RunResult
+ * @typedef {{ written: boolean, commit?: string, asOf?: string, items?: number, problems?: string[] }} RunResult
  */
 
 /** @param {string} text */
@@ -78,7 +78,7 @@ export async function run({ fetchText, files, now, log, rebuild = false, minItem
     lists.push(list);
   }
   const positionsText = await files.read(POSITIONS);
-  const placed = positionsText === undefined ? { items: polarityTable(lists), problems: [], sources: [] } : applyPositions(polarityTable(lists), parse(positionsText));
+  const placed = positionsText === undefined ? { items: polarityTable(lists), problems: [], sources: [] } : applyPositions(polarityTable(lists), parse(positionsText), slotCounts(lists));
   for (const problem of placed.problems) log(`Positions: ${problem}`);
   const items = placed.items;
   const count = Object.keys(items).length;
@@ -87,14 +87,14 @@ export async function run({ fetchText, files, now, log, rebuild = false, minItem
   // Gleicher Inhalt: nichts schreiben, auch wenn die Quelle einen neuen Commit hat.
   if (previous && JSON.stringify(previous.items) === JSON.stringify(items)) {
     log(`Unchanged content (${count} items, ${commit.slice(0, 7)})`);
-    return { written: false, commit };
+    return { written: false, commit, problems: placed.problems };
   }
   const asOf = new Date(now).toISOString().slice(0, 10);
   /** @type {PolarityFile} */
   const file = { format: FORMAT, v: VERSION, asOf, generatedAt: new Date(now).toISOString().replace(/\.\d{3}Z$/, 'Z'), source: SOURCE, commit, license: 'MIT', ...(placed.sources.length > 0 ? { positionSources: placed.sources } : {}), items };
   await files.write(OUTPUT, `${JSON.stringify(file)}\n`);
   log(`Wrote ${OUTPUT}: ${count} items (${commit.slice(0, 7)})`);
-  return { written: true, commit, asOf, items: count };
+  return { written: true, commit, asOf, items: count, problems: placed.problems };
 }
 
 /** @returns {FetchText} */
@@ -131,4 +131,7 @@ if (import.meta.url === pathToFileURL(process.argv[1] ?? '').href) {
   // Für den Workflow (Commit-Nachricht).
   const out = process.env['GITHUB_OUTPUT'];
   if (out && result.written) await writeFile(out, `commit=${(result.commit ?? '').slice(0, 7)}\nasOf=${result.asOf}\n`, { flag: 'a' });
+  // Meldungen zu positions.json sichtbar in der Zusammenfassung des Laufs, nicht nur im Log (Review #194, K3).
+  const summary = process.env['GITHUB_STEP_SUMMARY'];
+  if (summary && result.problems?.length) await writeFile(summary, `## positions.json\n\n${result.problems.map((problem) => `- ${problem}`).join('\n')}\n`, { flag: 'a' });
 }
