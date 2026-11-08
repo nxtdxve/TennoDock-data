@@ -4,7 +4,7 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 import { addDays, daysBetween, isDay, utcDay, windowDays } from '../lib/days.mjs';
-import { buildPrices, checkPrices, encodePrices, readDay, readPriceFile, weightedMedian, writeDay } from '../lib/prices.mjs';
+import { buildPrices, checkPrices, encodePrices, halfIqr, readDay, readPriceFile, weightedMedian, writeDay } from '../lib/prices.mjs';
 import { compactDucatsDay, compactRelicsDay, parseItems, statisticsDays, variantKey } from '../lib/sources.mjs';
 
 const MOD = '/Lotus/Upgrades/Mods/Example/ExampleDamageMod';
@@ -161,6 +161,24 @@ describe('buildPrices', () => {
   });
   it('leaves out variants without trades', () => {
     assert.equal(buildPrices([day('2026-10-22', {}, { [`${MOD}|r0`]: 3 })], { asOf: '2026-10-22' }).size, 0);
+  });
+  it('adds the spread of the daily medians (half the interquartile range) from 7 days with trades (#193)', () => {
+    const medians = [20, 22, 18, 21, 19, 30, 20];
+    const days = medians.map((median, index) => day(`2026-10-${String(16 + index).padStart(2, '0')}`, { [`${SET}|`]: [median, 10], [`${MOD}|r0`]: [5, 1] }));
+    // Ein Tag weniger für den Mod: 6 Tage, keine Schwankung.
+    days[0] = day('2026-10-16', { [`${SET}|`]: [20, 10] });
+    const entries = buildPrices(days, { asOf: '2026-10-22' });
+    // Sortiert 18 19 20 20 21 22 30: Viertel bei 19,5 und 21,5, halber Abstand 1.
+    assert.deepEqual(entries.get(SET), new Map([['', [20, 70, 0, 1]]]));
+    assert.deepEqual(entries.get(MOD), new Map([['r0', [5, 6, 0]]]));
+  });
+});
+
+describe('halfIqr', () => {
+  it('needs 7 values and interpolates linearly', () => {
+    assert.equal(halfIqr([1, 2, 3, 4, 5, 6]), undefined);
+    assert.equal(halfIqr([10, 10, 10, 10, 10, 10, 10]), 0);
+    assert.equal(halfIqr([1, 2, 3, 4, 5, 6, 7, 8]), 1.8);
   });
 });
 

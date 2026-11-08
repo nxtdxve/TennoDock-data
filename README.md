@@ -40,8 +40,9 @@ them at most once or twice a day; nothing in this repository is personal data.
 
 - `dirs`: game paths (`gameRef` on warframe.market) without the leading `/Lotus/`, grouped by folder. The full path of the
   first entry above is `/Lotus/Powersuits/Rhino/RhinoPrime`.
-- Each price is `[platinum, sold, daysSinceLastSale]`: the price, the number of items sold in the window and the days
-  between the last sale and `asOf`. Below `minTrades` sold, treat the price as uncertain.
+- Each price is `[platinum, sold, daysSinceLastSale, spread?]`: the price, the number of items sold in the window, the
+  days between the last sale and `asOf` and, for variants with trades on at least 7 days of the window, the spread of the
+  daily median prices (half the interquartile range, in platinum). Below `minTrades` sold, treat the price as uncertain.
 - An item with variants has one entry per variant: `r<rank>`, a subtype such as `intact` … `radiant`, or
   `a<amber>c<cyan>` for sculptures. An item without variants has the price array directly.
 - `asOf` is the newest day in the window. Items without a sale in the window are missing.
