@@ -1,0 +1,319 @@
+{
+ "format": "tennodock-public-export",
+ "v": 1,
+ "generatedAt": "2026-11-08T16:59:30Z",
+ "index": {
+  "en": "7dd4d9a10aed3b47",
+  "de": "f6fc5cdf71a60ef0"
+ },
+ "parts": {
+  "catalog/fusionBundles": {
+   "entry": "ExportFusionBundles_en.json!00_hUiYYnklWYlkgXXWeNhmng",
+   "format": "catalog-5/part-1",
+   "file": "parts/catalog/fusionBundles.e8a34acf0ad60384.json",
+   "sha256": "e8a34acf0ad6038402cc81d1d94ce19529da64464ca076885a8856ddd33a22d9",
+   "bytes": 3631
+  },
+  "catalog/recipes": {
+   "entry": "ExportRecipes_en.json!00_oac+LCAtIyqDxZF8Qe1ZZA",
+   "format": "catalog-5/part-1",
+   "file": "parts/catalog/recipes.e4716a74be2e45c6.json",
+   "sha256": "e4716a74be2e45c6ff130f7305356a9699870b7a9f7b9c1a780df7e2b05cfcff",
+   "bytes": 970071
+  },
+  "catalog/relics": {
+   "entry": "ExportRelicArcane_en.json!00_BPSU5+RTY0mdOW9AmkGU5A",
+   "format": "catalog-5/part-1",
+   "file": "parts/catalog/relics.c942dbb2398a8b7f.json",
+   "sha256": "c942dbb2398a8b7f1e6f1d26a497d4d15a2392487d61634aa5759f790b50764d",
+   "bytes": 599813
+  },
+  "catalog/resources": {
+   "entry": "ExportResources_en.json!00_AIngbzxhVpxhDwXhkSq6bA",
+   "format": "catalog-5/part-1",
+   "file": "parts/catalog/resources.b1b353d7d55c4994.json",
+   "sha256": "b1b353d7d55c4994545cefff82c3b466a322033f465f959187c3099b0d011c3a",
+   "bytes": 47413
+  },
+  "catalog/sentinels": {
+   "entry": "ExportSentinels_en.json!00_8iGr2T9MTskXt5zeKEVNmQ",
+   "format": "catalog-5/part-1",
+   "file": "parts/catalog/sentinels.e813e26897378d09.json",
+   "sha256": "e813e26897378d099950e7da6244869b68f5c7a21a7795082f49bd82ed0adef4",
+   "bytes": 3783
+  },
+  "catalog/upgrades": {
+   "entry": "ExportUpgrades_en.json!00_iIR9VcbRzLg4-0-6Yn7IrA",
+   "format": "catalog-5/part-1",
+   "file": "parts/catalog/upgrades.b0bb6c6e15a6bd0f.json",
+   "sha256": "b0bb6c6e15a6bd0f69d80a8a385341fdf91757000533547f8a9c3cc9e99e8385",
+   "bytes": 297514
+  },
+  "catalog/warframes": {
+   "entry": "ExportWarframes_en.json!00_AIDVHigS64IrZQVY2GdWfg",
+   "format": "catalog-5/part-1",
+   "file": "parts/catalog/warframes.b98b6fc90f555e13.json",
+   "sha256": "b98b6fc90f555e13ce6f8700ca36cf3ff802a811a88bec4fe4a9bcfa19e51be9",
+   "bytes": 12600
+  },
+  "catalog/weapons": {
+   "entry": "ExportWeapons_en.json!00_Lp7tYn3OPr4R3amRyHcSaA",
+   "format": "catalog-5/part-1",
+   "file": "parts/catalog/weapons.9211501c6b0c2821.json",
+   "sha256": "9211501c6b0c28210a12535d7d2999a6db4add3ba6ee1166154da40ca35f47e5",
+   "bytes": 121125
+  },
+  "cosmetics": {
+   "entry": "ExportCustoms_en.json!00_FtAAUKgb6W6tkcdqlAFUqA",
+   "format": "cosmetics-1",
+   "file": "parts/cosmetics.4e89740a7c8cb2d6.json",
+   "sha256": "4e89740a7c8cb2d6dfb164fa70e9df491692737ed6869164c4d094a238a5c5d9",
+   "bytes": 261802
+  },
+  "images": {
+   "entry": "ExportManifest.json!00_y10Y6QId+-io-dCB3GMEmg",
+   "format": "images-1",
+   "file": "parts/images.615bd5e436a6d083.json",
+   "sha256": "615bd5e436a6d083790a00656ba11c981d4dc6ded9ec30c649cdeba32c24a461",
+   "bytes": 3173285
+  },
+  "modstats/de/ExportRelicArcane": {
+   "entry": "ExportRelicArcane_de.json!00_SRmugunyApu-FuUh9m0M9w",
+   "format": "modstats-3/part-1",
+   "file": "parts/modstats/de/ExportRelicArcane.ad645058827676b3.json",
+   "sha256": "ad645058827676b3e9eb72b92ce05242a3a3b0c4e9c8dbd4fa77861742c97808",
+   "bytes": 84691
+  },
+  "modstats/de/ExportUpgrades": {
+   "entry": "ExportUpgrades_de.json!00_xHF3iz4bgu9NarROzsQqzw",
+   "format": "modstats-3/part-1",
+   "file": "parts/modstats/de/ExportUpgrades.480fbdfe7ac22007.json",
+   "sha256": "480fbdfe7ac22007e2b5aa48ce679a514e308840ffa4aa4d69f0d89b2471ec3a",
+   "bytes": 340037
+  },
+  "modstats/en/ExportRelicArcane": {
+   "entry": "ExportRelicArcane_en.json!00_BPSU5+RTY0mdOW9AmkGU5A",
+   "format": "modstats-3/part-1",
+   "file": "parts/modstats/en/ExportRelicArcane.2f4b7a9b06a4dfca.json",
+   "sha256": "2f4b7a9b06a4dfcaa498df23582ac866911c87309966dd642c4da7c78519a294",
+   "bytes": 72023
+  },
+  "modstats/en/ExportUpgrades": {
+   "entry": "ExportUpgrades_en.json!00_iIR9VcbRzLg4-0-6Yn7IrA",
+   "format": "modstats-3/part-1",
+   "file": "parts/modstats/en/ExportUpgrades.0e6f425ec19decab.json",
+   "sha256": "0e6f425ec19decab615a2e31b95620a507e837a79e99ef678743c8cf1d68821f",
+   "bytes": 320278
+  },
+  "names/de/ExportCustoms": {
+   "entry": "ExportCustoms_de.json!00_hA8W0I7vhCrNXLfFAvRRyw",
+   "format": "names-3/part-1",
+   "file": "parts/names/de/ExportCustoms.b185312ed2672dcd.json",
+   "sha256": "b185312ed2672dcd51e2287f77c35d173e8141e78efbff39ef5544ee49893be1",
+   "bytes": 370071
+  },
+  "names/de/ExportFlavour": {
+   "entry": "ExportFlavour_de.json!00_1gUS1-WB8FDfiyBNIupguQ",
+   "format": "names-3/part-1",
+   "file": "parts/names/de/ExportFlavour.c868428061bb9ca8.json",
+   "sha256": "c868428061bb9ca857d6085a67f05a4687ceb25860e385c5ff3b8fabd4c4c4e4",
+   "bytes": 229897
+  },
+  "names/de/ExportFusionBundles": {
+   "entry": "ExportFusionBundles_de.json!00_WevH2yAoIcNOpVsEu2YFqg",
+   "format": "names-3/part-1",
+   "file": "parts/names/de/ExportFusionBundles.3c732c248e009034.json",
+   "sha256": "3c732c248e009034b48e128972574db9066d73d0f3df68de5b168978177182bb",
+   "bytes": 4012
+  },
+  "names/de/ExportGear": {
+   "entry": "ExportGear_de.json!00_oYZzPlvIkrnTcfPeL1y89w",
+   "format": "names-3/part-1",
+   "file": "parts/names/de/ExportGear.636715b2540ae7a1.json",
+   "sha256": "636715b2540ae7a10a14f96b57f5ffaf5599f1d3399e31d8cd42648421f9a4d6",
+   "bytes": 14280
+  },
+  "names/de/ExportKeys": {
+   "entry": "ExportKeys_de.json!00_3xyFp5IaBL3VHLiLcFMZDQ",
+   "format": "names-3/part-1",
+   "file": "parts/names/de/ExportKeys.d318a63305886ed8.json",
+   "sha256": "d318a63305886ed855522d4a320d356c92a998330af22e722f15e2d74f2bfe6d",
+   "bytes": 3592
+  },
+  "names/de/ExportRecipes": {
+   "entry": "ExportRecipes_de.json!00_oac+LCAtIyqDxZF8Qe1ZZA",
+   "format": "names-3/part-1",
+   "file": "parts/names/de/ExportRecipes.48ed7314db6b5b4e.json",
+   "sha256": "48ed7314db6b5b4ee94b4a23e09ecd801d28e0aeaa4a4d63076daffebd71dc46",
+   "bytes": 22
+  },
+  "names/de/ExportRelicArcane": {
+   "entry": "ExportRelicArcane_de.json!00_SRmugunyApu-FuUh9m0M9w",
+   "format": "names-3/part-1",
+   "file": "parts/names/de/ExportRelicArcane.ef9b2033c2afe58d.json",
+   "sha256": "ef9b2033c2afe58d60f6790c6b79f6dc45df84d899fbd8278b669b5c6bac089b",
+   "bytes": 286220
+  },
+  "names/de/ExportResources": {
+   "entry": "ExportResources_de.json!00_QV01IHkkGIQOgNSnbt6F2w",
+   "format": "names-3/part-1",
+   "file": "parts/names/de/ExportResources.0ec5114fcb1cc6f9.json",
+   "sha256": "0ec5114fcb1cc6f94c7a0c61cb218738fc10c8574da3f3ececfbbde50ef66bf2",
+   "bytes": 299836
+  },
+  "names/de/ExportSentinels": {
+   "entry": "ExportSentinels_de.json!00_oLKeqvNiY1EZxgPscedN3A",
+   "format": "names-3/part-1",
+   "file": "parts/names/de/ExportSentinels.fd09e171d3c908ff.json",
+   "sha256": "fd09e171d3c908ffecc6625fc1781ee0724cc6901309af3cf33a80e9171022de",
+   "bytes": 2663
+  },
+  "names/de/ExportSortieRewards": {
+   "entry": "ExportSortieRewards_de.json!00_PCgUOuub-0bk6w-qeciUow",
+   "format": "names-3/part-1",
+   "file": "parts/names/de/ExportSortieRewards.e46e81e23e99d723.json",
+   "sha256": "e46e81e23e99d723f29fdc20a844f6dbf70f1fc5f43543aec27762bffc2f45db",
+   "bytes": 25710
+  },
+  "names/de/ExportUpgrades": {
+   "entry": "ExportUpgrades_de.json!00_xHF3iz4bgu9NarROzsQqzw",
+   "format": "names-3/part-1",
+   "file": "parts/names/de/ExportUpgrades.22133c9162ebb213.json",
+   "sha256": "22133c9162ebb2133eb53ab4b15eea9dd7a93ac6a338f974fc0e9535f6205f5b",
+   "bytes": 143444
+  },
+  "names/de/ExportWarframes": {
+   "entry": "ExportWarframes_de.json!00_Mx279ZuwjsCjJVK-kZGGTQ",
+   "format": "names-3/part-1",
+   "file": "parts/names/de/ExportWarframes.a36b5315fdbf791c.json",
+   "sha256": "a36b5315fdbf791c21f0c3388924e9d6d2c2c336753e3342b97f4a6c314db90f",
+   "bytes": 29031
+  },
+  "names/de/ExportWeapons": {
+   "entry": "ExportWeapons_de.json!00_IbdH5GDfGK+YfC8waTy+ng",
+   "format": "names-3/part-1",
+   "file": "parts/names/de/ExportWeapons.980f2029909fd1e0.json",
+   "sha256": "980f2029909fd1e001be84568ffe99bcf278b51cb1a2d179d1c4a6606f3db1eb",
+   "bytes": 77524
+  },
+  "names/en/ExportCustoms": {
+   "entry": "ExportCustoms_en.json!00_FtAAUKgb6W6tkcdqlAFUqA",
+   "format": "names-3/part-1",
+   "file": "parts/names/en/ExportCustoms.ff37368ec4f0d73e.json",
+   "sha256": "ff37368ec4f0d73e37f0d84ae93f1204e460602d59cbaf97d7b605ca8477b30d",
+   "bytes": 364140
+  },
+  "names/en/ExportFlavour": {
+   "entry": "ExportFlavour_en.json!00_R1M+MXp88DD2H7bICjbcBQ",
+   "format": "names-3/part-1",
+   "file": "parts/names/en/ExportFlavour.ab5c0a9a334c3447.json",
+   "sha256": "ab5c0a9a334c34478dba9eb3f587a98c55bd472eb49869948e395a9325c2d589",
+   "bytes": 224796
+  },
+  "names/en/ExportFusionBundles": {
+   "entry": "ExportFusionBundles_en.json!00_hUiYYnklWYlkgXXWeNhmng",
+   "format": "names-3/part-1",
+   "file": "parts/names/en/ExportFusionBundles.f4114c27781c1324.json",
+   "sha256": "f4114c27781c1324c98a70ac298230ae7883b6d7d0cbcdd36e4f261cb9370b64",
+   "bytes": 4012
+  },
+  "names/en/ExportGear": {
+   "entry": "ExportGear_en.json!00_qpt7NDCXJLc-Km1+pY4-Ow",
+   "format": "names-3/part-1",
+   "file": "parts/names/en/ExportGear.2362fb6c53f8c917.json",
+   "sha256": "2362fb6c53f8c9175aacfdd876b7cd61366d0575aa765ccfd78974a31c167f85",
+   "bytes": 13861
+  },
+  "names/en/ExportKeys": {
+   "entry": "ExportKeys_en.json!00_R7ERo2sfH9Q+oEbNG3cztg",
+   "format": "names-3/part-1",
+   "file": "parts/names/en/ExportKeys.41358f2311f2fbb4.json",
+   "sha256": "41358f2311f2fbb4f44d2f44ae155353156f7a32ffd1ea97785dd7f20fd5ee1f",
+   "bytes": 3552
+  },
+  "names/en/ExportRecipes": {
+   "entry": "ExportRecipes_en.json!00_oac+LCAtIyqDxZF8Qe1ZZA",
+   "format": "names-3/part-1",
+   "file": "parts/names/en/ExportRecipes.48ed7314db6b5b4e.json",
+   "sha256": "48ed7314db6b5b4ee94b4a23e09ecd801d28e0aeaa4a4d63076daffebd71dc46",
+   "bytes": 22
+  },
+  "names/en/ExportRelicArcane": {
+   "entry": "ExportRelicArcane_en.json!00_BPSU5+RTY0mdOW9AmkGU5A",
+   "format": "names-3/part-1",
+   "file": "parts/names/en/ExportRelicArcane.4f7e82e3eafbbbdb.json",
+   "sha256": "4f7e82e3eafbbbdb42a1f3abadee13d3569b692d4c3faeba26ca159ad3f944db",
+   "bytes": 279193
+  },
+  "names/en/ExportResources": {
+   "entry": "ExportResources_en.json!00_AIngbzxhVpxhDwXhkSq6bA",
+   "format": "names-3/part-1",
+   "file": "parts/names/en/ExportResources.082c84ad6104e207.json",
+   "sha256": "082c84ad6104e2072c414550274e33a39f041386e2ae7fe7bdb3f7fb430e5b4b",
+   "bytes": 293424
+  },
+  "names/en/ExportSentinels": {
+   "entry": "ExportSentinels_en.json!00_8iGr2T9MTskXt5zeKEVNmQ",
+   "format": "names-3/part-1",
+   "file": "parts/names/en/ExportSentinels.5a8bf9a1ee4396bf.json",
+   "sha256": "5a8bf9a1ee4396bfb1ddd6cf16bf3affeefc6a0bde5a531d15ccc961a5390f99",
+   "bytes": 2663
+  },
+  "names/en/ExportSortieRewards": {
+   "entry": "ExportSortieRewards_en.json!00_Bt+LyatkTjWOKpnU6GPeng",
+   "format": "names-3/part-1",
+   "file": "parts/names/en/ExportSortieRewards.46944dfc1dbdea44.json",
+   "sha256": "46944dfc1dbdea444123fcf8784b6b02f966da415dd36e8db6717de70e217888",
+   "bytes": 25474
+  },
+  "names/en/ExportUpgrades": {
+   "entry": "ExportUpgrades_en.json!00_iIR9VcbRzLg4-0-6Yn7IrA",
+   "format": "names-3/part-1",
+   "file": "parts/names/en/ExportUpgrades.820992851db5e43a.json",
+   "sha256": "820992851db5e43a316fcb0a98a08f43c54011cafd69aa1257f3a16f21ac45b3",
+   "bytes": 139318
+  },
+  "names/en/ExportWarframes": {
+   "entry": "ExportWarframes_en.json!00_AIDVHigS64IrZQVY2GdWfg",
+   "format": "names-3/part-1",
+   "file": "parts/names/en/ExportWarframes.4a1ed882fd89e96c.json",
+   "sha256": "4a1ed882fd89e96cc6e86cb054ac432ff4e16123c75bb164aa8cdc5ee6e444b2",
+   "bytes": 28534
+  },
+  "names/en/ExportWeapons": {
+   "entry": "ExportWeapons_en.json!00_Lp7tYn3OPr4R3amRyHcSaA",
+   "format": "names-3/part-1",
+   "file": "parts/names/en/ExportWeapons.7febe7ecab869a52.json",
+   "sha256": "7febe7ecab869a5291e808d72cb6bd578352d692adc603baf522dc3edee47647",
+   "bytes": 77242
+  },
+  "nightwave": {
+   "entry": "ExportSortieRewards_en.json!00_Bt+LyatkTjWOKpnU6GPeng",
+   "format": "nightwave-1",
+   "file": "parts/nightwave.cf9ad6d1294d697a.json",
+   "sha256": "cf9ad6d1294d697a1c450b5b6d03bdd2207ef9d23c16e931240bfa35f79d4016",
+   "bytes": 17169
+  },
+  "palettes": {
+   "entry": "ExportFlavour_en.json!00_R1M+MXp88DD2H7bICjbcBQ",
+   "format": "palettes-1",
+   "file": "parts/palettes.7a39525e4349d09e.json",
+   "sha256": "7a39525e4349d09ef356694a16aa0b89d2d035264c1cf867b725a1d4c11c0f4f",
+   "bytes": 64846
+  },
+  "regions/de": {
+   "entry": "ExportRegions_de.json!00_oYeFRU8iNOrY7-OuQy1h3w",
+   "format": "regions-1",
+   "file": "parts/regions/de.1be9361498d975cb.json",
+   "sha256": "1be9361498d975cb06c51bb1068e128de79c29e31e649a72883e990d78176308",
+   "bytes": 13584
+  },
+  "regions/en": {
+   "entry": "ExportRegions_en.json!00_457BHCafc9wNaxtGHmvoOw",
+   "format": "regions-1",
+   "file": "parts/regions/en.9de927fd79f20055.json",
+   "sha256": "9de927fd79f20055f1fcd55cfe30c3a1bfda2a355a035dc6acc9f6f6fe1caf05",
+   "bytes": 13585
+  }
+ }
+}
