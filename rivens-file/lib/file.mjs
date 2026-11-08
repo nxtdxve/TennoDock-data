@@ -22,8 +22,10 @@ const DAY = /^\d{4}-\d{2}-\d{2}$/;
  *   range: readonly number[], minRange: number, minUnsure: number, luckWindow: number, deAt?: string, stats: string[],
  *   weapons: Record<string, WeaponRecord> }} RivensFile
  * @typedef {{ slug: string, path: string, name: string, group?: string, rivenType?: string }} StateWeapon
- * @typedef {{ v: number, weapons?: StateWeapon[], big?: Record<string, string[]>, exportIndex?: string, base?: BaseValues }} State
- *   `big`: Waffenpfad → Paare (`Tag+Tag`), die zuletzt 100 Treffer hatten.
+ * @typedef {{ v: number, weapons?: StateWeapon[], big?: Record<string, string[]>, exportIndex?: string, base?: BaseValues,
+ *   day?: { date: string, searches: number }, de?: { hash: string, changedAt: string } }} State
+ *   `big`: Waffenpfad → Paare (`Tag+Tag`), die zuletzt 100 Treffer hatten; `day`: Suchen des UTC-Tags über alle Läufe
+ *   (Review S1); `de`: Hash von DEs Datei und Tag der letzten Änderung (Review K8).
  */
 
 /** @param {unknown} value @returns {value is Record<string, unknown>} */
@@ -118,6 +120,10 @@ export function readState(text) {
     }
     if (typeof json['exportIndex'] === 'string') state.exportIndex = json['exportIndex'];
     if (isBaseValues(json['base'])) state.base = json['base'];
+    const day = isRecord(json['day']) ? json['day'] : undefined;
+    if (day && typeof day['date'] === 'string' && DAY.test(day['date']) && typeof day['searches'] === 'number' && day['searches'] >= 0) state.day = { date: day['date'], searches: day['searches'] };
+    const de = isRecord(json['de']) ? json['de'] : undefined;
+    if (de && typeof de['hash'] === 'string' && typeof de['changedAt'] === 'string' && DAY.test(de['changedAt'])) state.de = { hash: de['hash'], changedAt: de['changedAt'] };
     return state;
   } catch {
     return { v: 1 };

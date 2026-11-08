@@ -209,6 +209,9 @@ describe('weekly', () => {
     assert.throws(() => looseJson('[{a: undefined}]'), /unexpected undefined/);
     assert.throws(() => looseJson("['open"), /open string/);
   });
+  it('liest Zahlen mit Exponent und mit Punkt am Anfang (Review K3)', () => {
+    assert.deepEqual(JSON.parse(looseJson('[{a: 1e-7, b: 2.5E+3, c: -4, d: .5, e: 12}]')), [{ a: 1e-7, b: 2500, c: -4, d: 0.5, e: 12 }]);
+  });
   it('zu wenige Zeilen oder kein JSON: Fehler', () => {
     assert.throws(() => readWeekly('[]'), /only 0 rows/);
     assert.throws(() => readWeekly('<html>'));
@@ -263,5 +266,9 @@ describe('file', () => {
   it('Merkzettel: kaputte Teile fallen weg', () => {
     assert.deepEqual(readState('{"weapons":[{"slug":"a","path":"b","name":"c"},{"slug":1}],"big":{"x":["a+b"],"y":[1]},"base":{"rifle":{"T":[1,"p"]}}}'), { v: 1, weapons: [{ slug: 'a', path: 'b', name: 'c' }], big: { x: ['a+b'] }, base: { rifle: { T: [1, 'p'] } } });
     assert.deepEqual(readState('kaputt'), { v: 1 });
+  });
+  it('Merkzettel: Tageszähler und Hash von DEs Datei; kaputte fallen weg', () => {
+    assert.deepEqual(readState('{"day":{"date":"2026-11-09","searches":12},"de":{"hash":"ab","changedAt":"2026-11-02"}}'), { v: 1, day: { date: '2026-11-09', searches: 12 }, de: { hash: 'ab', changedAt: '2026-11-02' } });
+    assert.deepEqual(readState('{"day":{"date":"gestern","searches":-1},"de":{"hash":1}}'), { v: 1 });
   });
 });

@@ -214,6 +214,99 @@ describe('run', () => {
   });
 });
 
+describe('run: Grenzen und Schutz (Review)', () => {
+  it('M1 Zeitgrenze: nach der Frist keine neue Waffe, das Erreichte und der Merkzettel werden geschrieben', async () => {
+    let time = 0;
+    // Jede Suche kostet eine Minute; Frist 3 Minuten.
+    const net = fakeNet((url) => {
+      if (url.includes('/v1/auctions/search')) time += 60_000;
+      return undefined;
+    });
+    const files = memoryFiles();
+    const result = await run({ ...deps(net, files).deps, clock: () => time, timeLimitMs: 3 * 60_000 });
+    assert.equal(result.stopped, 'time');
+    assert.equal(result.wfmFailed, false);
+    assert.ok(result.weapons >= 1 && result.weapons < 3);
+    const file = readFile(files.files.get(FILE));
+    assert.equal(Object.values(file?.weapons ?? {}).filter((record) => record.at).length, result.weapons);
+    assert.equal(readState(files.files.get(STATE_FILE)).day?.searches, result.searches);
+  });
+
+  it('M1 Zeitgrenze hart: auch eine laufende Waffe endet 30 min nach der Frist', async () => {
+    let time = 0;
+    const net = fakeNet((url) => {
+      if (url.includes('/v1/auctions/search')) time += 20 * 60_000;
+      return undefined;
+    });
+    const result = await run({ ...deps(net, memoryFiles()).deps, clock: () => time, timeLimitMs: 30 * 60_000 });
+    assert.equal(result.stopped, 'time');
+    assert.ok(net.searches() <= 3);
+  });
+
+  it('M1 Rate-Limit: nach 5 Antworten mit 429 Schluss, der Lauf meldet es', async () => {
+    const net = fakeNet((url) => (url.includes('/v1/auctions/search') ? { status: 429, text: '' } : undefined));
+    const result = await run(deps(net, memoryFiles()).deps);
+    assert.equal(result.stopped, 'limited');
+    assert.equal(result.wfmFailed, true);
+    assert.equal(net.searches(), 5);
+  });
+
+  it('S1 Tageszähler: ein zweiter Lauf am selben Tag nutzt nur den Rest, am nächsten Tag gilt die Grenze neu', async () => {
+    const files = memoryFiles();
+    await run({ ...deps(fakeNet(), files).deps, budget: 2, dailyBudget: 4 });
+    assert.deepEqual(readState(files.files.get(STATE_FILE)).day, { date: '2026-11-09', searches: 2 });
+    const second = fakeNet();
+    await run({ ...deps(second, files).deps, dailyBudget: 4 });
+    assert.ok(second.searches() <= 2);
+    const day = readState(files.files.get(STATE_FILE)).day;
+    assert.ok(day && day.date === '2026-11-09' && day.searches <= 4);
+    const third = fakeNet();
+    await run({ ...deps(third, files).deps, dailyBudget: 4, now: NOW + DAY_MS });
+    assert.equal(readState(files.files.get(STATE_FILE)).day?.date, '2026-11-10');
+  });
+
+  it('K1 viel kürzere Waffenliste: die alte bleibt', async () => {
+    const first = memoryFiles();
+    await run(deps(fakeNet(), first).deps);
+    const short = { ...WEAPONS, data: WEAPONS.data.slice(0, 1) };
+    const net = fakeNet((url) => (url === WEAPONS_URL ? { status: 200, text: JSON.stringify(short) } : undefined));
+    const files = memoryFiles(Object.fromEntries(first.files));
+    await run({ ...deps(net, files).deps, now: NOW + DAY_MS });
+    assert.equal(readState(files.files.get(STATE_FILE)).weapons?.length, 3);
+    assert.equal(Object.keys(readFile(files.files.get(FILE))?.weapons ?? {}).length, 3);
+  });
+
+  it('K2 ohne Merkzettel und ohne warframe.market: alte DE-Werte bleiben', async () => {
+    const first = memoryFiles();
+    await run(deps(fakeNet(), first).deps);
+    const files = memoryFiles({ [FILE]: first.files.get(FILE) });
+    await run({ ...deps(fakeNet(), files).deps, wfm: false, now: NOW + DAY_MS });
+    assert.deepEqual(readFile(files.files.get(FILE))?.weapons['Weapons/Test/TestRifle']?.de, [300, 100, 40, 80]);
+  });
+
+  it('K8 DEs Datei ändert sich 14 Tage nicht: der Lauf meldet es', async () => {
+    const files = memoryFiles();
+    await run({ ...deps(fakeNet(), files).deps, wfm: false });
+    const soon = await run({ ...deps(fakeNet(), files).deps, wfm: false, now: NOW + 7 * DAY_MS });
+    assert.equal(soon.deStale, false);
+    const late = await run({ ...deps(fakeNet(), files).deps, wfm: false, now: NOW + 15 * DAY_MS });
+    assert.equal(late.deFailed, false);
+    assert.equal(late.deStale, true);
+  });
+
+  it('K9 ein unerwarteter Fehler kostet nur seine Waffe', async () => {
+    const files = memoryFiles();
+    const log = (text) => {
+      if (text.startsWith('test_rifle (')) throw new Error('kaputt');
+    };
+    const result = await run({ ...deps(fakeNet(), files).deps, log });
+    assert.equal(result.weapons, 2);
+    const file = readFile(files.files.get(FILE));
+    assert.equal(file?.weapons['Weapons/Test/TestRifle']?.at, undefined);
+    assert.equal(file?.weapons['Weapons/Test/TestBlade']?.at, '2026-11-09');
+  });
+});
+
 describe('createSearch', () => {
   it('keine Antwort: 30 s warten, einmal neu', async () => {
     const sleeps = [];

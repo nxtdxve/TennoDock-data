@@ -15,6 +15,7 @@
 // Keine Abhängigkeiten ausser Node (ab 20) und `xz` (für den Index des DE-Exports, auf GitHub-Runnern vorhanden).
 // Doku: docs/pakete/172-riven-prices.md im App-Repo.
 
+import { createHash } from 'node:crypto';
 import { writeFile } from 'node:fs/promises';
 import { pathToFileURL } from 'node:url';
 import { folderFiles } from '../glyph-codes-file/build.mjs';
@@ -31,12 +32,22 @@ import { ATTRIBUTES_URL, parseAttributes, parseAuctionPage, parseWeapons, search
 export const USER_AGENT = 'TennoDock-data/1 (+https://github.com/nxtdxve/TennoDock-data; riven price ranges)';
 /** Abstand zwischen zwei Anfragen an warframe.market: 7,5 pro Minute, unter „10 to 20“ der Regeln. */
 export const SEARCH_GAP_MS = 8000;
-/** Harte Grenze pro Lauf (Daves Entscheidung). */
+/** Harte Grenze pro UTC-Tag über alle Läufe (Daves Entscheidung; Review S1: Tageszähler in `state.json`). */
 export const DEFAULT_BUDGET = 1200;
+/**
+ * Ab dieser Laufzeit fängt die Suche keine neue Waffe mehr an und schreibt das Erreichte (Review M1): Der Job hat 240 min,
+ * und ohne Commit wiederholte der nächste Lauf dieselben Suchen. Spätestens 30 min danach endet auch eine laufende Waffe.
+ */
+export const TIME_LIMIT_MS = 180 * 60 * 1000;
+const HARD_EXTRA_MS = 30 * 60 * 1000;
 const RETRY_MS = 30 * 1000;
 const RATE_LIMIT_MS = 60 * 1000;
 /** So viele gescheiterte Suchen in Folge beenden die Suche für heute. */
 const MAX_FAILURES_IN_ROW = 3;
+/** So viele Antworten mit Rate-Limit (429/509) in einem Lauf beenden die Suche für heute (Review M1). */
+export const MAX_RATE_LIMITS = 5;
+/** Ist die Waffenliste von warframe.market kürzer als dieser Anteil der bisherigen, bleibt die alte (Review K1). */
+const MIN_LIST_SHARE = 0.8;
 /** Älter werden DEs Wochenwerte, meldet der Lauf es (Mail von GitHub). */
 const DE_STALE_DAYS = 14;
 const DAY_MS = 24 * 60 * 60 * 1000;
@@ -50,8 +61,11 @@ const DAY_MS = 24 * 60 * 60 * 1000;
  * @typedef {import('./lib/file.mjs').WeaponRecord} WeaponRecord
  * @typedef {import('./lib/file.mjs').StateWeapon} StateWeapon
  * @typedef {{ fetchText: FetchText, files: Files, now: number, log(text: string): void, sleep(ms: number): Promise<void>,
- *   wfm?: boolean, budget?: number, gapMs?: number, baseValues?(knownIndex: string | undefined): Promise<BaseValuesAnswer> }} RunDeps
- *   `files`: der Ordner `rivens/`; `wfm`: false = keine Anfrage an warframe.market; `baseValues`: Grundwerte aus dem DE-Export.
+ *   wfm?: boolean, budget?: number, dailyBudget?: number, gapMs?: number, clock?(): number, timeLimitMs?: number,
+ *   baseValues?(knownIndex: string | undefined): Promise<BaseValuesAnswer> }} RunDeps
+ *   `files`: der Ordner `rivens/`; `wfm`: false = keine Anfrage an warframe.market; `budget`: Grenze dieses Laufs;
+ *   `dailyBudget`: Grenze des UTC-Tags über alle Läufe; `clock`: Uhr für die Zeitgrenze (Standard `Date.now`);
+ *   `baseValues`: Grundwerte aus dem DE-Export.
  * @typedef {{ written: boolean, asOf: string, searches: number, weapons: number, stopped?: string, deFailed: boolean, deStale: boolean, wfmFailed: boolean }} RunResult
  */
 
@@ -63,14 +77,15 @@ const message = (error) => (error instanceof Error ? error.message : String(erro
 
 /**
  * Suche bei warframe.market mit Abstand (vor jeder Anfrage, auch nach den Listen), Budget und Rückoff: 429/509 → 60 s,
- * keine Antwort oder 5xx → 30 s, je eine
- * Wiederholung. 403 oder eine Antwort ohne Liste (Seite von Cloudflare) beenden die Suche für heute, ebenso 3 gescheiterte
- * Suchen in Folge und das Ende des Budgets.
- * @param {{ fetchText: FetchText, sleep(ms: number): Promise<void>, gapMs: number, budget: number }} options
+ * keine Antwort oder 5xx → 30 s, je eine Wiederholung. 403 oder eine Antwort ohne Liste (Seite von Cloudflare) beenden die
+ * Suche für heute, ebenso 3 gescheiterte Suchen in Folge, 5 Rate-Limits im Lauf, das Ende des Budgets und die harte
+ * Zeitgrenze (`deadline`).
+ * @param {{ fetchText: FetchText, sleep(ms: number): Promise<void>, gapMs: number, budget: number, clock?(): number, deadline?: number }} options
  */
-export function createSearch({ fetchText, sleep, gapMs, budget }) {
+export function createSearch({ fetchText, sleep, gapMs, budget, clock, deadline }) {
   let used = 0;
   let failuresInRow = 0;
+  let rateLimits = 0;
   /** @type {string | undefined} */
   let stopped;
   /** @param {string} url @returns {Promise<import('./lib/wfm.mjs').SearchAnswer>} */
@@ -79,6 +94,10 @@ export function createSearch({ fetchText, sleep, gapMs, budget }) {
       if (stopped) return { failed: stopped };
       if (used >= budget) {
         stopped = 'budget';
+        return { failed: stopped };
+      }
+      if (clock && deadline !== undefined && clock() >= deadline) {
+        stopped = 'time';
         return { failed: stopped };
       }
       await sleep(gapMs);
@@ -110,6 +129,10 @@ export function createSearch({ fetchText, sleep, gapMs, budget }) {
         return { failed: stopped };
       }
       const limited = response?.status === 429 || response?.status === 509;
+      if (limited && ++rateLimits >= MAX_RATE_LIMITS) {
+        stopped = 'limited';
+        return { failed: stopped };
+      }
       if (attempt === 1 || !(response === undefined || limited || response.status >= 500)) break;
       await sleep(limited ? RATE_LIMIT_MS : RETRY_MS);
     }
@@ -117,7 +140,7 @@ export function createSearch({ fetchText, sleep, gapMs, budget }) {
     if (failuresInRow >= MAX_FAILURES_IN_ROW) stopped = 'failures';
     return { failed: 'error' };
   };
-  return { search, used: () => used, stopped: () => stopped };
+  return { search, used: () => used, stopped: () => stopped, stop: (/** @type {string} */ reason) => void (stopped ??= reason) };
 }
 
 /** Ein Abruf mit einer Wiederholung nach 30 s (keine Antwort, 5xx, 429). @param {RunDeps} deps @param {string} url @returns {Promise<string>} */
@@ -143,16 +166,24 @@ async function fetchOk(deps, url) {
  */
 export async function run(deps) {
   const { files, now, log } = deps;
+  const clock = deps.clock ?? Date.now;
+  const startedAt = clock();
+  const timeLimit = deps.timeLimitMs ?? TIME_LIMIT_MS;
   const today = isoDay(now);
   const previous = readFile(await files.read(FILE));
   const state = readState(await files.read(STATE_FILE));
   const wfmOn = deps.wfm !== false;
 
-  // 1. DEs Wochenwerte: ein Abruf; scheitert er, bleiben die alten Werte.
+  // 1. DEs Wochenwerte: ein Abruf; scheitert er, bleiben die alten Werte. Ändert sich DEs Datei 14 Tage lang nicht, meldet
+  //    der Lauf es (Review K8: der Tag des Abrufs allein sagt nicht, ob DE die Datei noch erneuert).
   /** @type {Map<string, import('./lib/weekly.mjs').WeeklyWeapon> | undefined} */
   let weekly;
+  let deState = state.de;
   try {
-    weekly = readWeekly(await fetchOk(deps, WEEKLY_URL));
+    const text = await fetchOk(deps, WEEKLY_URL);
+    weekly = readWeekly(text);
+    const hash = createHash('sha256').update(text).digest('hex').slice(0, 16);
+    if (deState?.hash !== hash) deState = { hash, changedAt: today };
     log(`Weekly rivens from DE: ${weekly.size} weapons`);
   } catch (error) {
     log(`::warning::Weekly rivens from DE not available (${message(error)}); keeping the last values`);
@@ -172,7 +203,9 @@ export async function run(deps) {
       await deps.sleep(deps.gapMs ?? SEARCH_GAP_MS);
       tagOfSlug = parseAttributes(await fetchOk(deps, ATTRIBUTES_URL));
       if (!listed || !tagOfSlug) throw new Error('unreadable lists');
-      weapons = listed;
+      const before = state.weapons?.length ?? 0;
+      if (listed.length < before * MIN_LIST_SHARE) log(`::warning::warframe.market lists only ${listed.length} riven weapons instead of ${before}; keeping the last list`);
+      else weapons = listed;
       log(`warframe.market: ${listed.length} riven weapons, ${tagOfSlug.size} attributes`);
     } catch (error) {
       stopped = 'lists';
@@ -214,53 +247,65 @@ export async function run(deps) {
     }
   }
 
-  // 5. Suchen.
-  const budget = deps.budget ?? DEFAULT_BUDGET;
-  const searcher = createSearch({ fetchText: deps.fetchText, sleep: deps.sleep, gapMs: deps.gapMs ?? SEARCH_GAP_MS, budget });
+  // 5. Suchen: höchstens die Grenze dieses Laufs und was vom Tag noch übrig ist (Review S1), keine neue Waffe nach der
+  //    Zeitgrenze (Review M1), ein unerwarteter Fehler kostet nur seine Waffe (Review K9).
+  const usedToday = state.day?.date === today ? state.day.searches : 0;
+  const budget = Math.max(0, Math.min(deps.budget ?? DEFAULT_BUDGET, (deps.dailyBudget ?? DEFAULT_BUDGET) - usedToday));
+  if (plan.length > 0 && budget === 0) log(`Daily limit reached (${usedToday} searches today)`);
+  const searcher = createSearch({ fetchText: deps.fetchText, sleep: deps.sleep, gapMs: deps.gapMs ?? SEARCH_GAP_MS, budget, clock, deadline: startedAt + timeLimit + HARD_EXTRA_MS });
   /** @type {Record<string, WeaponRecord>} */
   const searched = {};
   /** @type {Record<string, string[]>} */
   const big = { ...(state.big ?? {}) };
   for (const { weapon, tier, pairs, estimate } of plan) {
     if (searcher.stopped()) break;
+    if (clock() - startedAt >= timeLimit) {
+      searcher.stop('time');
+      break;
+    }
     if (searcher.used() + estimate > budget) continue;
-    /** @type {{ pair: [string, string], complete: boolean, big: boolean, auctions: import('./lib/wfm.mjs').Auction[] }[]} */
-    const results = [];
-    let failed = false;
-    for (const pair of pairs) {
-      const slugs = pair.map((tag) => slugOfTag.get(marketTag(weapon.weaponClass, tag)));
-      if (slugs.some((slug) => slug === undefined)) continue;
-      const answer = await searchPair(searcher.search, weapon.slug, /** @type {string[]} */ (slugs), (weapon.big ?? []).includes(pairKey(pair)));
-      if ('failed' in answer) {
-        failed = true;
-        break;
+    try {
+      /** @type {{ pair: [string, string], complete: boolean, big: boolean, auctions: import('./lib/wfm.mjs').Auction[] }[]} */
+      const results = [];
+      let failed = false;
+      for (const pair of pairs) {
+        const slugs = pair.map((tag) => slugOfTag.get(marketTag(weapon.weaponClass, tag)));
+        if (slugs.some((slug) => slug === undefined)) continue;
+        const answer = await searchPair(searcher.search, weapon.slug, /** @type {string[]} */ (slugs), (weapon.big ?? []).includes(pairKey(pair)));
+        if ('failed' in answer) {
+          failed = true;
+          break;
+        }
+        results.push({ pair, ...answer });
       }
-      results.push({ pair, ...answer });
+      if (failed || results.length === 0) continue;
+      const base1 = base?.[weapon.weaponClass];
+      /** @type {Map<string, import('./lib/stats.mjs').Offer>} */
+      const offers = new Map();
+      for (const auction of results.flatMap((result) => result.auctions)) {
+        if (offers.has(auction.id) || auction.updated === undefined || !isFresh(auction.updated, now)) continue;
+        const values = auction.values.map((entry) => {
+          const tag = tagOfSlug?.get(entry.slug);
+          return { ...entry, tag: tag === undefined ? undefined : gameTag(weapon.weaponClass, tag) };
+        });
+        if (values.some((entry) => entry.tag === undefined)) continue;
+        const buffs = values.filter((entry) => entry.positive).map((entry) => /** @type {string} */ (entry.tag)).sort();
+        const curses = values.filter((entry) => !entry.positive);
+        if (buffs.length < 2 || buffs.length > 3 || curses.length > 1) continue;
+        const luck = offerLuck(/** @type {{ tag: string, value: number, positive: boolean }[]} */ (values), base1, auction.rank);
+        offers.set(auction.id, { id: auction.id, price: auction.price, buffs, ...(curses[0]?.tag ? { curse: curses[0].tag } : {}), updated: auction.updated, ...(luck !== undefined ? { luck } : {}) });
+      }
+      const c = weaponEntries([...offers.values()], results, (tag) => curseClass(weapon.weaponClass, tag), indexOf);
+      const pairKeys = results.map((result) => `${result.pair.map(indexOf).sort((a, b) => a - b).join('.')}${result.complete ? '' : '!'}`);
+      searched[weapon.path] = { at: today, pairs: pairKeys, c };
+      const full = results.filter((result) => result.big).map((result) => pairKey(result.pair));
+      if (full.length > 0) big[weapon.path] = full;
+      else delete big[weapon.path];
+      log(`${weapon.slug} (${tier}): ${offers.size} offers, ${Object.keys(c).length} entries`);
+    } catch (error) {
+      delete searched[weapon.path];
+      log(`::warning::${weapon.slug}: ${message(error)}; keeping its last prices`);
     }
-    if (failed || results.length === 0) continue;
-    const base1 = base?.[weapon.weaponClass];
-    /** @type {Map<string, import('./lib/stats.mjs').Offer>} */
-    const offers = new Map();
-    for (const auction of results.flatMap((result) => result.auctions)) {
-      if (offers.has(auction.id) || auction.updated === undefined || !isFresh(auction.updated, now)) continue;
-      const values = auction.values.map((entry) => {
-        const tag = tagOfSlug?.get(entry.slug);
-        return { ...entry, tag: tag === undefined ? undefined : gameTag(weapon.weaponClass, tag) };
-      });
-      if (values.some((entry) => entry.tag === undefined)) continue;
-      const buffs = values.filter((entry) => entry.positive).map((entry) => /** @type {string} */ (entry.tag)).sort();
-      const curses = values.filter((entry) => !entry.positive);
-      if (buffs.length < 2 || buffs.length > 3 || curses.length > 1) continue;
-      const luck = offerLuck(/** @type {{ tag: string, value: number, positive: boolean }[]} */ (values), base1, auction.rank);
-      offers.set(auction.id, { id: auction.id, price: auction.price, buffs, ...(curses[0]?.tag ? { curse: curses[0].tag } : {}), updated: auction.updated, ...(luck !== undefined ? { luck } : {}) });
-    }
-    const c = weaponEntries([...offers.values()], results, (tag) => curseClass(weapon.weaponClass, tag), indexOf);
-    const pairKeys = results.map((result) => `${result.pair.map(indexOf).sort((a, b) => a - b).join('.')}${result.complete ? '' : '!'}`);
-    searched[weapon.path] = { at: today, pairs: pairKeys, c };
-    const full = results.filter((result) => result.big).map((result) => pairKey(result.pair));
-    if (full.length > 0) big[weapon.path] = full;
-    else delete big[weapon.path];
-    log(`${weapon.slug} (${tier}): ${offers.size} offers, ${Object.keys(c).length} entries`);
   }
   stopped ??= searcher.stopped();
   if (stopped && stopped !== 'off') log(`::warning::Searches stopped early (${stopped}) after ${searcher.used()} searches`);
@@ -274,7 +319,8 @@ export async function run(deps) {
     const old = previous?.weapons[path];
     const fresh = searched[path];
     const name = nameOf.get(path);
-    const de = weekly ? weeklyEntry(name ? weekly.get(name.toLowerCase()) : undefined) : old?.de;
+    // Ohne Namen (keine Listen, kein Merkzettel) bleibt der alte Wert (Review K2).
+    const de = weekly && name ? weeklyEntry(weekly.get(name.toLowerCase())) : old?.de;
     const source = fresh ?? old;
     /** @type {WeaponRecord} */
     const record = {};
@@ -296,11 +342,20 @@ export async function run(deps) {
   const written = !previous || contentOf(previous) !== contentOf(file);
   if (written) await files.write(FILE, encodeFile(file));
   /** @type {import('./lib/file.mjs').State} */
-  const nextState = { v: 1, ...(weapons ? { weapons } : {}), big, ...(exportIndex ? { exportIndex } : {}), ...(base ? { base } : {}) };
+  const nextState = {
+    v: 1,
+    ...(weapons ? { weapons } : {}),
+    big,
+    ...(exportIndex ? { exportIndex } : {}),
+    ...(base ? { base } : {}),
+    day: { date: today, searches: usedToday + searcher.used() },
+    ...(deState ? { de: deState } : {}),
+  };
   const stateText = encodeState(nextState);
   if (stateText !== (await files.read(STATE_FILE))) await files.write(STATE_FILE, stateText);
 
-  const deStale = !deAt || now - Date.parse(`${deAt}T00:00:00Z`) > DE_STALE_DAYS * DAY_MS;
+  const olderThan = (/** @type {string | undefined} */ day) => !day || now - Date.parse(`${day}T00:00:00Z`) > DE_STALE_DAYS * DAY_MS;
+  const deStale = olderThan(deAt) || olderThan(deState?.changedAt);
   return {
     written,
     asOf,
@@ -309,7 +364,7 @@ export async function run(deps) {
     ...(stopped ? { stopped } : {}),
     deFailed: !weekly,
     deStale,
-    wfmFailed: wfmOn && (stopped === 'lists' || stopped === 'blocked' || stopped === 'failures'),
+    wfmFailed: wfmOn && (stopped === 'lists' || stopped === 'blocked' || stopped === 'failures' || stopped === 'limited'),
   };
 }
 

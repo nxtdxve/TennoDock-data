@@ -19,6 +19,7 @@ const isRecord = (value) => typeof value === 'object' && value !== null && !Arra
 
 const IDENTIFIER = /[A-Za-z_$][\w$]*/y;
 const SPACE = /\s*/y;
+const NUMBER = /\d*\.?\d+(?:[eE][+-]?\d+)?/y;
 
 /**
  * JavaScript-Objekt-Text → JSON-Text: Schlüssel ohne Anführungszeichen und Texte in einfachen Anführungszeichen werden zu
@@ -59,6 +60,12 @@ export function looseJson(text) {
       const next = text[skipSpace(i + 1)];
       if (next !== ']' && next !== '}') out += ',';
       i++;
+    } else if (/[\d.]/.test(char)) {
+      // Zahl am Stück, auch mit Exponent (`1e-7`, Review K3); ein `.` am Anfang bekommt die 0, die JSON verlangt.
+      NUMBER.lastIndex = i;
+      const number = NUMBER.exec(text)?.[0] ?? char;
+      out += number.startsWith('.') ? `0${number}` : number;
+      i += number.length;
     } else if (/[A-Za-z_$]/.test(char)) {
       IDENTIFIER.lastIndex = i;
       const word = IDENTIFIER.exec(text)?.[0] ?? char;

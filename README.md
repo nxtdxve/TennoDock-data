@@ -564,16 +564,21 @@ shows it on its My Rivens page, so the app itself never searches warframe.market
 - **Searches:** warframe.market returns at most 100 auctions per search. With 100, the workflow repeats the search for
   each of the three riven polarities (they do not affect the price); a part with 100 again also gets the most expensive
   ones. Popular and medium weapons (by the weekly popularity from Digital Extremes) are searched every 3 days, rarely
-  traded ones every 7 days with two pairs, each weapon on a fixed day. About 500 searches a day, one every 8 seconds, at
-  most 1,200 per run, with the User-Agent of this repository. Sellers, notes and auction ids are never stored.
+  traded ones every 7 days with two pairs (critical chance with critical damage, damage with critical chance), each weapon
+  on a fixed day. About 500 searches a day, one every 8 seconds, at most 1,200 per UTC day over all runs (counted in
+  `rivens/state.json`), with the User-Agent of this repository. After 180 minutes a run starts no new weapon and writes
+  what it has, so the commit comes before the job's timeout. Sellers, notes and auction ids are never stored.
 - **Roll luck:** the workflow computes how good each auction's values rolled (0 to 1), from the base values in the public
   export of Digital Extremes. Entries with at least 16 auctions also get ranges for windows of similar luck.
 - **Weekly values:** `weeklyRivensPC.json` from Digital Extremes (www-static.warframe.com), built from real riven trades
   for platinum in the game, per weapon and rolled or unrolled, without stats. Fetched once per run.
 - **Errors:** a weapon whose searches fail keeps its previous entries with their date. If warframe.market refuses the
-  searches (403, a Cloudflare page, three errors in a row) the run stops, commits what it has and fails afterwards (step
-  *Report warframe.market*), so GitHub sends a mail. An invalid file is never written. `RIVENS_WFM=off` (repository
-  variable) turns the searches off; then only the weekly values are updated.
+  searches (403, a Cloudflare page, three errors in a row, five rate limits in one run) the run stops, commits what it has
+  and fails afterwards (step *Report warframe.market*), so GitHub sends a mail. A much shorter weapon list (below 80 % of
+  the last one) is ignored. An invalid file is never written. If the weekly file of Digital Extremes cannot be read for
+  14 days, or does not change for 14 days, the step *Report weekly rivens* fails. `RIVENS_WFM=off` (repository variable)
+  turns the searches off; then only the weekly values are updated. They need the weapon list from an earlier run with
+  warframe.market (`rivens/state.json`), so the very first run has to search.
 - TennoDock is not affiliated with Digital Extremes or warframe.market.
 
 ### Format (version 1)
@@ -626,7 +631,7 @@ shows it on its My Rivens page, so the app itself never searches warframe.market
 ### Other files
 
 - `rivens/state.json`: what the next run needs (weapon list for runs without warframe.market, pairs that had 100
-  auctions, base values for the roll luck). Not for apps.
+  auctions, base values for the roll luck, searches of the current UTC day, a hash of the last weekly file). Not for apps.
 - `rivens-file/`: the script (Node 20 or newer, no dependencies; `xz` for the index of the public export) and its tests:
   `node --test "rivens-file/**/*.test.mjs"`. Run it locally with `node rivens-file/build.mjs`; `RIVENS_BUDGET=20` limits
   the searches, `RIVENS_WFM=off` only updates the weekly values.
