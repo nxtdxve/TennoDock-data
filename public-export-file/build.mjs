@@ -7,8 +7,10 @@
 // Ablauf: Index `index_<Sprache>.txt.lzma` (0,5 KB, mit `xz` entpackt), zuerst von content.warframe.com, dann von
 // origin.warframe.com (origin sperrt GitHub-Runner, gemessen 06.11.2026). Neu entstehen nur Teile, deren Index-Zeile oder
 // Format sich geändert hat; jede DE-Datei kommt höchstens einmal, eine nach der anderen. Ohne Änderung kein Commit.
-// Scheitert eine Datei, bleibt ihr bisheriger Teil im Manifest (die App merkt am Index, dass er alt ist, und lädt nach 6 h
-// selbst von DE). TennoDock prüft jeden Teil per SHA-256. Keine Abhängigkeiten ausser Node (ab 22) und `xz`.
+// Scheitert eine Datei oder ihre Ableitung, bleibt ihr bisheriger Teil im Manifest (die App merkt am Index, dass er alt ist,
+// und lädt nach 6 h selbst von DE). Fehlt der Index, ist das „nichts Neues“ mit Warnung; laut wird es nur im Lauf um 06 UTC
+// (`ALERT_HOUR_UTC`), damit ein Ausfall bei DE höchstens ein- bis zweimal am Tag eine Mail auslöst statt alle 30 min.
+// TennoDock prüft jeden Teil per SHA-256. Keine Abhängigkeiten ausser Node (ab 22) und `xz`.
 // Doku: docs/pakete/179-loading.md im App-Repo. Im TennoDock-Repo liegt der Ordner 1:1 unter `tools/tennodock-data/`.
 
 import { spawn } from 'node:child_process';
@@ -23,6 +25,8 @@ const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..', 'public-export'
 const USER_AGENT = 'TennoDock-data/1 (+https://github.com/nxtdxve/TennoDock-data; public export parts)';
 export const INDEX_URLS = (/** @type {string} */ language) => [`https://content.warframe.com/PublicExport/index_${language}.txt.lzma`, `https://origin.warframe.com/PublicExport/index_${language}.txt.lzma`];
 export const FILE_BASE = 'https://content.warframe.com/PublicExport/Manifest/';
+/** Nur in dieser Stunde (UTC) schlägt ein Lauf mit Fehlern fehl und GitHub mailt; sonst nur eine Warnung im Lauf. */
+export const ALERT_HOUR_UTC = 6;
 
 /**
  * @typedef {{
@@ -32,8 +36,10 @@ export const FILE_BASE = 'https://content.warframe.com/PublicExport/Manifest/';
  *   now: string,
  *   log(text: string): void,
  *   rebuild?: boolean,
- * }} BuildOptions
- * @typedef {{ changed: boolean, index: string, parts: number, updated: string[], failed: string[] }} BuildResult
+ *   plan?: typeof planTables,
+ * }} BuildOptions `plan`: nur für Tests (Standard `planTables` aus derive.mjs).
+ * @typedef {{ changed: boolean, index: string, parts: number, updated: string[], failed: string[], indexFailed?: boolean }} BuildResult
+ *   `indexFailed`: kein Index erreichbar, nichts geändert.
  */
 
 /** Index einer Sprache von der ersten Adresse, die antwortet. @param {BuildOptions} options @param {string} language */
@@ -70,11 +76,17 @@ export async function build(root, options) {
 
   /** @type {Map<string, Map<string, string>>} */
   const indexes = new Map();
-  for (const language of LANGUAGES) indexes.set(language, await loadIndex(options, language));
+  try {
+    for (const language of LANGUAGES) indexes.set(language, await loadIndex(options, language));
+  } catch (error) {
+    // DE nicht erreichbar: wie „nichts Neues“, der bisherige Stand bleibt. Die App prüft gegen ihren eigenen Index.
+    log(`::warning::Public export index not available (${error instanceof Error ? error.message : String(error)}), nothing changed`);
+    return { changed: false, index: '', parts: Object.keys(previous?.parts ?? {}).length, updated: [], failed: [], indexFailed: true };
+  }
   /** @type {Record<string, string>} */
   const index = Object.fromEntries([...indexes].map(([language, entries]) => [language, indexHash(entries)]));
 
-  const tables = planTables(LANGUAGES, indexes);
+  const tables = (options.plan ?? planTables)(LANGUAGES, indexes);
   const { parts, keep, todo } = planWork(tables, previous, (file) => existsSync(join(root, file)), options.rebuild === true);
   /** @type {Record<string, import('./lib/public-export.mjs').ManifestPart>} */
   const next = { ...keep };
@@ -97,11 +109,21 @@ export async function build(root, options) {
       continue;
     }
     for (const part of needed) {
-      const { text, entry: manifestPart } = derivePart(part, json);
-      const target = join(root, manifestPart.file);
+      let derived;
+      try {
+        derived = derivePart(part, json);
+      } catch (error) {
+        // Eine Ableitung, die wirft (DE hat das Format geändert?), kostet nur ihren Teil; der bisherige bleibt.
+        failed.push(`${part.key} (${entry})`);
+        log(`::warning::${part.key}: ${error instanceof Error ? error.message : String(error)}`);
+        const old = previous?.parts[part.key];
+        if (old && existsSync(join(root, old.file))) next[part.key] = old;
+        continue;
+      }
+      const target = join(root, derived.entry.file);
       await mkdir(dirname(target), { recursive: true });
-      await writeFile(target, text);
-      next[part.key] = manifestPart;
+      await writeFile(target, derived.text);
+      next[part.key] = derived.entry;
       updated.push(part.key);
     }
   }
@@ -132,10 +154,15 @@ export function unlzmaWithXz(bytes) {
   });
 }
 
-/** Werte für `GITHUB_OUTPUT`, streng geprüft (Script-Injection). @param {BuildResult} result */
-export function outputLines(result) {
+/**
+ * Werte für `GITHUB_OUTPUT`, streng geprüft (Script-Injection). `alert`: Fehler (Datei, Ableitung, Index) und die Stunde der
+ * Meldung, dann schlägt der Lauf fehl und GitHub mailt. @param {BuildResult} result @param {Date} now
+ */
+export function outputLines(result, now = new Date()) {
   const safe = (/** @type {string} */ text) => text.replace(/[^0-9a-f/]/g, '');
-  return `changed=${result.changed ? 'true' : 'false'}\nindex=${safe(result.index)}\nparts=${Math.trunc(result.parts)}\nupdated=${Math.trunc(result.updated.length)}\nfailed=${Math.trunc(result.failed.length)}\n`;
+  const problem = result.failed.length > 0 || result.indexFailed === true;
+  const alert = problem && now.getUTCHours() === ALERT_HOUR_UTC;
+  return `changed=${result.changed ? 'true' : 'false'}\nindex=${safe(result.index)}\nparts=${Math.trunc(result.parts)}\nupdated=${Math.trunc(result.updated.length)}\nfailed=${Math.trunc(result.failed.length)}\nindex_failed=${result.indexFailed ? 'true' : 'false'}\nalert=${alert ? 'true' : 'false'}\n`;
 }
 
 if (import.meta.url === pathToFileURL(process.argv[1] ?? '').href) {

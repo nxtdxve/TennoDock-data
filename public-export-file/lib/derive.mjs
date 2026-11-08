@@ -1,4 +1,7 @@
 // @ts-nocheck
+// ERZEUGT aus src/core/masterdata/public-export-parts.ts im TennoDock-Repo (#179), nicht von Hand ändern.
+// Neu erzeugen im TennoDock-Repo: UPDATE_DERIVE=1 npx vitest run src/core/masterdata/public-export-derive.test.ts
+// (rolldown, Format esm, Plattform neutral). Der Test vergleicht die Datei Byte für Byte mit dem Code der App.
 //#region src/core/json.ts
 function isRecord(value) {
 	return typeof value === "object" && value !== null && !Array.isArray(value);

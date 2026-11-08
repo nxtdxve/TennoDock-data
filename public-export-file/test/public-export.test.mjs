@@ -142,6 +142,44 @@ describe('public export parts', () => {
     assert.equal(buildManifest({}, { en: 'a' }, manifest, 'T2').manifest.generatedAt, 'T1');
     assert.equal(buildManifest({}, { en: 'b' }, manifest, 'T2').changed, true);
     assert.deepEqual(staleFiles(['parts/a.json', 'parts/b.json'], { ...manifest, parts: { x: { entry: 'e', format: 'f', file: 'parts/a.json', sha256: 's', bytes: 1 } } }), ['parts/b.json']);
-    assert.equal(outputLines({ changed: true, index: 'ab12/cd34$(x)', parts: 3, updated: ['a'], failed: [] }), 'changed=true\nindex=ab12/cd34\nparts=3\nupdated=1\nfailed=0\n');
+    const morning = new Date('2026-11-08T06:07:00Z');
+    const noon = new Date('2026-11-08T12:07:00Z');
+    assert.equal(outputLines({ changed: true, index: 'ab12/cd34$(x)', parts: 3, updated: ['a'], failed: [] }, morning), 'changed=true\nindex=ab12/cd34\nparts=3\nupdated=1\nfailed=0\nindex_failed=false\nalert=false\n');
+    // Fehler melden nur im Lauf um 06 UTC laut (Mail), sonst nur eine Warnung.
+    assert.match(outputLines({ changed: false, index: '', parts: 3, updated: [], failed: [], indexFailed: true }, noon), /index_failed=true\nalert=false/);
+    assert.match(outputLines({ changed: false, index: '', parts: 3, updated: [], failed: [], indexFailed: true }, morning), /alert=true/);
+    assert.match(outputLines({ changed: true, index: 'a/b', parts: 3, updated: [], failed: ['x'] }, morning), /alert=true/);
+  });
+
+  it('ohne Index (DE nicht erreichbar): nichts Neues, kein Fehler, der bisherige Stand bleibt', async () => {
+    const root = await tempRoot();
+    await build(root, fakeNet().options);
+    const before = await readFile(join(root, 'manifest.json'), 'utf8');
+    const down = { ...fakeNet().options, fetchBytes: async () => Promise.reject(new Error('HTTP 503')) };
+    const result = await build(root, down);
+    assert.equal(result.indexFailed, true);
+    assert.equal(result.changed, false);
+    assert.equal(await readFile(join(root, 'manifest.json'), 'utf8'), before);
+    // Auch beim allerersten Lauf ohne Manifest: kein Absturz, kein Ordner.
+    const empty = await tempRoot();
+    const first = await build(join(empty, 'public-export', 'v1'), down);
+    assert.equal(first.indexFailed, true);
+    assert.equal(existsSync(join(empty, 'public-export')), false);
+  });
+
+  it('wirft eine Ableitung, bleibt nur ihr bisheriger Teil; die übrigen kommen neu', async () => {
+    const root = await tempRoot();
+    await build(root, fakeNet().options);
+    const old = readManifest(JSON.parse(await readFile(join(root, 'manifest.json'), 'utf8')));
+    const net = fakeNet({ hashes: { ExportResources: 'r2' } });
+    const tables = planTables(['en', 'de'], new Map([['en', parseIndex(indexText('en', { ExportResources: 'r2' }))], ['de', parseIndex(indexText('de'))]]));
+    // Die Katalog-Ableitung des neuen Teils wirft, die Namen nicht.
+    const broken = tables.map((table) => ({ ...table, parts: table.parts.map((part) => (part.key === 'catalog/resources' ? { ...part, derive: () => { throw new Error('broken'); } } : part)) }));
+    const result = await build(root, { ...net.options, plan: () => broken });
+    assert.deepEqual(result.failed, ['catalog/resources (ExportResources_en.json!00_r2)']);
+    assert.ok(result.updated.includes('names/en/ExportResources'));
+    const manifest = readManifest(JSON.parse(await readFile(join(root, 'manifest.json'), 'utf8')));
+    assert.deepEqual(manifest?.parts['catalog/resources'], old?.parts['catalog/resources']);
+    assert.notDeepEqual(manifest?.parts['names/en/ExportResources'], old?.parts['names/en/ExportResources']);
   });
 });

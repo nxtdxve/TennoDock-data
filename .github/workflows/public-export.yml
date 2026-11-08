@@ -58,13 +58,19 @@ jobs:
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          # Vor dem ersten erfolgreichen Lauf (Index fehlt) gibt es den Ordner noch nicht.
+          if [ ! -d public-export ]; then echo 'Nothing yet'; exit 0; fi
           git add public-export
           if git diff --cached --quiet; then echo 'Nothing new'; exit 0; fi
           git commit -m "Public export $INDEX ($UPDATED of $PARTS parts new)"
           # Läuft ein anderer Workflow gerade auch, einmal auf den neuen Stand setzen und erneut versuchen.
           git push || { git pull --rebase origin main && git push; }
-      # Eine Datei, die DE nicht liefert, hält die übrigen nicht auf. Nur eine Warnung, keine Mail alle 30 min: Die App lädt
-      # den Teil nach 6 h selbst von DE.
-      - name: Report failed files
-        if: ${{ !cancelled() && steps.build.outputs.failed != '0' && steps.build.outputs.failed != '' }}
-        run: echo '::warning::Some public export files could not be loaded, see the warnings of the build step'
+      # Fehlt der Index oder eine Datei, hält das die übrigen nicht auf, und die App lädt nach 6 h selbst von DE. Darum sonst
+      # nur eine Warnung; nur der Lauf um 06 UTC schlägt fehl (`alert`), also höchstens ein, zwei Mails am Tag.
+      - name: Report problems
+        if: ${{ !cancelled() && (steps.build.outputs.failed != '0' || steps.build.outputs.index_failed == 'true') }}
+        env:
+          ALERT: ${{ steps.build.outputs.alert }}
+        run: |
+          echo '::warning::Public export index or some files could not be loaded, see the warnings of the build step'
+          if [ "$ALERT" = 'true' ]; then echo '::error::Still failing at the daily check'; exit 1; fi
