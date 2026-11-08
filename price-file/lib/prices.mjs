@@ -16,10 +16,16 @@ export const MIN_TRADES = 3;
 /** Plausibilität: so viele Items mindestens, und nicht weniger als dieser Anteil der letzten Datei. */
 export const MIN_ITEMS = 1000;
 export const MIN_SHARE = 0.8;
+/**
+ * Schwankung (#193): erst ab so vielen Tagen mit Trades im Fenster. Gemessen am 08.11.2026 an 14 Tagen: 3'051 von 5'010
+ * Varianten hatten so viele, der halbe Interquartilsabstand lag im Median bei 5 % des Preises.
+ */
+export const SPREAD_MIN_DAYS = 7;
 
 /**
  * @typedef {import('./sources.mjs').CompactDay} CompactDay
- * @typedef {[price: number, trades: number, daysSinceTrade: number]} VariantPrice
+ * @typedef {[price: number, trades: number, daysSinceTrade: number, spread?: number]} VariantPrice
+ *   `spread`: halber Interquartilsabstand der Tagesmediane im Fenster (Platin), nur ab `SPREAD_MIN_DAYS` Tagen (#193)
  * @typedef {Map<string, Map<string, VariantPrice>>} PriceEntries Pfad → Variante → Preis
  * @typedef {{ format: string, v: number, asOf: string, generatedAt: string, windowDays: number, minTrades: number,
  *   source: string, items: number, dirs: Record<string, Record<string, VariantPrice | Record<string, VariantPrice>>> }} PriceFile
@@ -45,8 +51,26 @@ export function weightedMedian(points) {
 }
 
 /**
- * Preise aus den kompakten Tagen im Fenster, das mit `asOf` endet. Pro Variante: Preis, Menge der Trades im Fenster und
- * Tage seit dem letzten Trade (0 = am Tag `asOf`). Varianten ohne Trade im Fenster fehlen.
+ * Halber Interquartilsabstand (lineare Interpolation zwischen den sortierten Werten), `undefined` bei weniger als
+ * `SPREAD_MIN_DAYS` Werten. Die App nimmt ihn als Schwankung des Preises für die Warnung am Handelsfenster (#193).
+ * @param {readonly number[]} values
+ */
+export function halfIqr(values) {
+  if (values.length < SPREAD_MIN_DAYS) return undefined;
+  const sorted = [...values].sort((a, b) => a - b);
+  const at = (/** @type {number} */ share) => {
+    const index = (sorted.length - 1) * share;
+    const low = Math.floor(index);
+    const high = Math.min(low + 1, sorted.length - 1);
+    return /** @type {number} */ (sorted[low]) + (/** @type {number} */ (sorted[high]) - /** @type {number} */ (sorted[low])) * (index - low);
+  };
+  return round1((at(0.75) - at(0.25)) / 2);
+}
+
+/**
+ * Preise aus den kompakten Tagen im Fenster, das mit `asOf` endet. Pro Variante: Preis, Menge der Trades im Fenster,
+ * Tage seit dem letzten Trade (0 = am Tag `asOf`) und, ab `SPREAD_MIN_DAYS` Tagen mit Trades, die Schwankung der
+ * Tagesmediane (`halfIqr`). Varianten ohne Trade im Fenster fehlen.
  * @param {readonly CompactDay[]} days
  * @param {{ asOf: string, windowDays?: number }} options
  * @returns {PriceEntries}
@@ -76,7 +100,11 @@ export function buildPrices(days, { asOf, windowDays = WINDOW_DAYS }) {
     const split = key.lastIndexOf('|');
     const path = key.slice(0, split);
     const variants = entries.get(path) ?? new Map();
-    variants.set(key.slice(split + 1), [round1(offer !== undefined ? Math.min(traded, offer) : traded), entry.trades, daysBetween(entry.last, asOf)]);
+    const spread = halfIqr(entry.points.map(([median]) => median));
+    /** @type {VariantPrice} */
+    const price = [round1(offer !== undefined ? Math.min(traded, offer) : traded), entry.trades, daysBetween(entry.last, asOf)];
+    if (spread !== undefined) price.push(spread);
+    variants.set(key.slice(split + 1), price);
     entries.set(path, variants);
   }
   return entries;
