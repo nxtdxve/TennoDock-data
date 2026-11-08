@@ -733,3 +733,51 @@ shows it on its My Rivens page, so the app itself never searches warframe.market
   `node --test "rivens-file/**/*.test.mjs"`. Run it locally with `node rivens-file/build.mjs`; `RIVENS_BUDGET=20` limits
   the searches, `RIVENS_WFM=off` only updates the weekly values.
 - `.github/workflows/rivens.yml`: the daily workflow. Run it by hand under *Actions › Rivens › Run workflow*.
+
+## Color palettes
+
+`palettes/v1/palettes.json` says for every color palette in the game whether a player can still get it: any time, only
+at times (events, holidays, Baro Ki'Teer, Nightwave), or no longer. TennoDock marks missing palettes that are no longer
+available, so a player can see whether they already have everything they can get.
+
+- **Source:** the [WARFRAME Wiki](https://wiki.warframe.com/w/Color_Picker_Extension), page *Color Picker Extension*,
+  checked against Digital Extremes' public export and
+  [warframe-public-export-plus](https://github.com/calamity-inc/warframe-public-export-plus) (Market, bundles, vendors)
+  and the world state (Varzia's permanent stock). Each entry names its sources and the day it was checked.
+- **License:** the wiki content is licensed under
+  [CC BY-NC-SA 3.0](https://creativecommons.org/licenses/by-nc-sa/3.0/). This file is a summary of it under the same
+  license, in its own words; it names its source page and the license.
+- **Updated:** by hand when palettes change (a few times a year). Built from the wiki by a workflow only later, once the
+  wiki's operator has agreed in writing.
+- TennoDock is not affiliated with Digital Extremes or the WARFRAME Wiki.
+
+### Format (version 1)
+
+```json
+{
+  "format": "tennodock-palettes",
+  "v": 1,
+  "asOf": "2026-11-08",
+  "source": "wiki.warframe.com",
+  "page": "https://wiki.warframe.com/w/Color_Picker_Extension",
+  "license": "CC BY-NC-SA 3.0",
+  "palettes": {
+    "/Lotus/Types/StoreItems/SuitCustomizations/ColourPickerExampleA": { "a": "limited", "k": "baro", "src": ["wiki", "export"], "checked": "2026-11-08", "n": "Baro Ki'Teer" }
+  }
+}
+```
+
+- Keys are the game paths of the palettes.
+- `a`: `buy` (any time: Market, Market bundle, Varzia's permanent stock), `limited` (comes back or only at times),
+  `gone` (no longer available), `console` (only on consoles), `never` (never given to players), `unknown`.
+- `k`: how or why: `market`, `bundle`, `varzia`, `event`, `seasonal` (Market on a holiday), `baro`, `nightwave`,
+  `anniversary`, `promo`, `twitch`, `supporterPack`, `none`. Apps write their own text from `a` and `k`.
+- `src`: `wiki`, `export` (public export or public-export-plus), `worldstate`. `checked`: the day the entry was checked.
+  `n`: a short note for whoever maintains the file; apps do not show it.
+- A palette that is not in the file is unknown, never gone. What the game data says right now (sold in the Market, Baro
+  is here, an event is running) comes first. An incompatible change gets a new folder (`palettes/v2/`).
+
+### Other files
+
+- `palettes-file/`: a check of the file (Node 20 or newer, no dependencies) and its tests:
+  `node --test "palettes-file/**/*.test.mjs"`. Run `node palettes-file/check.mjs` after every change.
