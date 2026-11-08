@@ -546,3 +546,88 @@ shows them on the item sheet and in its Collectibles page, next to what it reads
 - `sources-file/`: the script (Node 22 or newer, no dependencies; `xz` for the public export) and its tests:
   `node --test "sources-file/**/*.test.mjs"`. Run it locally with `node sources-file/build.mjs`.
 - `.github/workflows/sources.yml`: the weekly workflow. Run it by hand under *Actions › Sources › Run workflow*.
+
+## Riven prices
+
+`rivens/v1/prices.json` tells, per weapon and combination of riven stats, for how much similar rivens are offered on
+warframe.market, and for how much rivens of each weapon really traded last week according to Digital Extremes. TennoDock
+shows it on its My Rivens page, so the app itself never searches warframe.market for rivens.
+
+- **What the range is:** the 25th to 60th percentile of the buyout prices of similar auctions (offers, not sales). Only
+  auctions with a buyout price, changed since `since` (hotfix 44.1.3, when all weapons got the same disposition) and at
+  most `maxAgeDays` (60) old. Joke prices are left out (above Q3 + 1.5 × IQR, but never below twice the median). An entry
+  needs at least `minUnsure` (5) auctions; TennoDock calls it a rough guess below `minRange` (8).
+- **Which combinations:** for each weapon, the pairs of its key stats (damage, multishot, critical chance and critical
+  damage; shotguns also status chance; melee damage, critical chance, critical damage and attack speed). A search for a
+  pair returns every auction with both stats, so one search gives the pair alone, the pair with each third stat that
+  occurs, and the pair with any third stat. Each entry is split by the kind of curse: none, harmless or harmful.
+- **Searches:** warframe.market returns at most 100 auctions per search. With 100, the workflow repeats the search for
+  each of the three riven polarities (they do not affect the price); a part with 100 again also gets the most expensive
+  ones. Popular and medium weapons (by the weekly popularity from Digital Extremes) are searched every 3 days, rarely
+  traded ones every 7 days with two pairs, each weapon on a fixed day. About 500 searches a day, one every 8 seconds, at
+  most 1,200 per run, with the User-Agent of this repository. Sellers, notes and auction ids are never stored.
+- **Roll luck:** the workflow computes how good each auction's values rolled (0 to 1), from the base values in the public
+  export of Digital Extremes. Entries with at least 16 auctions also get ranges for windows of similar luck.
+- **Weekly values:** `weeklyRivensPC.json` from Digital Extremes (www-static.warframe.com), built from real riven trades
+  for platinum in the game, per weapon and rolled or unrolled, without stats. Fetched once per run.
+- **Errors:** a weapon whose searches fail keeps its previous entries with their date. If warframe.market refuses the
+  searches (403, a Cloudflare page, three errors in a row) the run stops, commits what it has and fails afterwards (step
+  *Report warframe.market*), so GitHub sends a mail. An invalid file is never written. `RIVENS_WFM=off` (repository
+  variable) turns the searches off; then only the weekly values are updated.
+- TennoDock is not affiliated with Digital Extremes or warframe.market.
+
+### Format (version 1)
+
+```json
+{
+  "format": "tennodock-rivens",
+  "v": 1,
+  "asOf": "2026-11-09",
+  "generatedAt": "2026-11-09T02:45:00Z",
+  "source": "warframe.market, Digital Extremes",
+  "since": "2026-10-22",
+  "maxAgeDays": 60,
+  "range": [0.25, 0.6],
+  "minRange": 8,
+  "minUnsure": 5,
+  "luckWindow": 0.2,
+  "deAt": "2026-11-09",
+  "stats": ["WeaponCritChanceMod", "WeaponCritDamageMod", "WeaponFireIterationsMod"],
+  "weapons": {
+    "Weapons/Example/ExampleRifle": {
+      "at": "2026-11-09",
+      "de": [300, 100, 40, 80],
+      "pairs": ["0.1", "0.2", "1.2!"],
+      "c": {
+        "0.1|n": [430, 470, 30, [405, 470, 515]],
+        "0.1.2|h": [945, 1155, 60, [855, 1095, 1335], 0, { "5": [990, 1100, 20] }],
+        "*0.1|s": [345, 365, 6]
+      }
+    }
+  }
+}
+```
+
+- `stats`: riven stat tags as in the game; entries refer to them by index. New tags are added at the end, existing
+  indices never change. Melee rivens use their own tags for damage and faction damage (`WeaponMeleeDamageMod`, …), as
+  in the game.
+- `weapons`: game paths without the leading `/Lotus/`. `at`: day of the searches (missing for weapons with weekly values
+  only). `de`: `[median rolled, popularity rolled, median unrolled, popularity unrolled]` from Digital Extremes, `null`
+  where a row is missing; popularity is relative to the most traded weapon (100). `pairs`: the searched pairs, `!` when
+  the search could not see every auction.
+- `c`: entries keyed by `<stat indices>|<curse>`, curse `n` (none), `h` (harmless) or `s` (harmful). A key starting
+  with `*` is the pair with any third stat (rivens with three stats). Each entry is
+  `[low, high, count, [p10, median, p90] or 0, incomplete, luck windows]`; the spread only from 8 auctions, `incomplete`
+  1 when no complete search covered it, luck windows keyed by their centre × 10 (`[low, high, count]`, at least 8). Short
+  entries leave out trailing parts.
+- A combination of a searched pair without an entry had fewer than 5 auctions. An incompatible change gets a new folder
+  (`rivens/v2/`).
+
+### Other files
+
+- `rivens/state.json`: what the next run needs (weapon list for runs without warframe.market, pairs that had 100
+  auctions, base values for the roll luck). Not for apps.
+- `rivens-file/`: the script (Node 20 or newer, no dependencies; `xz` for the index of the public export) and its tests:
+  `node --test "rivens-file/**/*.test.mjs"`. Run it locally with `node rivens-file/build.mjs`; `RIVENS_BUDGET=20` limits
+  the searches, `RIVENS_WFM=off` only updates the weekly values.
+- `.github/workflows/rivens.yml`: the daily workflow. Run it by hand under *Actions › Rivens › Run workflow*.

@@ -1,0 +1,83 @@
+# Riven-Preise für TennoDock (#172): baut `rivens/v1/prices.json` aus Riven-Auktionen auf warframe.market (Spannen der
+# Angebotspreise pro Waffe und Kombination der Vorteile) und DEs Wochenwerten echter Riven-Trades pro Waffe.
+# Daves Entscheidungen vom 08.11.2026: rund 500 Suchen am Tag, eine alle 8 s, harte Grenze 1'200; täglich, abschaltbar mit
+# der Variable RIVENS_WFM=off (dann nur DEs Wochenwerte); DEs Datei von www-static.warframe.com nur in dieser Action.
+# Im TennoDock-Repo liegt dieser Ordner unter `tools/tennodock-data/` (1:1 der Inhalt des Daten-Repos) und läuft dort nicht.
+# Doku: docs/pakete/172-riven-prices.md im App-Repo.
+name: Rivens
+
+on:
+  schedule:
+    # Einmal am Tag. GitHub legt geplante Läufe oft Stunden zu spät an (#47); hier egal: Jede Waffe hat einen festen Tag in
+    # ihrer Runde, ein später Lauf verschiebt nur den Stand um Stunden.
+    - cron: '23 1 * * *'
+  # Von Hand: Actions › Rivens › Run workflow, oder `gh workflow run rivens.yml -R nxtdxve/TennoDock-data`.
+  workflow_dispatch:
+    inputs:
+      budget:
+        description: Most searches at warframe.market in this run (at most 1200)
+        type: number
+        default: 1200
+  # Eine Änderung am Skript gilt sofort. Commits des Workflows selbst (GITHUB_TOKEN) lösen keinen neuen Lauf aus.
+  push:
+    branches: [main]
+    paths:
+      - 'rivens-file/**'
+      - 'promo-codes-file/lib/names.mjs'
+      - 'promo-codes-file/lib/rewards.mjs'
+      - 'glyph-codes-file/build.mjs'
+      - '.github/workflows/rivens.yml'
+
+permissions:
+  contents: write # Dateien committen
+
+concurrency:
+  group: rivens
+  cancel-in-progress: false
+
+jobs:
+  rivens:
+    runs-on: ubuntu-latest
+    # Normal rund 70 min (500 Suchen × 8 s), höchstens rund 3 h (1'200 Suchen und Wiederholungen).
+    timeout-minutes: 240
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24
+      - name: Test
+        run: node --test "rivens-file/**/*.test.mjs"
+      - name: Build
+        id: build
+        env:
+          # Einstellen unter Settings › Secrets and variables › Actions › Variables: RIVENS_WFM=off schaltet die Suche ab,
+          # RIVENS_BUDGET setzt eine kleinere Grenze.
+          RIVENS_WFM: ${{ vars.RIVENS_WFM || 'on' }}
+          RIVENS_BUDGET: ${{ inputs.budget || vars.RIVENS_BUDGET || '1200' }}
+        run: node rivens-file/build.mjs
+      - name: Commit
+        env:
+          AS_OF: ${{ steps.build.outputs.asOf }}
+          SEARCHES: ${{ steps.build.outputs.searches }}
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          # Nur, wenn es den Ordner gibt: Scheitert der allererste Lauf vor der ersten Datei, fehlt `rivens/`, und `git add`
+          # mit einem fehlenden Pfad bräche mit 128 ab (wie #47, Review M1).
+          if [ -d rivens ]; then git add rivens; fi
+          if git diff --cached --quiet; then echo 'Nothing new'; exit 0; fi
+          git commit -m "Rivens $AS_OF ($SEARCHES searches)"
+          # Läuft ein anderer Workflow gerade auch, einmal auf den neuen Stand setzen und erneut versuchen.
+          git push || { git pull --rebase origin main && git push; }
+      # Hat warframe.market die Suche abgelehnt (Cloudflare, Fehler in Folge, Listen fehlen), scheitert der Lauf nach dem
+      # Commit des Erreichten: GitHub schickt dann eine Mail. Die alten Spannen bleiben mit ihrem Datum.
+      - name: Report warframe.market
+        if: ${{ !cancelled() && steps.build.outputs.wfm_failed == 'true' }}
+        run: |
+          echo '::error::warframe.market did not answer the riven searches, see the warnings of the build step'
+          exit 1
+      - name: Report weekly rivens
+        if: ${{ !cancelled() && steps.build.outputs.de_stale == 'true' }}
+        run: |
+          echo '::error::The weekly riven values from Digital Extremes are older than 14 days'
+          exit 1
