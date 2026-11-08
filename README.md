@@ -546,3 +546,58 @@ shows them on the item sheet and in its Collectibles page, next to what it reads
 - `sources-file/`: the script (Node 22 or newer, no dependencies; `xz` for the public export) and its tests:
   `node --test "sources-file/**/*.test.mjs"`. Run it locally with `node sources-file/build.mjs`.
 - `.github/workflows/sources.yml`: the weekly workflow. Run it by hand under *Actions › Sources › Run workflow*.
+
+## Public export parts
+
+`public-export/v1/` holds the tables TennoDock derives from the official
+[WARFRAME Public Export](https://wiki.warframe.com/w/Public_Export) of Digital Extremes, split into parts: item names per
+file and language (English, German), mod effect texts, the catalog (items, recipes, relics, mods, Endo), node names,
+palette colours, the list of cosmetics, image paths and Nightwave targets. TennoDock downloads only the parts that changed
+(about 0.9 MB gzip in total instead of about 15 MB of raw export files whenever Digital Extremes updates the export).
+
+- **Source:** Data from the WARFRAME Public Export, © Digital Extremes Ltd. TennoDock is not affiliated with or endorsed
+  by Digital Extremes. No raw export files and no images are stored here, only the derived tables the app shows. To ask
+  for something to be removed, please open an issue in this repository.
+- **Updated:** the workflow reads the export index (about 0.5 KB per language) every 30 minutes and builds only the parts
+  whose source file changed. Each source file is downloaded at most once per run.
+- **Same code as the app:** `public-export-file/lib/derive.mjs` is generated from `src/core/masterdata/public-export-parts.ts`
+  in the TennoDock repository, so a part here is exactly what the app would derive itself.
+- **The app stays independent:** TennoDock compares every part with the export index it reads itself and checks its
+  SHA-256. If this repository is more than 6 hours behind, not reachable or in a different format, the app downloads
+  the export files directly from Digital Extremes.
+
+### Format (version 1)
+
+```json
+{
+ "format": "tennodock-public-export",
+ "v": 1,
+ "generatedAt": "2026-11-08T12:07:41Z",
+ "index": { "en": "7dd4d9a10aed3b47", "de": "0599fe2dd89b5ca1" },
+ "parts": {
+  "names/en/ExportUpgrades": {
+   "entry": "ExportUpgrades_en.json!00_…",
+   "format": "names-3/part-1",
+   "file": "parts/names/en/ExportUpgrades.1f0c2b9a7d3e4c55.json",
+   "sha256": "1f0c2b9a7d3e4c55…",
+   "bytes": 412034
+  }
+ }
+}
+```
+
+- `parts`: key → the line of the export index the part comes from (`entry`), the format of the derived data, the file and
+  its SHA-256. The file name contains the first 16 characters of the hash, so a file never changes its content.
+- Keys: `names/<language>/<file>`, `modstats/<language>/<file>`, `catalog/<part>`, `regions/<language>`, `palettes`,
+  `cosmetics`, `images`, `nightwave`. The content of each part is plain JSON as returned by the functions in `derive.mjs`.
+- `index`: a short hash of each export index, for the log and the commit message.
+- Files no longer listed in the manifest are deleted (they stay in the git history). A new format in the app gets new
+  `format` values; the app ignores parts in another format.
+
+### Other files
+
+- `public-export-file/`: the script (Node 22 or newer, no dependencies; `xz` for the export index) and its tests:
+  `node --test "public-export-file/**/*.test.mjs"`. Run it locally with `node public-export-file/build.mjs`; `REBUILD=1`
+  builds all parts again.
+- `.github/workflows/public-export.yml`: the workflow every 30 minutes. Run it by hand under
+  *Actions › Public export › Run workflow*.
