@@ -1,0 +1,6 @@
+{
+  "format": "tennodock-polarity-positions",
+  "v": 1,
+  "about": "Mod slot of each built-in polarity (pm, same order as p). Slot 0 is bottom right of the in-game mod grid, 7 top left. Edited by hand; every entry names its source and date. build.mjs merges entries that still match the WFCD list.",
+  "items": {}
+}

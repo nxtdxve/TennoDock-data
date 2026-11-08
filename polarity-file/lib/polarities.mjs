@@ -20,9 +20,9 @@ export const POLARITY_NAMES = /** @type {const} */ ({
 export const SOURCE_FILES = ['Warframes', 'Primary', 'Secondary', 'Melee', 'Arch-Gun', 'Arch-Melee', 'Archwing', 'Pets', 'Sentinels', 'SentinelWeapons'];
 
 /**
- * @typedef {{ p?: string[], a?: string | string[], x?: string, s?: string }} Entry
- *   `p` eingebaute Polaritäten der Mod-Plätze (Reihenfolge wie im Wiki, ohne Platz), `a` Aura (Jade: zwei Plätze),
- *   `x` Exilus, `s` Haltung.
+ * @typedef {{ p?: string[], pm?: number[], a?: string | string[], x?: string, s?: string }} Entry
+ *   `p` eingebaute Polaritäten der Mod-Plätze (Reihenfolge wie im Wiki), `pm` ihr Platz ab Werk in derselben Reihenfolge
+ *   (#194, aus positions.json; fehlt, solange er nicht bekannt ist), `a` Aura (Jade: zwei Plätze), `x` Exilus, `s` Haltung.
  */
 
 /** @param {unknown} value @returns {string | undefined} */
@@ -76,4 +76,55 @@ export function polarityTable(lists) {
     }
   }
   return Object.fromEntries([...table.entries()].sort(([a], [b]) => (a < b ? -1 : a > b ? 1 : 0)));
+}
+
+/** Plätze ab Werk (#194): höchstens so viele Mod-Plätze hat ein Item (Necramech). */
+export const MAX_MOD_SLOTS = 12;
+export const POSITIONS_FORMAT = 'tennodock-polarity-positions';
+
+/**
+ * @typedef {{ p: string[], pm: number[], source: string, date: string, note?: string }} PositionEntry
+ *   Plätze ab Werk eines Items: `p` die Liste, zu der die Plätze gehören (wie beim Eintragen), `pm` der Platz jeder
+ *   Polarität aus `p` (0 = unten rechts im Raster des Spiels), dazu Quelle und Datum.
+ */
+
+/** @param {unknown} value @returns {value is number[]} */
+function slotList(value) {
+  return Array.isArray(value) && value.every((slot) => Number.isInteger(slot) && slot >= 0 && slot < MAX_MOD_SLOTS) && new Set(value).size === value.length;
+}
+
+/**
+ * Plätze ab Werk aus `positions.json` in die Tabelle (#194). `pm` nur, wenn der Eintrag zur heutigen Liste von WFCD passt
+ * (gleiche Polaritäten in gleicher Reihenfolge) und jede Polarität genau einen eigenen Platz hat. Sonst fällt er weg; die
+ * Meldung nennt den Pfad (z. B. nach einem Rework, wenn WFCD die Liste ändert).
+ * @param {Record<string, Entry>} items Tabelle aus `polarityTable`, wird nicht verändert
+ * @param {unknown} file Inhalt von `positions.json`
+ * @returns {{ items: Record<string, Entry>, problems: string[], sources: string[] }}
+ */
+export function applyPositions(items, file) {
+  const record = file && typeof file === 'object' ? /** @type {Record<string, unknown>} */ (file) : undefined;
+  if (!record || record['format'] !== POSITIONS_FORMAT || record['v'] !== 1 || !record['items'] || typeof record['items'] !== 'object') {
+    throw new Error('positions.json: wrong format');
+  }
+  /** @type {Record<string, Entry>} */
+  const out = { ...items };
+  /** @type {string[]} */
+  const problems = [];
+  /** @type {Set<string>} */
+  const sources = new Set();
+  for (const [path, raw] of Object.entries(/** @type {Record<string, unknown>} */ (record['items']))) {
+    const entry = raw && typeof raw === 'object' ? /** @type {Record<string, unknown>} */ (raw) : {};
+    const current = out[path];
+    const list = Array.isArray(entry['p']) ? entry['p'] : [];
+    const source = typeof entry['source'] === 'string' ? entry['source'] : '';
+    if (!current?.p) problems.push(`${path}: no built-in mod polarities in WFCD`);
+    else if (JSON.stringify(list) !== JSON.stringify(current.p)) problems.push(`${path}: WFCD list changed`);
+    else if (!slotList(entry['pm']) || entry['pm'].length !== current.p.length) problems.push(`${path}: bad positions`);
+    else if (!source || typeof entry['date'] !== 'string') problems.push(`${path}: source or date missing`);
+    else {
+      out[path] = { ...current, pm: entry['pm'] };
+      sources.add(source);
+    }
+  }
+  return { items: out, problems, sources: [...sources].sort() };
 }
