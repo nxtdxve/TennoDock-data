@@ -432,7 +432,8 @@ player set with Forma.
   its release.
 - **Mod slot positions (`pm`):** no open source says which mod slot a built-in polarity sits on. Positions are kept by
   hand in `polarity-file/positions.json`, one entry per item with its source and date, and merged as `pm` while they still
-  match the WFCD list. The file is empty for now; an item without `pm` keeps `p` as a list. See *Mod slot positions* below.
+  match the WFCD list. An item without `pm` keeps `p` as a list. Source of the current positions: Overframe (see *Mod slot
+  positions* below).
 - **Updated:** the workflow checks the source once a week (Monday, about 06:29 UTC) and writes the file only when the
   polarities changed.
 - TennoDock is not affiliated with Digital Extremes or WFCD.
@@ -483,7 +484,12 @@ player set with Forma.
 - `pm` must stay on the item's normal mod slots: 0–7 for Warframes, Archwings and weapons, 0–9 for companions, 0–11 for
   Necramechs. Entries outside are left out and named in the run summary.
 - `source`, `date` and `note` say where a position comes from. Data from a third party is only added with its permission;
-  the source and the terms are named here before such entries are published.
+  the source and the terms are named here.
+- **Current entries:** 596 items, source [Overframe](https://overframe.gg) (`ArtifactSlots` of its item database), saved
+  once from the website by the TennoDock maintainer on 2026-11-08 and used with Overframe's permission as a one-time
+  import (`note`: "one-time import with permission"). Nothing is fetched from Overframe again, neither by the workflow nor
+  by the app. Nine items are left out because Overframe and WFCD name different built-in polarities for them; they keep
+  `p` as a list. TennoDock is not affiliated with Overframe or MOBA Network.
 
 ### Other files
 
