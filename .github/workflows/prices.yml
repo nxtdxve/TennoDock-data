@@ -1,6 +1,6 @@
 # Marktpreise für TennoDock (#99): baut `prices/v1/prices.json` einmal am Tag aus der Tagesdatei von relics.run, dazu den
-# Preisverlauf der Prime-Sets `prices/v1/trends.json` (#54) und die Markt-Analyse `analytics/v1/market.json` (#47) aus
-# denselben Tagen.
+# Preisverlauf der Prime-Sets `prices/v1/trends.json` (#54), die Markt-Analyse `analytics/v1/market.json` (#47) und die
+# Ducat-Angebote der Prime-Teile `ducats/v1/offers.json` (#202) aus denselben Tagen.
 # Im TennoDock-Repo liegt dieser Ordner unter `tools/tennodock-data/` (1:1 der Inhalt des Daten-Repos) und läuft dort nicht:
 # GitHub liest Workflows nur aus `.github/workflows/` im Wurzelordner. Doku: docs/pakete/99-preise-alle.md im App-Repo.
 name: Prices
@@ -72,6 +72,8 @@ jobs:
           # Die Analyse (#47) nur, wenn es den Ordner gibt: Scheitert sie vor der ersten Datei, fehlt `analytics/`, und
           # `git add` mit einem fehlenden Pfad bräche mit 128 ab. Die Preise kommen immer in den Commit.
           if [ -d analytics ]; then git add analytics; fi
+          # Die Ducat-Angebote (#202) ebenso.
+          if [ -d ducats ]; then git add ducats; fi
           if git diff --cached --quiet; then echo 'Nothing new'; exit 0; fi
           git commit -m "Prices ${{ steps.build.outputs.asOf }}"
           git push
@@ -102,4 +104,10 @@ jobs:
         if: ${{ !cancelled() && steps.build.outputs.analytics_failed == 'true' }}
         run: |
           echo '::error::The market analytics were not written, see the errors of the build step'
+          exit 1
+      # Die Ducat-Angebote (#202) ebenso: Ihr Fehler hält die anderen Dateien nicht auf, die Mail kommt nach dem Commit.
+      - name: Report ducats
+        if: ${{ !cancelled() && steps.build.outputs.ducats_failed == 'true' }}
+        run: |
+          echo '::error::The ducat offers were not written, see the errors of the build step'
           exit 1
