@@ -496,8 +496,8 @@ player set with Forma.
   its release.
 - **Mod slot positions (`pm`):** no open source says which mod slot a built-in polarity sits on. Positions are kept by
   hand in `polarity-file/positions.json`, one entry per item with its source and date, and merged as `pm` while they still
-  match the WFCD list. An item without `pm` keeps `p` as a list. Source of the current positions: Overframe (see *Mod slot
-  positions* below).
+  match the WFCD list. An entry can also replace the WFCD list where WFCD names none or a different one. An item without
+  `pm` keeps `p` as a list. Source of the current positions: Overframe (see *Mod slot positions* below).
 - **Updated:** the workflow checks the source once a week (Monday, about 06:29 UTC) and writes the file only when the
   polarities changed.
 - TennoDock is not affiliated with Digital Extremes or WFCD.
@@ -545,15 +545,25 @@ player set with Forma.
 
 - `p` is the WFCD list the positions belong to. If WFCD later changes the list of an item (rework), its positions are left
   out and the run summary of the workflow names the item.
+- **Replacing the WFCD list (`wfcd`):** an entry with the key `wfcd` replaces the built-in mod polarities of WFCD with its
+  own `p` and `pm`. `wfcd` is the WFCD list at the time of the entry, or `null` when WFCD names none or does not know the
+  item at all. `p` may be empty: the item has no built-in mod polarities. While WFCD still names the same list, the entry
+  wins; when WFCD changes it, the entry is left out (named in the run summary) and the WFCD list applies again.
+- `a` (optional) sets the order of the Aura slots, for frames with two of them (Jade); it must name the same polarities as
+  WFCD. `x` (Exilus) and `s` (Stance) are only allowed for items WFCD does not know.
 - `pm` must stay on the item's normal mod slots: 0–7 for Warframes, Archwings and weapons, 0–9 for companions, 0–11 for
   Necramechs. Entries outside are left out and named in the run summary.
 - `source`, `date` and `note` say where a position comes from. Data from a third party is only added with its permission;
   the source and the terms are named here.
-- **Current entries:** 596 items, source [Overframe](https://overframe.gg) (`ArtifactSlots` of its item database), saved
+- **Current entries:** 617 items, source [Overframe](https://overframe.gg) (`ArtifactSlots` of its item database), saved
   once from the website by the TennoDock maintainer on 2026-11-08 and used with Overframe's permission as a one-time
   import (`note`: "one-time import with permission"). Nothing is fetched from Overframe again, neither by the workflow nor
-  by the app. Nine items are left out because Overframe and WFCD name different built-in polarities for them; they keep
-  `p` as a list. TennoDock is not affiliated with Overframe or MOBA Network.
+  by the app. 21 of them replace the WFCD list (`wfcd`, TennoDock #213): 6 items for which WFCD names no built-in mod
+  polarity, 6 items WFCD does not know (companion and Arch-gun weapons, the bayonet of the Vinquibus) and 9 items for
+  which Overframe and WFCD disagree. For Narin the Aura polarity stays as in WFCD (Naramon), confirmed in the game;
+  Overframe names Madurai. Jade's entry sets the order of its two Aura slots (8 Vazarin, 10 Omni).
+  Exalted weapons are left out (TennoDock does not show their builds). TennoDock is not affiliated with Overframe or MOBA
+  Network.
 
 ### Other files
 

@@ -128,6 +128,58 @@ test('schreibt pm und die Quellen in die Datei; ohne positions.json bleibt alles
   assert.equal('positionSources' in without, false);
 });
 
+test('ersetzt die Liste von WFCD mit `wfcd` (#213), solange WFCD dieselbe nennt', () => {
+  const items = {
+    [VOLT]: { p: ['AP_ATTACK', 'AP_DEFENSE'], a: 'AP_TACTIC' },
+    '/Lotus/Weapons/NoP': { s: 'AP_TACTIC' },
+    '/Lotus/Weapons/Old': { p: ['AP_ATTACK'], s: 'AP_ATTACK' },
+    '/Lotus/Weapons/Changed': { p: ['AP_TACTIC'] },
+  };
+  const result = applyPositions(items, positions({
+    // Andere Liste als WFCD: gilt, solange WFCD noch die beim Eintragen genannte Liste hat.
+    [VOLT]: { ...entry(['AP_TACTIC', 'AP_ATTACK'], [4, 7]), wfcd: ['AP_ATTACK', 'AP_DEFENSE'] },
+    // WFCD nennt keine Mod-Polaritäten.
+    '/Lotus/Weapons/NoP': { ...entry(['AP_ATTACK'], [4]), wfcd: null },
+    // Ab Werk keine Mod-Polaritäten, obwohl WFCD eine nennt.
+    '/Lotus/Weapons/Old': { ...entry([], []), wfcd: ['AP_ATTACK'] },
+    // WFCD kennt das Item gar nicht: neu, mit Haltung.
+    '/Lotus/Weapons/New': { ...entry(['AP_ANY', 'AP_ATTACK'], [3, 7]), wfcd: null, s: 'AP_ANY' },
+    // WFCD hat die Liste inzwischen geändert: Ersatz fällt weg.
+    '/Lotus/Weapons/Changed': { ...entry(['AP_ATTACK'], [0]), wfcd: ['AP_DEFENSE'] },
+  }));
+  assert.deepEqual(result.items[VOLT], { p: ['AP_TACTIC', 'AP_ATTACK'], a: 'AP_TACTIC', pm: [4, 7] });
+  assert.deepEqual(result.items['/Lotus/Weapons/NoP'], { p: ['AP_ATTACK'], s: 'AP_TACTIC', pm: [4] });
+  assert.deepEqual(result.items['/Lotus/Weapons/Old'], { s: 'AP_ATTACK' });
+  assert.deepEqual(result.items['/Lotus/Weapons/New'], { p: ['AP_ANY', 'AP_ATTACK'], s: 'AP_ANY', pm: [3, 7] });
+  assert.deepEqual(result.items['/Lotus/Weapons/Changed'], { p: ['AP_TACTIC'] });
+  assert.deepEqual(result.problems, ['/Lotus/Weapons/Changed: WFCD list changed']);
+});
+
+test('legt die Reihenfolge der Aura-Plätze fest (#213, Jade), nur bei gleicher Menge wie WFCD', () => {
+  const JADE = '/Lotus/Powersuits/Choir/Choir';
+  const items = { [JADE]: { p: ['AP_TACTIC'], a: ['AP_ANY', 'AP_DEFENSE'] }, [VOLT]: { p: ['AP_TACTIC'], a: 'AP_ATTACK' } };
+  const result = applyPositions(items, positions({
+    [JADE]: { ...entry(['AP_TACTIC'], [1]), a: ['AP_DEFENSE', 'AP_ANY'] },
+    [VOLT]: { ...entry(['AP_TACTIC'], [7]), a: 'AP_TACTIC' },
+  }));
+  assert.deepEqual(result.items[JADE], { p: ['AP_TACTIC'], a: ['AP_DEFENSE', 'AP_ANY'], pm: [1] });
+  // Andere Aura als WFCD: ganzer Eintrag fällt weg, Meldung.
+  assert.deepEqual(result.items[VOLT], { p: ['AP_TACTIC'], a: 'AP_ATTACK' });
+  assert.deepEqual(result.problems, [`${VOLT}: WFCD aura changed`]);
+});
+
+test('prüft Ersatz-Einträge streng (#213)', () => {
+  const items = { [VOLT]: { p: ['AP_ATTACK'] } };
+  const one = (/** @type {Record<string, unknown>} */ value) => applyPositions(items, positions({ [VOLT]: value })).problems;
+  assert.deepEqual(one({ ...entry(['AP_TACTIC'], [4]), wfcd: 'AP_ATTACK' }), [`${VOLT}: bad entry (needs p, pm, source, date)`]);
+  assert.deepEqual(one({ ...entry(['madurai'], [4]), wfcd: ['AP_ATTACK'] }), [`${VOLT}: bad entry (needs p, pm, source, date)`]);
+  assert.deepEqual(one({ ...entry(['AP_TACTIC'], [4, 5]), wfcd: ['AP_ATTACK'] }), [`${VOLT}: bad positions`]);
+  assert.deepEqual(one({ p: ['AP_TACTIC'], pm: [4], wfcd: ['AP_ATTACK'] }), [`${VOLT}: source or date missing`]);
+  // x und s nur für Items, die WFCD nicht kennt.
+  assert.deepEqual(one({ ...entry(['AP_TACTIC'], [4]), wfcd: ['AP_ATTACK'], s: 'AP_ANY' }), [`${VOLT}: s only for items WFCD does not know`]);
+  assert.deepEqual(applyPositions({}, positions({ '/Lotus/New': { ...entry([], []), wfcd: null, x: 'naramon' } })).problems, ['/Lotus/New: bad x']);
+});
+
 test('die mitgelieferte positions.json ist gültig', async () => {
   const { readFile } = await import('node:fs/promises');
   const file = JSON.parse(await readFile(new URL('../positions.json', import.meta.url), 'utf8'));
