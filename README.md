@@ -560,8 +560,8 @@ player set with Forma.
   import (`note`: "one-time import with permission"). Nothing is fetched from Overframe again, neither by the workflow nor
   by the app. 21 of them replace the WFCD list (`wfcd`, TennoDock #213): 6 items for which WFCD names no built-in mod
   polarity, 6 items WFCD does not know (companion and Arch-gun weapons, the bayonet of the Vinquibus) and 9 items for
-  which Overframe and WFCD disagree. For Narin the Aura polarity stays as in WFCD (Naramon) until it is checked in the
-  game; Overframe names Madurai. Jade's entry sets the order of its two Aura slots (8 Vazarin, 10 Omni).
+  which Overframe and WFCD disagree. For Narin the Aura polarity stays as in WFCD (Naramon), confirmed in the game;
+  Overframe names Madurai. Jade's entry sets the order of its two Aura slots (8 Vazarin, 10 Omni).
   Exalted weapons are left out (TennoDock does not show their builds). TennoDock is not affiliated with Overframe or MOBA
   Network.
 
