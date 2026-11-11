@@ -191,7 +191,7 @@ parts that give the most ducats per platinum.
 - `dirs`: game paths without the leading `/Lotus/`, grouped by folder, as in the price file. Per part:
   `[ducats, asking price, offers, asking price 7 days before]`.
   - `offers`: the number of sell offers that day, or `null` for days stored before it was recorded.
-  - The third value is missing when there was no offer 7 days before. `weekAgo` names that day; it is missing when the
+  - The fourth value is missing when there was no offer 7 days before. `weekAgo` names that day; it is missing when the
     window has no day 7 days before `asOf`.
 - An incompatible change gets a new folder (`ducats/v2/`).
 
