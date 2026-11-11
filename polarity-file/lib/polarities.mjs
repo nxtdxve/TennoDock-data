@@ -113,9 +113,13 @@ export function slotCounts(lists) {
 export const POSITIONS_FORMAT = 'tennodock-polarity-positions';
 
 /**
- * @typedef {{ p: string[], pm: number[], source: string, date: string, note?: string }} PositionEntry
+ * @typedef {{ p: string[], pm: number[], wfcd?: string[] | null, a?: string | string[], x?: string, s?: string, source: string, date: string, note?: string }} PositionEntry
  *   Plätze ab Werk eines Items: `p` die Liste, zu der die Plätze gehören (wie beim Eintragen), `pm` der Platz jeder
  *   Polarität aus `p` (0 = unten rechts im Raster des Spiels), dazu Quelle und Datum.
+ *   Ersatz (#213): Mit `wfcd` ersetzt der Eintrag die Liste von WFCD (`wfcd` = die Liste von WFCD beim Eintragen, `null`
+ *   wenn WFCD keine nennt oder das Item gar nicht kennt). `p` darf dann leer sein (keine eingebauten Mod-Polaritäten).
+ *   `a` legt die Reihenfolge der Aura-Plätze fest (Jade), bei gleicher Menge wie WFCD. `x` und `s` nur für Items, die WFCD
+ *   gar nicht kennt.
  */
 
 /** @param {unknown} value @param {number} limit @returns {value is number[]} */
@@ -123,10 +127,21 @@ function slotList(value, limit) {
   return Array.isArray(value) && value.every((slot) => Number.isInteger(slot) && slot >= 0 && slot < limit) && new Set(value).size === value.length;
 }
 
+/** @param {unknown} value */
+const isPolarity = (value) => typeof value === 'string' && Object.values(POLARITY_NAMES).includes(/** @type {never} */ (value));
+/** @param {unknown} value @returns {string[] | undefined} */
+const polarityArray = (value) => (Array.isArray(value) && value.every(isPolarity) ? /** @type {string[]} */ (value) : undefined);
+/** @param {unknown} value @returns {string[]} */
+const asList = (value) => (Array.isArray(value) ? value : value === undefined ? [] : [value]);
+/** @param {unknown[]} a @param {unknown[]} b */
+const sameSet = (a, b) => JSON.stringify([...a].map(String).sort()) === JSON.stringify([...b].map(String).sort());
+
 /**
  * Plätze ab Werk aus `positions.json` in die Tabelle (#194). `pm` nur, wenn der Eintrag zur heutigen Liste von WFCD passt
  * (gleiche Polaritäten in gleicher Reihenfolge) und jede Polarität genau einen eigenen Platz hat. Sonst fällt er weg; die
  * Meldung nennt den Pfad (z. B. nach einem Rework, wenn WFCD die Liste ändert).
+ * Ersatz (#213, Feld `wfcd`): `p` und `pm` des Eintrags gelten statt der Liste von WFCD, solange WFCD noch dieselbe Liste
+ * nennt wie beim Eintragen (`null`: keine). Ändert WFCD sie, fällt der Ersatz weg (Meldung), und es gilt wieder WFCD.
  * @param {Record<string, Entry>} items Tabelle aus `polarityTable`, wird nicht verändert
  * @param {unknown} file Inhalt von `positions.json`
  * @param {Record<string, number>} [counts] Mod-Plätze pro Pfad (`slotCounts`); ohne Angabe gilt `MAX_MOD_SLOTS`
@@ -149,14 +164,65 @@ export function applyPositions(items, file, counts = {}) {
     const list = Array.isArray(entry?.['p']) ? entry['p'] : undefined;
     const source = typeof entry?.['source'] === 'string' ? entry['source'] : '';
     if (!entry || !list) problems.push(`${path}: bad entry (needs p, pm, source, date)`);
-    else if (!current?.p) problems.push(`${path}: no built-in mod polarities in WFCD`);
+    else if ('wfcd' in entry) {
+      // Ersatz (#213): eigene Liste statt der von WFCD, nur solange WFCD dieselbe Liste nennt wie beim Eintragen.
+      const before = entry['wfcd'] === null ? undefined : polarityArray(entry['wfcd']);
+      const p = polarityArray(list);
+      if (!p || (entry['wfcd'] !== null && !before)) problems.push(`${path}: bad entry (needs p, pm, source, date)`);
+      else if (JSON.stringify(before ?? null) !== JSON.stringify(current?.p ?? null)) problems.push(`${path}: WFCD list changed`);
+      else if (!slotList(entry['pm'], counts[path] ?? MAX_MOD_SLOTS) || entry['pm'].length !== p.length) problems.push(`${path}: bad positions`);
+      else if (!source || typeof entry['date'] !== 'string') problems.push(`${path}: source or date missing`);
+      else if (checkExtras(path, entry, current, problems)) {
+        // Gleiche Reihenfolge der Felder wie die übrigen Einträge: p zuerst, pm zuletzt; ohne Mod-Polaritäten beide weg.
+        const { p: _wfcd, pm: _none, ...rest } = { ...(current ?? {}), ...extras(entry, current) };
+        out[path] = p.length > 0 ? { p, ...rest, pm: entry['pm'] } : rest;
+        sources.add(source);
+      }
+    } else if (!current?.p) problems.push(`${path}: no built-in mod polarities in WFCD`);
     else if (JSON.stringify(list) !== JSON.stringify(current.p)) problems.push(`${path}: WFCD list changed`);
     else if (!slotList(entry['pm'], counts[path] ?? MAX_MOD_SLOTS) || entry['pm'].length !== current.p.length) problems.push(`${path}: bad positions`);
     else if (!source || typeof entry['date'] !== 'string') problems.push(`${path}: source or date missing`);
-    else {
-      out[path] = { ...current, pm: entry['pm'] };
+    else if (checkExtras(path, entry, current, problems)) {
+      out[path] = { ...current, pm: entry['pm'], ...extras(entry, current) };
       sources.add(source);
     }
   }
   return { items: out, problems, sources: [...sources].sort() };
+}
+
+/**
+ * Prüft `a`, `x` und `s` eines Eintrags (#213): `a` nur als andere Reihenfolge derselben Aura-Polaritäten wie bei WFCD
+ * (oder frei, wenn WFCD das Item nicht kennt); `x` und `s` nur, wenn WFCD das Item nicht kennt. Meldet Fehler.
+ * @param {string} path @param {Record<string, unknown>} entry @param {Entry | undefined} current @param {string[]} problems
+ */
+function checkExtras(path, entry, current, problems) {
+  /** @param {string} text */
+  const fail = (text) => {
+    problems.push(`${path}: ${text}`);
+    return false;
+  };
+  if ('a' in entry) {
+    const aura = asList(entry['a']);
+    if (aura.length === 0 || !aura.every(isPolarity)) return fail('bad aura');
+    if (current && !sameSet(aura, asList(current.a))) return fail('WFCD aura changed');
+  }
+  for (const key of ['x', 's']) {
+    if (!(key in entry)) continue;
+    if (current) return fail(`${key} only for items WFCD does not know`);
+    if (!isPolarity(entry[key])) return fail(`bad ${key}`);
+  }
+  return true;
+}
+
+/** @param {Record<string, unknown>} entry @param {Entry | undefined} current @returns {Entry} */
+function extras(entry, current) {
+  /** @type {Entry} */
+  const out = {};
+  if ('a' in entry) {
+    const aura = asList(entry['a']);
+    out.a = aura.length === 1 ? /** @type {string} */ (aura[0]) : aura;
+  }
+  if (!current && typeof entry['x'] === 'string') out.x = entry['x'];
+  if (!current && typeof entry['s'] === 'string') out.s = entry['s'];
+  return out;
 }
