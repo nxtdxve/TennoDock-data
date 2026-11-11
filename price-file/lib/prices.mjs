@@ -182,7 +182,8 @@ export function readPriceFile(text) {
  */
 export function writeDay(day) {
   const sorted = (/** @type {Record<string, unknown>} */ record) => Object.fromEntries(Object.keys(record).sort().map((key) => [key, record[key]]));
-  return JSON.stringify({ v: 1, day: day.day, source: day.source, closed: sorted(day.closed), offers: sorted(day.offers) });
+  const counts = day.offerCounts && Object.keys(day.offerCounts).length > 0 ? { offerCounts: sorted(day.offerCounts) } : {};
+  return JSON.stringify({ v: 1, day: day.day, source: day.source, closed: sorted(day.closed), offers: sorted(day.offers), ...counts });
 }
 
 /**
@@ -201,5 +202,12 @@ export function readDay(text) {
   /** @type {Record<string, number>} */
   const offers = {};
   for (const [key, value] of Object.entries(parsed.offers ?? {})) if (typeof value === 'number' && Number.isFinite(value) && value > 0) offers[key] = value;
-  return { day: parsed.day, source: parsed.source, closed, offers };
+  /** @type {CompactDay} */
+  const day = { day: parsed.day, source: parsed.source, closed, offers };
+  // Seit #202 optional: Zahl der Verkaufsangebote der Prime-Teile. Ältere Tage haben sie nicht.
+  /** @type {Record<string, number>} */
+  const offerCounts = {};
+  for (const [key, value] of Object.entries(parsed.offerCounts ?? {})) if (typeof value === 'number' && Number.isInteger(value) && value > 0) offerCounts[key] = value;
+  if (Object.keys(offerCounts).length > 0) day.offerCounts = offerCounts;
+  return day;
 }

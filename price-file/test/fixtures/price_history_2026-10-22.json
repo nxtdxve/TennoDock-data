@@ -13,7 +13,8 @@
     {"datetime": "2026-10-22T00:00:00.000+00:00", "volume": 70, "median": 70, "order_type": "sell", "item_id": "00000000000000000000a003"}
   ],
   "Example Prime Neuroptics Blueprint": [
-    {"datetime": "2026-10-22T00:00:00.000+00:00", "volume": 12, "median": 10, "order_type": "closed", "item_id": "00000000000000000000a004"}
+    {"datetime": "2026-10-22T00:00:00.000+00:00", "volume": 12, "median": 10, "order_type": "closed", "item_id": "00000000000000000000a004"},
+    {"datetime": "2026-10-22T00:00:00.000+00:00", "volume": 40, "median": 12, "order_type": "sell", "item_id": "00000000000000000000a004"}
   ],
   "Newer Example": [
     {"datetime": "2026-10-22T00:00:00.000+00:00", "volume": 1, "median": 99, "order_type": "closed", "item_id": "00000000000000000000a0ff"}

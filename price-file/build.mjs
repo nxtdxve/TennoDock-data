@@ -1,6 +1,6 @@
 // @ts-check
-// Baut die Tagesdatei der Marktpreise (#99), die Verlaufsdatei der Prime-Sets (#54) und die Markt-Analyse (#47) im
-// öffentlichen Daten-Repo. Läuft
+// Baut die Tagesdatei der Marktpreise (#99), die Verlaufsdatei der Prime-Sets (#54), die Markt-Analyse (#47) und die
+// Ducat-Angebote der Prime-Teile (#202) im öffentlichen Daten-Repo. Läuft
 // in der GitHub Action (Workflow `prices.yml`), von Hand mit:
 //
 //   node price-file/build.mjs                    fehlende Tage holen, Dateien bauen, falls neu
@@ -13,15 +13,16 @@
 // fehlenden Tage des Fensters von relics.run (beim ersten Lauf 14, sonst einer), als kompakte Tage in `prices/days/`.
 // Fehlt relics.run seit 2 Tagen, der Rückfall bei warframe.market (`WFM_FALLBACK`: `prime` = Ducat-Liste, 1 Abruf;
 // `full` = Statistik pro Item, rund 3'900 Abrufe; `off`). Zum Schluss `prices/v1/prices.json`, nur wenn sie plausibel ist;
-// sonst bleibt die alte liegen. Danach `prices/v1/trends.json` aus denselben Tagen (lib/trends.mjs) und
-// `analytics/v1/market.json` (lib/analytics.mjs). Keine Abhängigkeiten ausser Node (ab 20). Doku: docs/pakete/99-preise-alle.md,
-// 54-vault-tracker.md und 47-analytics.md im App-Repo
+// sonst bleibt die alte liegen. Danach `prices/v1/trends.json` aus denselben Tagen (lib/trends.mjs),
+// `analytics/v1/market.json` (lib/analytics.mjs) und `ducats/v1/offers.json` (lib/ducats.mjs). Keine Abhängigkeiten ausser
+// Node (ab 20). Doku: docs/pakete/99-preise-alle.md, 54-vault-tracker.md, 47-analytics.md und 202-ducatinator.md im App-Repo
 
 import { mkdir, readdir, readFile, rm, writeFile } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { buildAnalytics, checkAnalytics, encodeAnalytics, readAnalyticsFile } from './lib/analytics.mjs';
 import { addDays, daysBetween, utcDay, windowDays } from './lib/days.mjs';
+import { buildDucatOffers, checkDucatOffers, encodeDucatOffers, primeParts, readDucatOffersFile } from './lib/ducats.mjs';
 import { buildPrices, checkPrices, encodePrices, readDay, readPriceFile, WINDOW_DAYS, writeDay } from './lib/prices.mjs';
 import { compactDucatsDay, compactRelicsDay, DUCATS_URL, parseItems, RELICS_ITEMS_URL, relicsDayUrl, statisticsDays, statisticsUrl, WFM_ITEMS_URL } from './lib/sources.mjs';
 import { addTrendDays, checkTrends, dayPrices, decodeTrends, encodeTrends, missingWeeks, primeSets, readTrendFile, settle } from './lib/trends.mjs';
@@ -50,8 +51,12 @@ export const FALLBACK_AFTER_DAYS = 2;
  * @typedef {{ files: Files, out: Files, now: number, log(text: string): void, minItems?: number }} AnalyticsDeps
  *   `files`: Tage in `prices/`; `out`: der Ordner `analytics/`.
  * @typedef {{ written: boolean, asOf: string, items: number, outliers: number }} AnalyticsResult
- * @typedef {{ fetchText: FetchText, files: Files, now: number, log(text: string): void, sleep(ms: number): Promise<void>, fallback?: Fallback, rebuild?: boolean, backfill?: boolean, minItems?: number, minSets?: number, analyticsFiles?: Files, minAnalyticsItems?: number }} BuildDeps
- *   `analyticsFiles`: Ordner `analytics/`; ohne ihn keine Analyse (Tests der Tagesdatei).
+ * @typedef {{ files: Files, out: Files, now: number, log(text: string): void, minItems?: number }} DucatsDeps
+ *   `files`: Item-Liste und Tage in `prices/`; `out`: der Ordner `ducats/`.
+ * @typedef {{ written: boolean, asOf: string, items: number }} DucatsResult
+ * @typedef {{ fetchText: FetchText, files: Files, now: number, log(text: string): void, sleep(ms: number): Promise<void>, fallback?: Fallback, rebuild?: boolean, backfill?: boolean, minItems?: number, minSets?: number, analyticsFiles?: Files, minAnalyticsItems?: number, ducatsFiles?: Files, minDucatItems?: number }} BuildDeps
+ *   `analyticsFiles`: Ordner `analytics/`; ohne ihn keine Analyse (Tests der Tagesdatei). `ducatsFiles`: Ordner `ducats/`
+ *   (#202); ohne ihn keine Ducat-Angebote.
  * @typedef {{ failed: boolean, outputs: Record<string, string> }} BuildResult
  */
 
@@ -72,8 +77,8 @@ async function fetchWithRetry(fetchText, sleep, url) {
   return fetchText(url);
 }
 
-/** @param {import('./lib/sources.mjs').Items} items */
-const writeItems = (items) => JSON.stringify(Object.fromEntries([...items].sort(([a], [b]) => a.localeCompare(b)).map(([id, item]) => [id, [item.path, item.slug]])));
+/** `[Pfad, Slug, Prime-Teil 1 oder 0]` (der dritte Wert seit #202). @param {import('./lib/sources.mjs').Items} items */
+const writeItems = (items) => JSON.stringify(Object.fromEntries([...items].sort(([a], [b]) => a.localeCompare(b)).map(([id, item]) => [id, [item.path, item.slug, item.part ? 1 : 0]])));
 
 /** @param {string | undefined} text @returns {import('./lib/sources.mjs').Items | undefined} */
 function readItems(text) {
@@ -81,9 +86,18 @@ function readItems(text) {
   /** @type {import('./lib/sources.mjs').Items} */
   const items = new Map();
   for (const [id, value] of Object.entries(JSON.parse(text))) {
-    if (Array.isArray(value) && typeof value[0] === 'string' && typeof value[1] === 'string') items.set(id, { path: value[0], slug: value[1] });
+    if (Array.isArray(value) && typeof value[0] === 'string' && typeof value[1] === 'string') items.set(id, value[2] === 1 ? { path: value[0], slug: value[1], part: true } : { path: value[0], slug: value[1] });
   }
   return items.size > 0 ? items : undefined;
+}
+
+/**
+ * Liste von vor #202: Einträge ohne dritten Wert, also ohne Markierung der Prime-Teile. Der Lauf lädt sie dann einmal neu.
+ * @param {string | undefined} text
+ */
+function itemsWithoutParts(text) {
+  if (!text) return false;
+  return Object.values(JSON.parse(text)).some((value) => Array.isArray(value) && value.length === 2);
 }
 
 /** @param {RunDeps} deps @returns {Promise<RunResult>} */
@@ -100,7 +114,8 @@ export async function run(deps) {
   const days = new Map((await readDays(files)).map((day) => [day.day, day]));
   const previousText = await files.read('v1/prices.json');
   const previous = previousText ? readPriceFile(previousText) : undefined;
-  let items = readItems(await files.read('items.json'));
+  const itemsText = await files.read('items.json');
+  let items = readItems(itemsText);
   let itemsFresh = false;
 
   async function loadItems() {
@@ -120,6 +135,11 @@ export async function run(deps) {
       }
     }
     return undefined;
+  }
+  // Eine Liste von vor #202 kennt die Prime-Teile nicht (Ducat-Angebote): einmal neu laden, sonst die alte behalten.
+  if (items && itemsWithoutParts(itemsText)) {
+    log('Item list without Prime part marks, loading it once');
+    items = (await loadItems()) ?? items;
   }
   items ??= await loadItems();
   if (!items) throw new Error('No item list (relics.run and warframe.market failed)');
@@ -362,10 +382,43 @@ export async function runAnalytics(deps) {
 }
 
 /**
- * Tagesdatei, dann Verlauf, dann Analyse. Verlauf und Analyse laufen auch, wenn die Tagesdatei nicht geschrieben wurde (sie
- * brauchen nur die Tage), und ihr Fehler hält die Tagesdatei nie auf: `failed` gilt nur für die Tagesdatei, Fehler stehen in
- * `outputs.trends_failed` und `outputs.analytics_failed`. Die Action meldet sie erst nach dem Commit (Schritte „Report trends“
- * und „Report analytics“).
+ * Ducat-Angebote (#202): Angebotsmedian und Zahl der Angebote jedes Prime-Teils am neuesten Tag mit Angeboten, dazu der
+ * Median 7 Tage davor, aus den Tagen in `prices/days/`, ohne Abruf. Geschrieben nur, wenn sie plausibel ist und sich ausser
+ * `generatedAt` etwas geändert hat; sonst bleibt die alte liegen.
+ * @param {DucatsDeps} deps
+ * @returns {Promise<DucatsResult>}
+ */
+export async function runDucats(deps) {
+  const items = readItems(await deps.files.read('items.json'));
+  if (!items) throw new Error('Ducats: no item list');
+  const parts = primeParts(items);
+  if (parts.size === 0) throw new Error('Ducats: the item list marks no Prime parts');
+  const offers = buildDucatOffers(await readDays(deps.files), parts);
+  if (!offers) throw new Error('Ducats: no day with offers for Prime parts');
+  const file = encodeDucatOffers(offers, { generatedAt: new Date(deps.now).toISOString().replace(/\.\d{3}Z$/, 'Z') });
+  const previousText = await deps.out.read('v1/offers.json');
+  let previous;
+  try {
+    previous = previousText ? readDucatOffersFile(previousText) : undefined;
+  } catch {
+    previous = undefined;
+  }
+  const reason = checkDucatOffers(file, previous, deps.minItems);
+  if (reason) throw new Error(`Ducats not written: ${reason}`);
+  if (previous && JSON.stringify({ ...previous, generatedAt: '' }) === JSON.stringify({ ...file, generatedAt: '' })) {
+    deps.log(`Ducats up to date (asOf ${file.asOf})`);
+    return { written: false, asOf: file.asOf, items: file.items };
+  }
+  await deps.out.write('v1/offers.json', JSON.stringify(file));
+  deps.log(`Written: ducats/v1/offers.json (asOf ${file.asOf}, ${file.items} parts${file.weekAgo ? `, compared with ${file.weekAgo}` : ''})`);
+  return { written: true, asOf: file.asOf, items: file.items };
+}
+
+/**
+ * Tagesdatei, dann Verlauf, Analyse und Ducat-Angebote. Die drei laufen auch, wenn die Tagesdatei nicht geschrieben wurde
+ * (sie brauchen nur die Tage), und ihr Fehler hält die Tagesdatei nie auf: `failed` gilt nur für die Tagesdatei, Fehler
+ * stehen in `outputs.trends_failed`, `outputs.analytics_failed` und `outputs.ducats_failed`. Die Action meldet sie erst nach
+ * dem Commit (Schritte „Report trends“, „Report analytics“ und „Report ducats“).
  * @param {BuildDeps} deps
  * @returns {Promise<BuildResult>}
  */
@@ -398,6 +451,15 @@ export async function build(deps) {
     } catch (error) {
       deps.log(`::error::${message(error)}`);
       outputs['analytics_failed'] = 'true';
+    }
+  }
+  if (deps.ducatsFiles) {
+    try {
+      await runDucats({ files: deps.files, out: deps.ducatsFiles, now: deps.now, log: deps.log, ...(deps.minDucatItems !== undefined ? { minItems: deps.minDucatItems } : {}) });
+      outputs['ducats_failed'] = 'false';
+    } catch (error) {
+      deps.log(`::error::${message(error)}`);
+      outputs['ducats_failed'] = 'true';
     }
   }
   return { failed, outputs };
@@ -435,8 +497,9 @@ if (import.meta.url === pathToFileURL(process.argv[1] ?? '').href) {
     rebuild: ['1', 'true'].includes(process.env['REBUILD'] ?? ''),
     backfill: ['1', 'true'].includes(process.env['TRENDS_BACKFILL'] ?? ''),
     analyticsFiles: folderFiles(process.env['ANALYTICS_DIR'] ?? 'analytics'),
+    ducatsFiles: folderFiles(process.env['DUCATS_DIR'] ?? 'ducats'),
   });
   if (output) await writeFile(output, Object.entries(outputs).map(([key, value]) => `${key}=${value}\n`).join(''), { flag: 'a' });
-  // In der Action melden eigene Schritte Verlauf und Analyse nach dem Commit; von Hand scheitert der Lauf gleich.
-  if (failed || (!output && (outputs['trends_failed'] === 'true' || outputs['analytics_failed'] === 'true'))) process.exitCode = 1;
+  // In der Action melden eigene Schritte Verlauf, Analyse und Ducats nach dem Commit; von Hand scheitert der Lauf gleich.
+  if (failed || (!output && ['trends_failed', 'analytics_failed', 'ducats_failed'].some((key) => outputs[key] === 'true'))) process.exitCode = 1;
 }

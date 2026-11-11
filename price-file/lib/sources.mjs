@@ -20,12 +20,26 @@ export const relicsDayUrl = (day) => `${RELICS_RUN}/history/price_history_${day}
 export const statisticsUrl = (slug) => `${WFM}/v1/items/${encodeURIComponent(slug)}/statistics`;
 
 /**
- * @typedef {{ path: string, slug: string }} ItemRef
+ * @typedef {{ path: string, slug: string, part?: true }} ItemRef
+ *   `part`: ein Prime-Teil (Teil oder Blaupause, kein Set), für die Ducat-Angebote (#202).
  * @typedef {Map<string, ItemRef>} Items Kennung (`id` in `/v2/items`) → Lotus-Pfad (`gameRef`) und Slug.
  * @typedef {'relics.run' | 'ducats' | 'statistics'} DaySource
- * @typedef {{ day: string, source: DaySource, closed: Record<string, [number, number]>, offers: Record<string, number> }} CompactDay
- *   Schlüssel `Pfad|Variante`; `closed`: [Median, Menge] der abgeschlossenen Trades; `offers`: Median der Verkaufsangebote.
+ * @typedef {{ day: string, source: DaySource, closed: Record<string, [number, number]>, offers: Record<string, number>, offerCounts?: Record<string, number> }} CompactDay
+ *   Schlüssel `Pfad|Variante`; `closed`: [Median, Menge] der abgeschlossenen Trades; `offers`: Median der Verkaufsangebote;
+ *   `offerCounts` (#202): Zahl der Verkaufsangebote, nur für Prime-Teile (sonst würde jeder Tag rund 400 KB grösser).
  */
+
+/**
+ * Prime-Teil laut Item-Liste (#202): Tag `prime` und `component` oder `blueprint`, kein Set; oder ein Ducat-Wert ohne Set.
+ * @param {Record<string, unknown>} entry
+ */
+export function isPrimePart(entry) {
+  const tags = Array.isArray(entry['tags']) ? entry['tags'] : [];
+  if (tags.includes('set')) return false;
+  const ducats = entry['ducats'];
+  if (typeof ducats === 'number' && ducats > 0) return true;
+  return tags.includes('prime') && (tags.includes('component') || tags.includes('blueprint'));
+}
 
 /** @param {unknown} value @returns {value is Record<string, unknown>} */
 const isRecord = (value) => typeof value === 'object' && value !== null && !Array.isArray(value);
@@ -68,7 +82,7 @@ export function parseItems(text) {
     const { id, slug, gameRef } = entry;
     if (typeof id !== 'string' || typeof slug !== 'string' || typeof gameRef !== 'string' || !gameRef.startsWith('/Lotus/') || paths.has(gameRef)) continue;
     paths.add(gameRef);
-    items.set(id, { path: gameRef, slug });
+    items.set(id, isPrimePart(entry) ? { path: gameRef, slug, part: true } : { path: gameRef, slug });
   }
   return items.size > 0 ? items : undefined;
 }
@@ -105,7 +119,11 @@ export function compactRelicsDay(text, day, items) {
       if (row['order_type'] === 'closed') {
         const volume = positive(row['volume']);
         if (volume !== undefined) compact.closed[key] = [round1(median), volume];
-      } else if (row['order_type'] === 'sell') compact.offers[key] = round1(median);
+      } else if (row['order_type'] === 'sell') {
+        compact.offers[key] = round1(median);
+        const volume = positive(row['volume']);
+        if (item.part && volume !== undefined) (compact.offerCounts ??= {})[key] = volume;
+      }
     }
   }
   return { day: compact, unknownIds: unknown.size };
