@@ -77,8 +77,8 @@ async function fetchWithRetry(fetchText, sleep, url) {
   return fetchText(url);
 }
 
-/** `[Pfad, Slug, Prime-Teil 1 oder 0]` (der dritte Wert seit #202). @param {import('./lib/sources.mjs').Items} items */
-const writeItems = (items) => JSON.stringify(Object.fromEntries([...items].sort(([a], [b]) => a.localeCompare(b)).map(([id, item]) => [id, [item.path, item.slug, item.part ? 1 : 0]])));
+/** `[Pfad, Slug, Ducats]`, Ducats 0 ausser bei Prime-Teilen (der dritte Wert seit #202). @param {import('./lib/sources.mjs').Items} items */
+const writeItems = (items) => JSON.stringify(Object.fromEntries([...items].sort(([a], [b]) => a.localeCompare(b)).map(([id, item]) => [id, [item.path, item.slug, item.ducats ?? 0]])));
 
 /** @param {string | undefined} text @returns {import('./lib/sources.mjs').Items | undefined} */
 function readItems(text) {
@@ -86,13 +86,15 @@ function readItems(text) {
   /** @type {import('./lib/sources.mjs').Items} */
   const items = new Map();
   for (const [id, value] of Object.entries(JSON.parse(text))) {
-    if (Array.isArray(value) && typeof value[0] === 'string' && typeof value[1] === 'string') items.set(id, value[2] === 1 ? { path: value[0], slug: value[1], part: true } : { path: value[0], slug: value[1] });
+    if (!Array.isArray(value) || typeof value[0] !== 'string' || typeof value[1] !== 'string') continue;
+    const ducats = value[2];
+    items.set(id, Number.isInteger(ducats) && ducats > 0 ? { path: value[0], slug: value[1], ducats } : { path: value[0], slug: value[1] });
   }
   return items.size > 0 ? items : undefined;
 }
 
 /**
- * Liste von vor #202: Einträge ohne dritten Wert, also ohne Markierung der Prime-Teile. Der Lauf lädt sie dann einmal neu.
+ * Liste von vor #202: Einträge ohne dritten Wert, also ohne Ducats der Prime-Teile. Der Lauf lädt sie dann einmal neu.
  * @param {string | undefined} text
  */
 function itemsWithoutParts(text) {
@@ -136,9 +138,9 @@ export async function run(deps) {
     }
     return undefined;
   }
-  // Eine Liste von vor #202 kennt die Prime-Teile nicht (Ducat-Angebote): einmal neu laden, sonst die alte behalten.
+  // Eine Liste von vor #202 kennt die Ducats der Prime-Teile nicht: einmal neu laden, sonst die alte behalten.
   if (items && itemsWithoutParts(itemsText)) {
-    log('Item list without Prime part marks, loading it once');
+    log('Item list without ducat values, loading it once');
     items = (await loadItems()) ?? items;
   }
   items ??= await loadItems();
@@ -392,7 +394,7 @@ export async function runDucats(deps) {
   const items = readItems(await deps.files.read('items.json'));
   if (!items) throw new Error('Ducats: no item list');
   const parts = primeParts(items);
-  if (parts.size === 0) throw new Error('Ducats: the item list marks no Prime parts');
+  if (parts.size === 0) throw new Error('Ducats: the item list has no Prime parts with ducats');
   const offers = buildDucatOffers(await readDays(deps.files), parts);
   if (!offers) throw new Error('Ducats: no day with offers for Prime parts');
   const file = encodeDucatOffers(offers, { generatedAt: new Date(deps.now).toISOString().replace(/\.\d{3}Z$/, 'Z') });

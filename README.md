@@ -52,7 +52,7 @@ them at most once or twice a day; nothing in this repository is personal data.
 
 - `prices/days/<day>.json`: the trades and offers of each day in the window, as read from the source, and for Prime parts
   the number of sell offers (`offerCounts`). The workflow needs them to compute the 14-day price from one download a day.
-- `prices/items.json`: warframe.market item ids with their game path, slug and `1` for a Prime part (`0` otherwise).
+- `prices/items.json`: warframe.market item ids with their game path, slug and ducat value (`0` except for Prime parts).
 - `price-file/`: the script (Node 20 or newer, no dependencies) and its tests: `node --test "price-file/**/*.test.mjs"`.
   Run it locally with `node price-file/build.mjs`; `REBUILD=1` rebuilds the file without a new day. It also writes the
   price trends, the market analytics and the ducat offers (below).
@@ -155,17 +155,17 @@ many sold and how its price moved. TennoDock shows it on its Analytics page, nex
 
 ## Ducat offers
 
-`ducats/v1/offers.json` tells, for every Prime part (parts and blueprints, no sets), what sellers on warframe.market ask
-for it. TennoDock shows it on its page *Buy for ducats*: the parts that give the most ducats per platinum at Baro
-Ki'Teer's kiosk. The ducat values are not in the file; the app takes them from the game's public export.
+`ducats/v1/offers.json` tells, for every Prime part (parts and blueprints, no sets), how many ducats Baro Ki'Teer's
+kiosk gives for it and what sellers on warframe.market ask for it. TennoDock shows it on its page *Buy for ducats*: the
+parts that give the most ducats per platinum.
 
 - **What the numbers are:** the median asking price of all sell offers on the newest day with offers (PC), the number of
   sell offers that day and the median 7 days before. Offers, not sales: a buyer pays what sellers ask, and for Prime
   parts that is about 15 % more than the price of completed trades.
 - **Source and update:** the same daily files from relics.run as the market prices, in the same run, without any extra
   download. Days from the warframe.market fallback have no offers; then the file keeps the newest day with offers.
-- **Prime parts:** items tagged `prime` with `component` or `blueprint`, or with a ducat value, but never `set`. The item
-  list (`prices/items.json`) marks them with a third value `1`; a list from before that is loaded again once.
+- **Prime parts:** items with a ducat value in the warframe.market item list, except sets (about 594). The item list
+  (`prices/items.json`) keeps the ducat value as a third value; a list from before that is loaded again once.
 - **Errors:** like the analytics, a failing build never holds back the price file. The workflow fails after the commit
   (step *Report ducats*). The file is only written when something changed.
 
@@ -182,14 +182,14 @@ Ki'Teer's kiosk. The ducat values are not in the file; the app takes them from t
   "weekAgo": "2026-11-03",
   "items": 594,
   "dirs": {
-    "Types/Recipes/Weapons/": { "DualZorenPrimeBlueprint": [3, 380, 4] },
-    "Types/Recipes/Weapons/WeaponParts/": { "BratonPrimeStock": [2, null] }
+    "Types/Recipes/Weapons/": { "DualZorenPrimeBlueprint": [45, 3, 380, 4] },
+    "Types/Recipes/Weapons/WeaponParts/": { "BratonPrimeStock": [25, 2, null] }
   }
 }
 ```
 
 - `dirs`: game paths without the leading `/Lotus/`, grouped by folder, as in the price file. Per part:
-  `[asking price, offers, asking price 7 days before]`.
+  `[ducats, asking price, offers, asking price 7 days before]`.
   - `offers`: the number of sell offers that day, or `null` for days stored before it was recorded.
   - The third value is missing when there was no offer 7 days before. `weekAgo` names that day; it is missing when the
     window has no day 7 days before `asOf`.

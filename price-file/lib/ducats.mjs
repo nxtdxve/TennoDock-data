@@ -1,9 +1,10 @@
 // @ts-check
 // Ducat-Angebote (#202 Ducatinator, Daves Entscheidung vom 11.11.2026): pro Prime-Teil der Median der Verkaufsangebote auf
 // warframe.market am neuesten Tag, die Zahl der Angebote und der Median 7 Tage davor. Aus denselben kompakten Tagen wie die
-// Preise (`prices/days/`), im selben Lauf, ohne neuen Abruf. Ducats stehen nicht in der Datei: Die App nimmt sie aus dem
-// DE-Export und rechnet Ducats pro Platin selbst. Angebote statt Verkäufe, weil ein Käufer den Preis der Verkäufer zahlt
-// (gemessen am 11.11.2026: Angebote im Mittel 15 % über dem Preis der abgeschlossenen Trades).
+// Preise (`prices/days/`), im selben Lauf, ohne neuen Abruf. Den Ducat-Wert jedes Teils nimmt die Datei aus der Item-Liste
+// von warframe.market (relics.run), weil der Katalog der App Teile und Blaupausen nicht aufzählen kann. Angebote statt
+// Verkäufe, weil ein Käufer den Preis der Verkäufer zahlt (gemessen am 11.11.2026: Angebote im Mittel 15 % über dem Preis
+// der abgeschlossenen Trades).
 // Format: README „Ducat offers“. Doku: docs/pakete/202-ducatinator.md im App-Repo.
 
 import { addDays, isDay } from './days.mjs';
@@ -21,23 +22,26 @@ const LOTUS = '/Lotus/';
 /**
  * @typedef {import('./sources.mjs').CompactDay} CompactDay
  * @typedef {import('./sources.mjs').Items} Items
- * @typedef {{ price: number, offers?: number, weekAgo?: number }} DucatOffer
+ * @typedef {{ ducats: number, price: number, offers?: number, weekAgo?: number }} DucatOffer
  * @typedef {{ asOf: string, source: string, weekAgo?: string, offers: Map<string, DucatOffer> }} DucatOffers
- * @typedef {[price: number, offers: number | null, weekAgo?: number]} DucatEntry
+ * @typedef {[ducats: number, price: number, offers: number | null, weekAgo?: number]} DucatEntry
  *   `offers` ist `null`, wenn der Tag noch keine Zahl hat (Tage vor #202); `weekAgo` fehlt ohne Angebot vor 7 Tagen.
  * @typedef {{ format: string, v: number, asOf: string, generatedAt: string, source: string, trendDays: number,
  *   weekAgo?: string, items: number, dirs: Record<string, Record<string, DucatEntry>> }} DucatFile
  */
 
-/** Pfade der Prime-Teile aus der Item-Liste. @param {Items} items */
+/** Prime-Teile aus der Item-Liste: Pfad → Ducats. @param {Items} items */
 export function primeParts(items) {
-  return new Set([...items.values()].filter((item) => item.part).map((item) => item.path));
+  /** @type {Map<string, number>} */
+  const parts = new Map();
+  for (const item of items.values()) if (item.ducats !== undefined) parts.set(item.path, item.ducats);
+  return parts;
 }
 
 /**
  * Angebote der Prime-Teile an einem Tag: Pfad → [Median, Zahl]. Prime-Teile haben keine Variante (Schlüssel `Pfad|`).
  * @param {CompactDay} day
- * @param {ReadonlySet<string>} parts
+ * @param {ReadonlyMap<string, number>} parts
  */
 function partOffers(day, parts) {
   /** @type {Map<string, { price: number, offers?: number }>} */
@@ -56,7 +60,7 @@ function partOffers(day, parts) {
  * Neuester Tag mit Angeboten für Prime-Teile (Tage aus dem Rückfall haben keine) und der Tag 7 Tage davor, falls es ihn
  * gibt. `undefined` ohne Tag mit Angeboten.
  * @param {readonly CompactDay[]} days
- * @param {ReadonlySet<string>} parts
+ * @param {ReadonlyMap<string, number>} parts Pfad → Ducats
  * @returns {DucatOffers | undefined}
  */
 export function buildDucatOffers(days, parts) {
@@ -70,8 +74,9 @@ export function buildDucatOffers(days, parts) {
     /** @type {Map<string, DucatOffer>} */
     const offers = new Map();
     for (const [path, offer] of current) {
+      const ducats = /** @type {number} */ (parts.get(path));
       const weekAgo = previous.get(path)?.price;
-      offers.set(path, weekAgo === undefined ? offer : { ...offer, weekAgo });
+      offers.set(path, weekAgo === undefined ? { ducats, ...offer } : { ducats, ...offer, weekAgo });
     }
     /** @type {DucatOffers} */
     const result = { asOf: day.day, source: day.source === 'relics.run' ? 'relics.run' : 'warframe.market', offers };
@@ -97,7 +102,7 @@ export function encodeDucatOffers(offers, header) {
     const rest = path.slice(LOTUS.length);
     const split = rest.lastIndexOf('/') + 1;
     /** @type {DucatEntry} */
-    const entry = [round1(offer.price), offer.offers ?? null];
+    const entry = [offer.ducats, round1(offer.price), offer.offers ?? null];
     if (offer.weekAgo !== undefined) entry.push(round1(offer.weekAgo));
     (dirs[rest.slice(0, split)] ??= {})[rest.slice(split)] = entry;
     count++;

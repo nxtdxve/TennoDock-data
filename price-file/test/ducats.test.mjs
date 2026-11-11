@@ -7,7 +7,7 @@ import { describe, it } from 'node:test';
 import { build, run, runDucats } from '../build.mjs';
 import { buildDucatOffers, checkDucatOffers, DUCATS_FORMAT, encodeDucatOffers, primeParts, readDucatOffersFile } from '../lib/ducats.mjs';
 import { readDay, writeDay } from '../lib/prices.mjs';
-import { compactRelicsDay, isPrimePart, parseItems } from '../lib/sources.mjs';
+import { compactRelicsDay, parseItems, partDucats } from '../lib/sources.mjs';
 
 const fixture = (name) => readFileSync(new URL(`./fixtures/${name}`, import.meta.url), 'utf8');
 const NOW = Date.parse('2026-10-23T05:00:00Z');
@@ -28,28 +28,27 @@ function memoryFiles(initial = {}) {
 
 /** Kompakter Tag. @param {string} day @param {Record<string, number>} offers @param {Record<string, number>} [counts] */
 const compact = (day, offers, counts, source = 'relics.run') => ({ day, source, closed: {}, offers, ...(counts ? { offerCounts: counts } : {}) });
-const PARTS = new Set([PART, BLUEPRINT]);
+const PARTS = new Map([[PART, 100], [BLUEPRINT, 45]]);
 
 describe('Prime parts in the item list', () => {
-  it('marks parts and blueprints of Primes, or anything with ducats, but never sets', () => {
-    assert.equal(isPrimePart({ tags: ['prime', 'component', 'primary'] }), true);
-    assert.equal(isPrimePart({ tags: ['prime', 'blueprint'] }), true);
-    assert.equal(isPrimePart({ tags: ['component'], ducats: 45 }), true);
-    assert.equal(isPrimePart({ tags: ['set', 'prime'], ducats: 300 }), false);
-    assert.equal(isPrimePart({ tags: ['prime', 'warframe'] }), false);
-    assert.equal(isPrimePart({ tags: ['mod'] }), false);
-    assert.equal(isPrimePart({}), false);
+  it('takes the ducat value of anything but sets', () => {
+    assert.equal(partDucats({ tags: ['prime', 'component', 'primary'], ducats: 45 }), 45);
+    assert.equal(partDucats({ ducats: 100 }), 100);
+    assert.equal(partDucats({ tags: ['set', 'prime'], ducats: 300 }), undefined);
+    assert.equal(partDucats({ tags: ['prime', 'component'] }), undefined);
+    assert.equal(partDucats({ tags: ['prime', 'component'], ducats: 0 }), undefined);
+    assert.equal(partDucats({ ducats: 4.5 }), undefined);
   });
-  it('keeps the mark in the parsed list', () => {
+  it('keeps the value in the parsed list', () => {
     const items = parseItems(fixture('items.json'));
-    assert.deepEqual(primeParts(items ?? new Map()), new Set(['/Lotus/Types/Recipes/WarframeRecipes/ExamplePrimeHelmetBlueprint']));
+    assert.deepEqual(primeParts(items ?? new Map()), new Map([['/Lotus/Types/Recipes/WarframeRecipes/ExamplePrimeHelmetBlueprint', 45]]));
   });
 });
 
 describe('offer counts in the days', () => {
   it('keeps the number of sell offers for Prime parts only', () => {
     const items = new Map([
-      ['p1', { path: PART, slug: 'example_prime_barrel', part: /** @type {const} */ (true) }],
+      ['p1', { path: PART, slug: 'example_prime_barrel', ducats: 100 }],
       ['m1', { path: MOD, slug: 'example_damage' }],
     ]);
     const text = JSON.stringify({
@@ -85,8 +84,8 @@ describe('buildDucatOffers', () => {
     assert.equal(offers?.weekAgo, '2026-10-15');
     assert.equal(offers?.source, 'relics.run');
     assert.deepEqual([...(offers?.offers ?? [])], [
-      [PART, { price: 4, offers: 140, weekAgo: 5 }],
-      [BLUEPRINT, { price: 3 }],
+      [PART, { ducats: 100, price: 4, offers: 140, weekAgo: 5 }],
+      [BLUEPRINT, { ducats: 45, price: 3 }],
     ]);
   });
   it('skips a newer day from the fallback, which has no offers', () => {
@@ -113,7 +112,7 @@ describe('the file', () => {
       trendDays: 7,
       weekAgo: '2026-10-15',
       items: 2,
-      dirs: { 'Types/Recipes/Weapons/': { ExamplePrimeBlueprint: [3, null] }, 'Types/Recipes/Weapons/WeaponParts/': { ExamplePrimeBarrel: [4, 140, 5] } },
+      dirs: { 'Types/Recipes/Weapons/': { ExamplePrimeBlueprint: [45, 3, null] }, 'Types/Recipes/Weapons/WeaponParts/': { ExamplePrimeBarrel: [100, 4, 140, 5] } },
     });
     assert.deepEqual(readDucatOffersFile(JSON.stringify(file)), file);
     assert.equal(readDucatOffersFile(JSON.stringify({ ...file, format: 'tennodock-prices' })), undefined);
@@ -127,19 +126,19 @@ describe('the file', () => {
 });
 
 describe('runDucats', () => {
-  const items = JSON.stringify({ p1: [PART, 'example_prime_barrel', 1], m1: [MOD, 'example_damage', 0] });
+  const items = JSON.stringify({ p1: [PART, 'example_prime_barrel', 100], m1: [MOD, 'example_damage', 0] });
   const prices = () => memoryFiles({ 'items.json': items, 'days/2026-10-22.json': writeDay(compact('2026-10-22', { [`${PART}|`]: 4 }, { [`${PART}|`]: 140 })) });
   const deps = (files, out, extra = {}) => ({ files, out, now: NOW, log: () => undefined, minItems: 1, ...extra });
   it('writes the file once and leaves it alone when nothing changed', async () => {
     const out = memoryFiles();
     assert.deepEqual(await runDucats(deps(prices(), out)), { written: true, asOf: '2026-10-22', items: 1 });
-    assert.deepEqual(JSON.parse(out.files.get('v1/offers.json') ?? '{}').dirs, { 'Types/Recipes/Weapons/WeaponParts/': { ExamplePrimeBarrel: [4, 140] } });
+    assert.deepEqual(JSON.parse(out.files.get('v1/offers.json') ?? '{}').dirs, { 'Types/Recipes/Weapons/WeaponParts/': { ExamplePrimeBarrel: [100, 4, 140] } });
     const again = await runDucats(deps(prices(), out, { now: NOW + 3600 * 1000 }));
     assert.equal(again.written, false);
   });
   it('fails without marked parts or without offers, and keeps the old file', async () => {
     const out = memoryFiles({ 'v1/offers.json': 'old' });
-    await assert.rejects(runDucats(deps(memoryFiles({ 'items.json': JSON.stringify({ m1: [MOD, 'example_damage', 0] }) }), out)), /marks no Prime parts/);
+    await assert.rejects(runDucats(deps(memoryFiles({ 'items.json': JSON.stringify({ m1: [MOD, 'example_damage', 0] }) }), out)), /no Prime parts with ducats/);
     await assert.rejects(runDucats(deps(memoryFiles({ 'items.json': items }), out)), /no day with offers/);
     await assert.rejects(runDucats(deps(prices(), out, { minItems: 300 })), /Ducats not written: only 1 parts/);
     assert.equal(out.files.get('v1/offers.json'), 'old');
@@ -177,8 +176,8 @@ describe('in the run of the action', () => {
     assert.equal(urls.some((url) => url.includes('warframe.market')), false);
     const file = JSON.parse(ducats.files.get('v1/offers.json') ?? '{}');
     assert.equal(file.asOf, '2026-10-22');
-    assert.deepEqual(file.dirs, { 'Types/Recipes/WarframeRecipes/': { ExamplePrimeHelmetBlueprint: [12, 40] } });
-    assert.match(files.files.get('items.json') ?? '', /ExamplePrimeHelmetBlueprint","example_prime_neuroptics_blueprint",1\]/);
+    assert.deepEqual(file.dirs, { 'Types/Recipes/WarframeRecipes/': { ExamplePrimeHelmetBlueprint: [45, 12, 40] } });
+    assert.match(files.files.get('items.json') ?? '', /ExamplePrimeHelmetBlueprint","example_prime_neuroptics_blueprint",45\]/);
     assert.match(files.files.get('items.json') ?? '', /ExampleDamageMod","example_damage",0\]/);
   });
   it('never holds back the price file when the ducat offers fail', async () => {
@@ -190,7 +189,7 @@ describe('in the run of the action', () => {
     assert.equal(files.files.has('v1/prices.json'), true);
     assert.equal(ducats.files.has('v1/offers.json'), false);
   });
-  it('loads an item list from before #202 once, to learn the Prime parts', async () => {
+  it('loads an item list from before #202 once, to learn the ducat values', async () => {
     const old = JSON.stringify(Object.fromEntries(JSON.parse(fixture('items.json')).filter((item) => item.gameRef).map((item) => [item.id, [item.gameRef, item.slug]])));
     const files = memoryFiles({ 'items.json': old });
     const first = fixtureFetch();
