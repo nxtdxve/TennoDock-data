@@ -165,7 +165,8 @@ export function conversation(nodes, startId, text) {
 /** @param {ReturnType<typeof graph>} g @param {number} startId @param {Text} text @returns {Conversation} */
 function conversationIn(g, startId, text) {
   const order = reachable(g, startId);
-  const id = String(g.byId.get(startId)?.Content ?? '');
+  const content = g.byId.get(startId)?.Content;
+  const id = typeof content === 'string' ? content : '';
   const firstLine = order.find((n) => g.type(n) === LINE && text(g.byId.get(n)?.LocTag) !== undefined);
   const decisions = order.filter((n) => g.isDecision(n));
   const index = new Map(decisions.map((d, i) => [d, i]));
@@ -179,7 +180,6 @@ function conversationIn(g, startId, text) {
 
   /** @type {Choice[]} */
   const choices = decisions.map((decision) => {
-    const node = g.byId.get(decision);
     const answers = g.choicesOf(decision);
     /** @type {Choice} */
     const choice = {

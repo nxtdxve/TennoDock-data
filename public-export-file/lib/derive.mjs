@@ -493,7 +493,7 @@ function clean(text) {
 /** `levelStats` (pro Rang `{ stats: string[] }`) → kompakter Text; ohne Texte `undefined`. */
 function encodeLevelStats(levelStats) {
 	const texts = asArray(levelStats)?.map((rank) => (asArray(asRecord(rank)?.["stats"]) ?? []).filter((line) => typeof line === "string").map(clean).filter(Boolean).join("\n"));
-	if (!texts || texts.length === 0 || texts.every((text) => text === "")) return void 0;
+	if (!texts || texts.every((text) => text === "")) return void 0;
 	const skeletons = texts.map((text) => text.replace(NUMBER, SLOT));
 	if (skeletons.some((skeleton) => skeleton !== skeletons[0])) return PER_RANK + texts.join(RANKS);
 	return skeletons[0] + VALUES + texts.map((text) => (text.match(NUMBER) ?? []).join("|")).join(RANKS);

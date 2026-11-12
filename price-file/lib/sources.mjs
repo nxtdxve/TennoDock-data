@@ -53,12 +53,14 @@ export const round1 = (value) => Math.round(value * 10) / 10;
  * @param {Record<string, unknown>} row
  */
 export function variantKey(row) {
-  if (Number.isInteger(row['mod_rank'])) return `r${row['mod_rank']}`;
+  const rank = row['mod_rank'];
+  if (typeof rank === 'number' && Number.isInteger(rank)) return `r${rank}`;
   const subtype = row['subtype'];
   if (typeof subtype === 'string' && subtype !== '') return subtype;
   const amber = row['amber_stars'];
   const cyan = row['cyan_stars'];
-  if (Number.isInteger(amber) || Number.isInteger(cyan)) return `a${Number.isInteger(amber) ? amber : 0}c${Number.isInteger(cyan) ? cyan : 0}`;
+  const stars = (value) => (typeof value === 'number' && Number.isInteger(value) ? value : undefined);
+  if (stars(amber) !== undefined || stars(cyan) !== undefined) return `a${stars(amber) ?? 0}c${stars(cyan) ?? 0}`;
   return '';
 }
 

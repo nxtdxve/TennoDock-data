@@ -256,7 +256,7 @@ export async function run(deps) {
   /** @type {Record<string, WeaponRecord>} */
   const searched = {};
   /** @type {Record<string, string[]>} */
-  const big = { ...(state.big ?? {}) };
+  const big = { ...state.big };
   for (const { weapon, tier, pairs, estimate } of plan) {
     if (searcher.stopped()) break;
     if (clock() - startedAt >= timeLimit) {

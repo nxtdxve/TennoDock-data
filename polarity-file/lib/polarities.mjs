@@ -174,7 +174,7 @@ export function applyPositions(items, file, counts = {}) {
       else if (!source || typeof entry['date'] !== 'string') problems.push(`${path}: source or date missing`);
       else if (checkExtras(path, entry, current, problems)) {
         // Gleiche Reihenfolge der Felder wie die übrigen Einträge: p zuerst, pm zuletzt; ohne Mod-Polaritäten beide weg.
-        const { p: _wfcd, pm: _none, ...rest } = { ...(current ?? {}), ...extras(entry, current) };
+        const { p: _wfcd, pm: _none, ...rest } = { ...current, ...extras(entry, current) };
         out[path] = p.length > 0 ? { p, ...rest, pm: entry['pm'] } : rest;
         sources.add(source);
       }

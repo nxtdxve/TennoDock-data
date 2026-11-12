@@ -363,7 +363,7 @@ export async function loadGameData(log) {
     const missing = DE_FILES.filter((file) => !index.has(file));
     if (missing.length > 0) throw new Error(`not in the index: ${missing.join(', ')}`);
     const exports = await Promise.all(DE_FILES.map(async (file) => parseDeJson(await (await get(`${DE_FILE_BASE}${index.get(file)}`)).text())));
-    items = deItems(exports).filter((item) => !/Blueprint$/.test(item.path));
+    items = deItems(exports).filter((item) => !item.path.endsWith('Blueprint'));
   } catch (error) {
     log(`::warning::Public export not available (${error instanceof Error ? error.message : String(error)}); using public-export-plus`);
     items = plusItems(await Promise.all(PLUS_FILES.map(plus)), dict);

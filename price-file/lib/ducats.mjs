@@ -126,7 +126,7 @@ export function encodeDucatOffers(offers, header) {
  * @param {DucatFile | undefined} previous
  */
 export function checkDucatOffers(next, previous, minItems = MIN_DUCAT_ITEMS) {
-  if (!isDay(next.asOf)) return `asOf is not a day (${next.asOf})`;
+  if (!isDay(next.asOf)) return `asOf is not a day (${String(next.asOf)})`;
   if (next.items < minItems) return `only ${next.items} parts (at least ${minItems})`;
   if (previous) {
     if (next.asOf < previous.asOf) return `asOf ${next.asOf} is older than the current file (${previous.asOf})`;

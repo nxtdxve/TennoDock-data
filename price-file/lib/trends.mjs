@@ -123,8 +123,8 @@ export function addTrendDays(state, days, asOf) {
 export function settle(state, asOf) {
   const { dayStart, weekStart } = trendRange(asOf);
   for (const [path, entry] of state) {
-    for (const day of [...entry.days.keys()]) if (day < dayStart || day > asOf) entry.days.delete(day);
-    for (const week of [...entry.weeks.keys()]) if (week < weekStart || week > asOf) entry.weeks.delete(week);
+    for (const day of entry.days.keys()) if (day < dayStart || day > asOf) entry.days.delete(day);
+    for (const week of entry.weeks.keys()) if (week < weekStart || week > asOf) entry.weeks.delete(week);
     /** @type {Map<string, number[]>} */
     const byWeek = new Map();
     for (const [day, price] of entry.days) byWeek.set(weekOf(day), [...(byWeek.get(weekOf(day)) ?? []), price]);
@@ -182,7 +182,7 @@ export function missingWeeks(file) {
  * @param {number} [minSets] nur für Tests kleiner
  */
 export function checkTrends(next, previous, minSets = MIN_SETS) {
-  if (!isDay(next.asOf)) return `asOf is not a day (${next.asOf})`;
+  if (!isDay(next.asOf)) return `asOf is not a day (${String(next.asOf)})`;
   if (next.items < minSets) return `only ${next.items} sets (at least ${minSets})`;
   if (previous && next.asOf < previous.asOf) return `asOf ${next.asOf} is older than the current file (${previous.asOf})`;
   return undefined;

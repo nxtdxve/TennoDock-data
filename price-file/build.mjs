@@ -235,7 +235,7 @@ export async function run(deps) {
   if (!asOf) throw new Error('No day data at all');
   // Tage vor dem Fenster löschen. Das Fenster endet am neuesten Tag, damit bei einem Ausfall die alten Tage bleiben.
   const first = addDays(asOf, -(WINDOW_DAYS - 1));
-  for (const day of [...days.keys()]) {
+  for (const day of days.keys()) {
     if (day >= first) continue;
     days.delete(day);
     await files.remove(`days/${day}.json`);

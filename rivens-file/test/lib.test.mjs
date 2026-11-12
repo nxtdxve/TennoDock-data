@@ -126,7 +126,7 @@ describe('stats', () => {
   it('Einträge einer Waffe: Stufe 1 genau, Stufe 2 mit Stern, vollständig nur über ein vollständiges Paar', () => {
     const tags = ['A', 'B', 'C', 'D'];
     const indexOf = (tag) => tags.indexOf(tag);
-    const offer = (id, buffs, curse, price) => ({ id, price, buffs: [...buffs].sort(), ...(curse ? { curse } : {}), updated: NOW });
+    const offer = (id, buffs, curse, price) => ({ id, price, buffs: [...buffs].sort((a, b) => (a < b ? -1 : a > b ? 1 : 0)), ...(curse ? { curse } : {}), updated: NOW });
     const offers = [
       ...Array.from({ length: 6 }, (_, i) => offer(`x${i}`, ['A', 'B', 'C'], 'D', 200 + i)),
       ...Array.from({ length: 5 }, (_, i) => offer(`y${i}`, ['A', 'B'], undefined, 100 + i)),

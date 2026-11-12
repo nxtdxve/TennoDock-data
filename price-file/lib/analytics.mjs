@@ -229,7 +229,7 @@ export function encodeAnalytics(analytics, header) {
  * @param {number} [minItems] nur für Tests kleiner
  */
 export function checkAnalytics(next, previous, minItems = MIN_ANALYTICS_ITEMS) {
-  if (!isDay(next.asOf)) return `asOf is not a day (${next.asOf})`;
+  if (!isDay(next.asOf)) return `asOf is not a day (${String(next.asOf)})`;
   if (next.items < minItems) return `only ${next.items} items (at least ${minItems})`;
   if (previous) {
     if (next.asOf < previous.asOf) return `asOf ${next.asOf} is older than the current file (${previous.asOf})`;
