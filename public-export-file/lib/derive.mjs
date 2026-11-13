@@ -2,7 +2,7 @@
 // ERZEUGT aus src/core/masterdata/public-export-parts.ts im TennoDock-Repo (#179), nicht von Hand ändern.
 // Neu erzeugen im TennoDock-Repo: UPDATE_DERIVE=1 npx vitest run src/core/masterdata/public-export-derive.test.ts
 // (rolldown, Format esm, Plattform neutral). Der Test vergleicht die Datei Byte für Byte mit dem Code der App.
-//#region src/core/json.ts
+// src/core/json.ts
 function isRecord(value) {
 	return typeof value === "object" && value !== null && !Array.isArray(value);
 }
@@ -21,8 +21,7 @@ function asNumber(value) {
 function asString(value) {
 	return typeof value === "string" ? value : void 0;
 }
-//#endregion
-//#region src/core/masterdata/paths.ts
+// src/core/masterdata/paths.ts
 /**
 * `/Lotus/StoreItems/…` → `/Lotus/…`, `…/VoltBaseSuit` → `…/Volt` (Helminth-Angebot).
 */
@@ -31,8 +30,7 @@ function normalizeItemPath(path) {
 	if (result.endsWith("BaseSuit")) result = result.slice(0, -8);
 	return result;
 }
-//#endregion
-//#region src/core/masterdata/relics.ts
+// src/core/masterdata/relics.ts
 const REFINEMENTS = [
 	"intact",
 	"exceptional",
@@ -99,8 +97,7 @@ function collectRelics(json) {
 	for (const relic of Object.values(relics)) relic.refinements?.sort((a, b) => REFINEMENTS.indexOf(a) - REFINEMENTS.indexOf(b));
 	return relics;
 }
-//#endregion
-//#region src/core/masterdata/mods.ts
+// src/core/masterdata/mods.ts
 /** Polaritäten mit den Codes von DE; dieselben stehen im Inventar (`Polarity[].Value`, `pol` der Rivens). */
 const POLARITIES = [
 	"AP_ATTACK",
@@ -255,8 +252,7 @@ function collectArcanes(json) {
 	}
 	return arcanes;
 }
-//#endregion
-//#region src/core/masterdata/rivens.ts
+// src/core/masterdata/rivens.ts
 const PLACEHOLDER = /\|[A-Za-z0-9]+\|(%|s(?=\s))?/;
 /** Fraktionsschaden zeigt das Spiel als Faktor (×1,25), DE schreibt ihn ohne Einheit (Wiki: „×(1 + v)“). */
 const FACTION_TAG = /FactionDamage/;
@@ -301,8 +297,7 @@ function collectRivenTypes(json) {
 	}
 	return types;
 }
-//#endregion
-//#region src/core/masterdata/catalog.ts
+// src/core/masterdata/catalog.ts
 const PRIME = /\bPrime\b/;
 function cleanName(name) {
 	return (name ?? "").replace(/<[^>]*>\s*/g, "").trim();
@@ -446,8 +441,7 @@ function combineDeCatalog(parts) {
 	if (parts.fusionBundles !== void 0) catalog.endo = partRecord(parts.fusionBundles, "endo");
 	return catalog;
 }
-//#endregion
-//#region src/core/masterdata/cosmetics.ts
+// src/core/masterdata/cosmetics.ts
 /** Pfade aller Einträge aus DE `ExportCustoms` (Skins, Helme, Anhänge, Syandanas, Signa, Ephemeras, Sigils …). */
 function collectCosmeticPaths(json) {
 	const paths = /* @__PURE__ */ new Set();
@@ -457,8 +451,7 @@ function collectCosmeticPaths(json) {
 	}
 	return { paths: [...paths].sort() };
 }
-//#endregion
-//#region src/core/masterdata/mod-stats.ts
+// src/core/masterdata/mod-stats.ts
 /** Dateien mit `levelStats`; beide stehen ohnehin in den Namensdateien, kosten also keinen eigenen Abruf. */
 const MOD_STATS_FILES = ["ExportUpgrades", "ExportRelicArcane"];
 const NUMBER = /\d+(?:[.,]\d+)?/g;
@@ -532,8 +525,7 @@ function collectModStats(json, into = {}) {
 	}
 	return into;
 }
-//#endregion
-//#region src/core/masterdata/star-chart.ts
+// src/core/masterdata/star-chart.ts
 /** Name und Planet aus `ExportRegions_<Sprache>` des DE-Exports. */
 function collectRegionNames(json) {
 	const names = {};
@@ -549,8 +541,7 @@ function collectRegionNames(json) {
 	}
 	return names;
 }
-//#endregion
-//#region src/core/masterdata/public-export-parts.ts
+// src/core/masterdata/public-export-parts.ts
 /** Dateien mit Namen (Items, Warframes, Mods, Nightwave, Bundles …), in dieser Reihenfolge zusammengesetzt. */
 const NAME_FILES = [
 	"ExportResources",
@@ -845,5 +836,4 @@ function combineTable(table, parts) {
 		default: return parts[0] ?? {};
 	}
 }
-//#endregion
 export { CATALOG_FILES, CATALOG_FORMAT, CATALOG_LANGUAGE, COSMETICS_FILE, COSMETICS_FORMAT, IMAGES_FORMAT, IMAGE_FILE, MOD_STATS_FORMAT, NAMES_FORMAT, NAME_FILES, NIGHTWAVE_FILE, NIGHTWAVE_FORMAT, PALETTES_FORMAT, PALETTE_FILE, REGIONS_FILE, REGIONS_FORMAT, collectImages, collectNames, collectNamesPart, collectNightwaveTargets, collectPalettes, combineTable, isPartData, mergeNameParts, partSignature, planTables };
