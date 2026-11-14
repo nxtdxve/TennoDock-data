@@ -1,0 +1,22 @@
+// Git-Hooks mit hk (https://hk.jdx.dev) für das Daten-Repo (#227). Einrichten pro Klon: mise install, dann hk install --mise.
+// Die Versionen in den URLs gehören zu hk in mise.toml: dann liest hk sie aus sich selbst, ohne Download.
+amends "package://github.com/jdx/hk/releases/download/v2.11.1/hk@2.11.1#/Config.pkl"
+
+// Secrets, Spielstand-Felder und lokale Daten in den gestagten Änderungen (Regeln in .gitleaks.toml).
+local gitleaks_staged = new Step {
+  check = new Command {
+    argv = List("gitleaks", "git", "--pre-commit", "--staged", "--redact", "--verbose", "--no-banner")
+  }
+}
+
+hooks {
+  // Nur prüfen, nichts ändern und nichts beiseitelegen.
+  ["pre-commit"] {
+    fix = false
+    stash = "none"
+    timeout = "30s"
+    steps {
+      ["gitleaks"] = gitleaks_staged
+    }
+  }
+}

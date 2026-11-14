@@ -1,0 +1,77 @@
+# gitleaks (https://github.com/gitleaks/gitleaks) für das Daten-Repo (#227, Spiegel der Regeln aus TennoDock #222):
+# Standardregeln plus eigene Regeln. Das Repo ist öffentlich, ein Fund wäre sofort für alle sichtbar.
+# Läuft im pre-commit-Hook (hk.pkl, nur gestagte Änderungen), im Workflow secrets.yml (ganze Historie nach jedem Push,
+# nach jedem Daten-Job und einmal am Tag) und mit `mise run secrets`.
+
+title = "TennoDock-data"
+
+[extend]
+useDefault = true
+
+# Overwolf-Zugangsdaten: Dev-Key, CLI-Schlüssel und Build-Key. Das Format ist nicht dokumentiert,
+# deshalb erkennt die Regel die Zuweisung an den Namen.
+[[rules]]
+id = "overwolf-credential"
+description = "Overwolf credential (OW_DEV_KEY, OW_CLI_API_KEY, OW_BUILD_KEY)"
+regex = '''(?i)\b(OW_DEV_KEY|OW_CLI_API_KEY|OW_BUILD_KEY)\b\s*(?:=|:|:=|=>)\s*["'`]?([^\s"'`]{8,})'''
+secretGroup = 2
+keywords = ["ow_dev_key", "ow_cli_api_key", "ow_build_key"]
+# Erlaubt sind nur Werte, die als Ganzes ein Verweis oder Platzhalter sind (Anker an beiden Enden).
+[[rules.allowlists]]
+description = "Platzhalter und Verweise statt echter Werte"
+regexTarget = "secret"
+regexes = [
+  '''^\$\{?[A-Za-z_][A-Za-z0-9_]*\}?$''',  # $OW_DEV_KEY, ${OW_DEV_KEY}
+  '''^\{\{[^{}]+\}\}$''',  # {{secrets.OW_DEV_KEY}}
+  '''^<[^<>]+>$''',  # <your-dev-key>
+  '''^op://\S+$''',  # 1Password-Verweis
+  '''(?i)^(x{4,}|\*{4,}|(your|example)[-_a-z]*|placeholder|changeme|redacted)$''',  # xxxx, ****, your-dev-key
+]
+
+# Warframe-Sitzung: accountId und nonce aus Anfragen an die Spiel-API sind Zugangsdaten.
+[[rules]]
+id = "warframe-session"
+description = "Warframe account id or nonce from a game API request"
+regex = '''(?i)\b(?:accountId|nonce)=([0-9a-f]{24}|\d{6,})\b'''
+secretGroup = 1
+keywords = ["accountid=", "nonce="]
+
+# Discord-Webhook-Adresse (#20, Daves Entscheidung vom 13.11.2026): Wer sie kennt, kann in den Kanal schreiben, sie wirkt
+# wie ein Passwort. Die Standardregeln erkennen sie nicht. Tests bauen ihre erfundenen Adressen zur Laufzeit.
+# Seit dem Review von #20 auch ohne Schema, in Grossbuchstaben und mit Port; Ausnahmen gibt es keine.
+[[rules]]
+id = "discord-webhook-url"
+description = "Discord webhook URL (works like a password)"
+regex = '''(?i)(?:https?://)?(?:(?:ptb|canary)\.)?discord(?:app)?\.com(?::\d+)?/api/(?:v\d+/)?webhooks/\d{17,20}/([A-Za-z0-9_-]{30,100})'''
+secretGroup = 1
+keywords = ["discord.com", "discordapp.com"]
+
+# Daten-Repo (#227): Hier liegen nur öffentliche, erzeugte Daten. Felder, die nur in einem Inventar eines Spielers stehen,
+# dürfen nie in einer Datei auftauchen (Spielstand gehört nie hierher). Die Schlüssel stehen in keinem öffentlichen Export.
+[[rules]]
+id = "warframe-inventory-snapshot"
+description = "Field from a player's inventory snapshot (account data must never be in the data repo)"
+regex = '''"(AccountOwnerId|PendingRecipes|LoadOutPresets|TrainingDate|PlayerSkills|DailyAffiliation[A-Za-z]*)"\s*:'''
+keywords = ["accountownerid", "pendingrecipes", "loadoutpresets", "trainingdate", "playerskills", "dailyaffiliation"]
+
+# Lokale Daten (Account-Snapshots, Logs, Stammdaten-Cache) und Secrets-Dateien nie committen,
+# auch nicht mit git add -f. Diese Regeln prüfen nur den Pfad.
+[[rules]]
+id = "tennodock-local-data"
+description = "File from local/ (account data) must never be committed"
+path = '''(^|/)local/'''
+
+[[rules]]
+id = "env-file"
+description = "Environment file with secrets (.env) must never be committed"
+path = '''(^|/)\.env(\.[^/]*)?$'''
+[[rules.allowlists]]
+paths = ['''(^|/)\.env\.example$''']
+
+# Spielpfade sind keine Schlüssel. Nur für die allgemeine Regel generic-api-key und nur mit bekannter Wurzel, sonst
+# ginge jeder Base64-Schlüssel mit „/“ durch. Fehlalarm bisher: LATRON_KEY = 'Weapons/Tenno/Rifle/LatronPrime' (Test).
+[[allowlists]]
+description = "Warframe game paths like /Lotus/Weapons/... or Weapons/Tenno/Rifle/LatronPrime are not keys"
+targetRules = ["generic-api-key"]
+regexTarget = "secret"
+regexes = ['''^(/Lotus|/?(Weapons|Powersuits|Types|Upgrades|Interface|StoreItems|Characters|Levels|Language|Items))(/[A-Za-z0-9_]+)+$''']
