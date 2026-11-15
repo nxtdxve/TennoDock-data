@@ -1,0 +1,19 @@
+{
+  "about": "Entries by hand for cosmetics/v1/availability.json (#274). An entry always wins over a rule. Keys: game path, or a folder ending in /. a: now, limited, gone, console, never, or unknown (removes a wrong rule). k: see cosmetics-file/lib/rules.mjs. n: note, src: link to the source, checked: day of the check.",
+  "items": {
+    "/Lotus/Types/StoreItems/AvatarImages/AvatarImageGlyphLaborAward": {
+      "a": "gone",
+      "k": "promo",
+      "n": "Labor of Love Glyph. DE description: commemoration of the 2017 Steam award, given once.",
+      "src": "https://github.com/calamity-inc/warframe-public-export-plus/blob/senpai/ExportFlavour.json",
+      "checked": "2026-11-15"
+    },
+    "/Lotus/Upgrades/Skins/Clan/CY17173MediaBadge": {
+      "a": "never",
+      "k": "partner",
+      "n": "17173 Emblem, China client (ChangYou): file prefix CY, texts under /Lotus/Language/Changyou/, a recruiting offer of the Chinese games media site 17173. No sign it ever existed on PC. Kept here because the app does not yet treat CY followed by a digit as not on PC.",
+      "src": "https://github.com/calamity-inc/warframe-public-export-plus/blob/senpai/ExportCustoms.json",
+      "checked": "2026-11-15"
+    }
+  }
+}

@@ -836,3 +836,59 @@ available, so a player can see whether they already have everything they can get
 
 - `palettes-file/`: a check of the file (Node 20 or newer, no dependencies) and its tests:
   `node --test "palettes-file/**/*.test.mjs"`. Run `node palettes-file/check.mjs` after every change.
+
+## Cosmetics availability
+
+`cosmetics/v1/availability.json` says for cosmetics that TennoDock cannot place from the game data alone whether a player
+can still get them: any time (by a way the game data does not name), only at times, no longer, only on consoles, or never
+(not a real collectible). TennoDock marks missing cosmetics with it, so a player can see what is left to get.
+
+- **Source:** [warframe-public-export-plus](https://github.com/calamity-inc/warframe-public-export-plus) (MIT): paths,
+  English names and descriptions by Digital Extremes, bundles, vendors and challenges. States come from fixed, tested
+  patterns over these files (bundle and folder names, names, descriptions such as "awarded … during the … event") and from
+  entries made by hand, each with a note, a source link and the day it was checked. No content from the WARFRAME Wiki.
+- **Updated:** every Wednesday by a workflow. A commit only when an entry changes; most weeks there is none. Entries that
+  are new as `gone`, `console` or `never` are listed by name in the commit message and as notices in the run, so someone
+  can check them; a wrong one gets `"a": "unknown"` in `cosmetics-file/exceptions.json`.
+- TennoDock is not affiliated with Digital Extremes.
+
+### Format (version 1)
+
+```json
+{
+  "format": "tennodock-cosmetics-availability",
+  "v": 1,
+  "asOf": "2026-11-18",
+  "items": {
+    "/Lotus/Upgrades/Skins/Clan/ExampleEventBadgeItem": { "a": "gone", "k": "event" },
+    "/Lotus/Types/StoreItems/AvatarImages/AvatarImageExampleAccoladeGlyph": { "a": "now", "k": "accolade" },
+    "/Lotus/Upgrades/Skins/Example/": { "a": "limited", "k": "seasonal" }
+  }
+}
+```
+
+- Keys are game paths as in the public export, or a folder ending in `/` (only from entries by hand); the longest matching
+  key wins.
+- `a`: `now` (any time, by a way the game data does not name), `limited` (comes back, not for sure), `gone` (no longer
+  available), `console` (only on consoles), `never` (not a collectible for players in general: cut content, personal
+  glyphs, ranking emblems, emblems of a role such as TennoGen artist or translator, other game clients).
+- `k`: how or why. With `now`: `genetic` (random when incubating), `accolade` (Steel Path boss, solo), `coda`, `kuvaLich`,
+  `sisters`, `tribute` (Daily Tribute). With `limited`: `seasonal` (Market on a holiday), `anniversary`, `conquera`,
+  `moframe`, `baro`, `event`. With `gone`: `event`, `operation`, `promo`, `partner`, `convention`, `twitch`, `retired`.
+  With `console`: `console`. With `never`: `cut`, `personal`, `special` (a role), `partner`. Apps write their own text from
+  `a` and `k` and read unknown values as unknown.
+- A cosmetic that is not in the file is unknown, never gone. What the game data says (sold in the Market, at a vendor, on
+  sale right now) comes first. `asOf` changes only when an entry changes, so the file keeps its ETag between runs. Color
+  palettes are in `palettes/v1/palettes.json`, not here. An incompatible change gets a new folder (`cosmetics/v2/`).
+
+### Other files
+
+- `cosmetics/v1/unknown.json`: cosmetics with neither a source nor a state, with the day since they are missing and their
+  English name. A work list for entries by hand; apps do not load it.
+- `cosmetics/v1/SOURCES.md`: where the data comes from.
+- `cosmetics-file/`: the script (Node 22 or newer, no dependencies), the patterns (`lib/rules.mjs`), the entries by hand
+  (`exceptions.json`) and the tests: `node --test "cosmetics-file/**/*.test.mjs"`. Run it locally with
+  `node cosmetics-file/build.mjs` from the root of the repository. It reuses the rules of the app from
+  `sources-file/lib/covered.mjs`.
+- `.github/workflows/cosmetics.yml`: the weekly workflow. Run it by hand under *Actions › Cosmetics › Run workflow*. With
+  `COSMETICS_ISSUE: 'on'` it opens an issue on the first run of a month with new cosmetics without a state.

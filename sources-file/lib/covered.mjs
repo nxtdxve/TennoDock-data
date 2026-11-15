@@ -10,6 +10,9 @@
 //     `creditsCost`, ohne Deluxe), Kosmetik aus allen Nightwave-Staffeln (`ExportSyndicates[RadioLegion…].titles`),
 //     Challenges (`ExportChallenges`), Anhänge von Nachrichten (`ExportEmailItems`), TennoGen ohne Preis, Gründer-Embleme,
 //     `…Statless`-Zwillinge.
+//   - Seit #274 (für `cosmetics-file/`): Glyphen der Content-Creators und die Emotes des Steel Path wie `cosmeticRule` in der
+//     App, dazu der Markt aus `ExportFlavour` (Glyphen, Emotes), wenn der Aufrufer die Datei mitgibt (`flavour`, optional;
+//     `sources-file/` braucht sie nicht, weil `missing.json` keine Glyphen zählt).
 // Fällt eine Regel in der App weg oder kommt eine dazu, gehört sie auch hierher. Reine Funktionen.
 
 /** @param {unknown} value @returns {value is Record<string, unknown>} */
@@ -31,6 +34,8 @@ const EPHEMERA = '/Lotus/Upgrades/Skins/Effects/';
 /** Wie `CLAN_SIGILS` und `REPLACED_COSMETICS` in der App. */
 const CLAN_SIGILS = new Set(['/Lotus/Upgrades/Skins/Sigils/ClanSigilBasic', '/Lotus/Upgrades/Skins/Sigils/AllianceSigilBasic']);
 const REPLACED = new Set(['/Lotus/Upgrades/Skins/Sigils/MasterySigil']);
+/** Glyphen von Content-Creators wie `CREATOR_GLYPHS` in der App (#122): Ordner `FanChannel` oder `AvatarImageCreator…`. */
+const CREATOR_GLYPHS = /^\/Lotus\/Types\/StoreItems\/AvatarImages\/(FanChannel\/|AvatarImageCreator)/;
 
 /**
  * Am PC nicht erhältlich nach Pfad (wie `notOnPcByPath` in der App): China-Client und Treue-Siegel der Konsolen. `WeGame…`
@@ -39,7 +44,9 @@ const REPLACED = new Set(['/Lotus/Upgrades/Skins/Sigils/MasterySigil']);
  */
 export function notOnPcByPath(path) {
   const file = path.slice(path.lastIndexOf('/') + 1);
-  return path.includes('/ChangYou/') || /^CY[A-Z]/.test(file) || /^(PS4|XBone)\w*YearSigil$|^Switch\d*Sigil$/.test(file);
+  // #274 (Review K3): auch `CY` mit Ziffer (`CY17173MediaBadge`, Texte unter `/Lotus/Language/Changyou/`). `notOnPcByPath` im
+  // App-Kern erkennt das noch nicht; bis dahin sagt `cosmetics-file/exceptions.json` „kein Sammelstück“.
+  return path.includes('/ChangYou/') || /^CY[A-Z0-9]/.test(file) || /^(PS4|XBone)\w*YearSigil$|^Switch\d*Sigil$/.test(file);
 }
 
 /**
@@ -50,9 +57,11 @@ export function cosmeticRule(path, name) {
   if (path.startsWith(`${EPHEMERA}Kuva/`)) return 'kuvaLich';
   if (path.startsWith(`${EPHEMERA}CorpusLichEphemera`)) return 'sisters';
   if (path.startsWith(`${EPHEMERA}InfestedLichEphemera`)) return 'coda';
+  if (CREATOR_GLYPHS.test(path)) return 'creator';
   if (CLAN_SIGILS.has(path)) return 'clan';
   if (path.startsWith('/Lotus/Upgrades/Skins/Clan/FoundersBadge')) return 'founders';
   const file = path.slice(path.lastIndexOf('/') + 1);
+  if (/^Hardmode\w*Emote$/.test(file)) return 'steelPath';
   if (/tennocon/i.test(file) || name?.startsWith('TennoCon ')) return 'tennocon';
   if (/twitch/i.test(file)) return 'twitch';
   if (name !== undefined && /\bPrime\b/.test(name) && !/^VT[A-Z]/.test(file)) return 'primeAccess';
@@ -60,7 +69,8 @@ export function cosmeticRule(path, name) {
 }
 
 /**
- * @typedef {{ customs?: unknown, resources?: unknown, bundles?: unknown, vendors?: unknown, syndicates?: unknown, challenges?: unknown, emails?: unknown, names: ReadonlyMap<string, string> }} RuleData
+ * @typedef {{ customs?: unknown, resources?: unknown, flavour?: unknown, bundles?: unknown, vendors?: unknown, syndicates?: unknown, challenges?: unknown, emails?: unknown, names: ReadonlyMap<string, string> }} RuleData
+ *   `flavour` (`ExportFlavour`, optional, #274): Markt der Glyphen, Emotes und Paletten.
  */
 
 /**
@@ -72,7 +82,7 @@ export function gameSources(data) {
   const found = new Map();
   const add = (/** @type {string} */ path, /** @type {string} */ kind) => void (found.has(path) || found.set(path, kind));
   // Markt und Pakete
-  for (const file of [data.customs, data.resources]) {
+  for (const file of [data.customs, data.resources, data.flavour]) {
     for (const [path, value] of Object.entries(isRecord(file) ? file : {})) {
       if (isRecord(value) && value['excludeFromMarket'] !== true && (positive(value['platinumCost']) || positive(value['creditsCost']))) add(path, 'market');
     }

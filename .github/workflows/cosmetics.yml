@@ -1,0 +1,99 @@
+# Zustand aller Kosmetik ohne Fundort für TennoDock (#274): baut `cosmetics/v1/availability.json` (lädt die App alle 7 Tage
+# mit ETag), `unknown.json` (Arbeitsliste, lädt die App nie) und `SOURCES.md` aus public-export-plus mit festen Mustern und
+# Ausnahmen von Hand (`cosmetics-file/exceptions.json`), einmal pro Woche. Ein Commit nur, wenn sich etwas geändert hat; die
+# meisten Wochen gibt es keinen. Kein Wiki. Optional am ersten Lauf eines Monats ein Issue mit neuen Teilen ohne Zustand.
+# Im TennoDock-Repo liegt dieser Ordner unter `tools/tennodock-data/` (1:1 der Inhalt des Daten-Repos) und läuft dort nicht.
+# Doku: docs/pakete/274-availability.md im App-Repo.
+name: Cosmetics
+
+on:
+  schedule:
+    # Mittwochs, abseits der anderen Läufe (Sources dienstags 06:37, Glyph-Codes montags 06:29, Preise 04:17/10:17).
+    - cron: '53 6 * * 3'
+  # Von Hand: Actions › Cosmetics › Run workflow, oder `gh workflow run cosmetics.yml -R nxtdxve/TennoDock-data`.
+  workflow_dispatch:
+  # Eine Änderung an Skript, Regeln oder Ausnahmen gilt sofort. Commits des Workflows selbst (GITHUB_TOKEN) lösen keinen
+  # neuen Lauf aus.
+  push:
+    branches: [main]
+    paths:
+      - 'cosmetics-file/**'
+      - 'sources-file/lib/covered.mjs'
+      - 'promo-codes-file/lib/names.mjs'
+      - '.github/workflows/cosmetics.yml'
+
+env:
+  # Issue am ersten Lauf eines Monats mit Teilen, die seit dem Vormonat ohne Fundort und ohne Zustand sind: 'on' oder 'off'.
+  COSMETICS_ISSUE: 'off'
+
+permissions:
+  contents: write # Dateien committen
+  issues: write # nur mit COSMETICS_ISSUE=on
+
+concurrency:
+  group: cosmetics
+  cancel-in-progress: false
+
+jobs:
+  cosmetics:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          # Immer der neueste Stand von main (wie public-export.yml): Ein Lauf, der wegen concurrency wartet, bekäme sonst den
+          # Commit von seinem Start und läse veraltete Fundorte aus sources/ und palettes/.
+          ref: main
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24
+      - name: Test
+        run: node --test "cosmetics-file/**/*.test.mjs" "sources-file/**/*.test.mjs"
+      - name: Report window
+        id: window
+        # Erster Lauf eines Monats (Tag 1 bis 7): Stichtag ist der erste Tag des Vormonats.
+        run: |
+          if [ "$COSMETICS_ISSUE" = 'on' ] && [ "$(date -u +%d)" -le 7 ]; then
+            echo "from=$(date -u -d "$(date -u +%Y-%m-01) -1 month" +%Y-%m-%d)" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Build
+        id: build
+        env:
+          REPORT_FROM: ${{ steps.window.outputs.from }}
+          REPORT_FILE: ${{ runner.temp }}/cosmetics-report.md
+          # Neue Einträge „gone“, „console“ und „never“ mit Namen (Review #274 S2); sie stehen auch als Notice im Lauf.
+          FLAGGED_FILE: ${{ runner.temp }}/cosmetics-flagged.md
+        run: node cosmetics-file/build.mjs
+      - name: Commit
+        # Werte aus dem Lauf nur über die Umgebung, nie als Ausdruck direkt im Befehl (Script-Injection); das Skript prüft
+        # sie zusätzlich streng (`outputLines`: Tag, ganze Zahlen). Die Liste der neuen Einträge kommt als Datei in die
+        # Meldung (`git commit -F`), nie durch die Shell.
+        env:
+          AS_OF: ${{ steps.build.outputs.asOf }}
+          ENTRIES: ${{ steps.build.outputs.entries }}
+          UNKNOWN: ${{ steps.build.outputs.unknown }}
+          FLAGGED_FILE: ${{ runner.temp }}/cosmetics-flagged.md
+          MESSAGE_FILE: ${{ runner.temp }}/cosmetics-commit.txt
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          if [ ! -d cosmetics ]; then echo 'Nothing yet'; exit 0; fi
+          git add cosmetics
+          if git diff --cached --quiet; then echo 'Nothing new'; exit 0; fi
+          printf 'Cosmetics %s (%s entries, %s without a state)\n' "$AS_OF" "$ENTRIES" "$UNKNOWN" > "$MESSAGE_FILE"
+          if [ -s "$FLAGGED_FILE" ]; then printf '\n' >> "$MESSAGE_FILE"; cat "$FLAGGED_FILE" >> "$MESSAGE_FILE"; fi
+          git commit -F "$MESSAGE_FILE"
+          # Läuft ein anderer Workflow gerade auch, einmal auf den neuen Stand setzen und erneut versuchen.
+          git push || { git pull --rebase origin main && git push; }
+      - name: Monthly issue
+        if: ${{ env.COSMETICS_ISSUE == 'on' && steps.window.outputs.from != '' }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPORT_FILE: ${{ runner.temp }}/cosmetics-report.md
+          FROM: ${{ steps.window.outputs.from }}
+        run: |
+          if [ -s "$REPORT_FILE" ]; then
+            gh issue create --title "Cosmetics without a state since $FROM" --body-file "$REPORT_FILE" --label cosmetics || gh issue create --title "Cosmetics without a state since $FROM" --body-file "$REPORT_FILE"
+          else
+            echo 'No new cosmetics without a state'
+          fi

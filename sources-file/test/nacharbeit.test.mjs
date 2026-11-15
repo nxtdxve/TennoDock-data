@@ -63,6 +63,9 @@ describe('Regeln der App (#164 Nacharbeit)', () => {
     // Lunar Renewal (WeGame) gibt es am PC (Review M1).
     assert.equal(notOnPcByPath(`${SIGILS}WeGameNewYearSnakeSigil`), false);
     assert.equal(notOnPcByPath('/Lotus/Upgrades/Skins/Rhino/ChangYou/CYRhinoRubedoSkin'), true);
+    // #274 (Review K3): China-Client auch mit Ziffer nach `CY`.
+    assert.equal(notOnPcByPath('/Lotus/Upgrades/Skins/Clan/CY12345MediaBadge'), true);
+    assert.equal(notOnPcByPath('/Lotus/Upgrades/Skins/Clan/CyclonBadge'), false);
     assert.equal(notOnPcByPath(`${SIGILS}PS4FirstYearSigil`), true);
     assert.equal(notOnPcByPath(`${SIGILS}CNYRoosterCYSigil`), false);
     assert.equal(appSource(`${SIGILS}WeGameNewYearSnakeSigil`, known, 'Lunar Renewal Snake Sigil'), undefined);
@@ -203,5 +206,22 @@ describe('Regeln der App seit #273', () => {
     assert.equal(isTennoGenPath('/Lotus/Types/StoreItems/AvatarImages/SWGlyph'), false);
     assert.equal(appSource(`${SKINS}Scarves/SWCoronaScarf`, new Map(), 'Corona Syandana'), 'tennogen');
     assert.equal(cosmeticRule(`${SKINS}Clan/FoundersBadgeHunterItem`, 'Hunter Emblem'), 'founders');
+  });
+});
+
+describe('Regeln der App für cosmetics-file (#274)', () => {
+  const GLYPHS = '/Lotus/Types/StoreItems/AvatarImages/';
+
+  it('Glyphen der Content-Creators und Emotes des Steel Path wie `cosmeticRule` in der App', () => {
+    assert.equal(cosmeticRule(`${GLYPHS}FanChannel/ExampleCreatorGlyph`, 'Example Glyph'), 'creator');
+    assert.equal(cosmeticRule(`${GLYPHS}AvatarImageCreatorExample`, 'Example Glyph'), 'creator');
+    assert.equal(cosmeticRule('/Lotus/Types/Items/Emotes/HardmodeExampleEmote', 'Example Emote'), 'steelPath');
+  });
+
+  it('Markt aus `ExportFlavour` nur, wenn der Aufrufer die Datei mitgibt', () => {
+    const flavour = { [`${GLYPHS}AvatarImageMarket`]: { platinumCost: 10 }, [`${GLYPHS}AvatarImageHidden`]: { platinumCost: 10, excludeFromMarket: true } };
+    assert.equal(gameSources({ flavour, names: new Map() }).get(`${GLYPHS}AvatarImageMarket`), 'market');
+    assert.equal(gameSources({ flavour, names: new Map() }).has(`${GLYPHS}AvatarImageHidden`), false);
+    assert.equal(gameSources({ names: new Map() }).has(`${GLYPHS}AvatarImageMarket`), false);
   });
 });
