@@ -1,0 +1,1455 @@
+{
+ "format": "tennodock-cosmetics-unknown",
+ "v": 1,
+ "asOf": "2026-11-15",
+ "items": {
+  "/Lotus/Characters/Tenno/Accessory/Scarves/U17IntermScarf/IridosUdyatSkin/UdyatPrimeGamingSyandana": {
+   "since": "2026-11-15",
+   "name": "Udyat Iridos Syandana"
+  },
+  "/Lotus/Types/Game/CatbrowPet/Patterns/CatbrowPetPatternVampire": {
+   "since": "2026-11-15",
+   "name": "Vasca Kavat Fur Pattern"
+  },
+  "/Lotus/Types/Game/CatbrowPet/Patterns/DuviriCatbrowPattern": {
+   "since": "2026-11-15",
+   "name": "Kexat Skin"
+  },
+  "/Lotus/Types/Game/CatbrowPet/Patterns/FeralCatbrowPattern": {
+   "since": "2026-11-15",
+   "name": "Moonless Kavat Pattern"
+  },
+  "/Lotus/Types/Game/InfestedKavatPet/Patterns/InfestedCritterPatternDefault": {
+   "since": "2026-11-15",
+   "name": "Deimos Vulpaphyla Pattern"
+  },
+  "/Lotus/Types/Game/InfestedPredatorPet/Patterns/InfestedPredatorPatternDefault": {
+   "since": "2026-11-15",
+   "name": "Deimos Predasite Pattern"
+  },
+  "/Lotus/Types/Game/KubrowPet/Patterns/DrahkKubrowPattern": {
+   "since": "2026-11-15",
+   "name": "Drahk Kubrow Pattern"
+  },
+  "/Lotus/Types/Game/KubrowPet/Patterns/FeralKubrowPattern": {
+   "since": "2026-11-15",
+   "name": "Underbrush Kubrow Pattern"
+  },
+  "/Lotus/Types/Game/KubrowPet/Patterns/HelminthPetPatternClassic": {
+   "since": "2026-11-15",
+   "name": "Helminth Degenerate Pattern"
+  },
+  "/Lotus/Types/Game/KubrowPet/Patterns/KubrowPetPatternC": {
+   "since": "2026-11-15",
+   "name": "Hound Fur Pattern"
+  },
+  "/Lotus/Types/Game/KubrowPet/Patterns/KubrowPetPatternCephalon": {
+   "since": "2026-11-15",
+   "name": "Neura Fur Pattern"
+  },
+  "/Lotus/Types/Game/KubrowPet/Patterns/KubrowPetPatternDiamond": {
+   "since": "2026-11-15",
+   "name": "Atrox Fur Pattern"
+  },
+  "/Lotus/Types/Game/KubrowPet/Patterns/KubrowPetPatternDuviriWolf": {
+   "since": "2026-11-15",
+   "name": "Fabled Kubrow Fur Pattern"
+  },
+  "/Lotus/Types/Game/KubrowPet/Patterns/KubrowPetPatternF": {
+   "since": "2026-11-15",
+   "name": "Lotus Fur Pattern"
+  },
+  "/Lotus/Types/Game/KubrowPet/Patterns/KubrowPetPatternInfested": {
+   "since": "2026-11-15",
+   "name": "Helminth Pattern"
+  },
+  "/Lotus/Types/Game/KubrowPet/Patterns/KubrowPetPatternPrimeTraderA": {
+   "since": "2026-11-15",
+   "name": "Nexus Fur Pattern"
+  },
+  "/Lotus/Types/Game/KubrowPet/Patterns/KubrowPetPatternXmasC": {
+   "since": "2026-11-15",
+   "name": "Crimson Nose Pattern"
+  },
+  "/Lotus/Types/Items/Emotes/ClanCollaborativeEmote": {
+   "since": "2026-11-15",
+   "name": "Strong United"
+  },
+  "/Lotus/Types/Items/Emotes/HeirloomEmote": {
+   "since": "2026-11-15",
+   "name": "Deca Heirloom Emote"
+  },
+  "/Lotus/Types/Items/Emotes/PunctualityEmote": {
+   "since": "2026-11-15",
+   "name": "Too Late"
+  },
+  "/Lotus/Types/Items/Emotes/Rank30Emote": {
+   "since": "2026-11-15",
+   "name": "True Master"
+  },
+  "/Lotus/Types/Items/Titles/GuardianTitle": {
+   "since": "2026-11-15",
+   "name": "Make Your Own Fate Honoria"
+  },
+  "/Lotus/Types/Items/Titles/NemesisOfErisTitle": {
+   "since": "2026-11-15",
+   "name": "Nemesis Of Eris Honoria"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/AvatarImageArborealKeyGlyph": {
+   "since": "2026-11-15",
+   "name": "Arborealkey Glyph"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/AvatarImageAvaClemCommunityGlyph": {
+   "since": "2026-11-15",
+   "name": "Ava-Clem Community Glyph"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/AvatarImageBaruukDoanStyle": {
+   "since": "2026-11-15",
+   "name": "Baruuk Doan Silhouette Glyph"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/AvatarImageBigBytesPizzaGlyph": {
+   "since": "2026-11-15",
+   "name": "Big Bytes Pizza Glyph"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/AvatarImageBlinkGlyph": {
+   "since": "2026-11-15",
+   "name": "Blink Glyph"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/AvatarImageBuriedDebts": {
+   "since": "2026-11-15",
+   "name": "Buried Debts Glyph"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/AvatarImageChatModerator": {
+   "since": "2026-11-15",
+   "name": "Chat Moderator Glyph"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/AvatarImageCommunityClemComic": {
+   "since": "2026-11-15",
+   "name": "Community Clem Comic Glyph"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/AvatarImageCommunityTennobaum1999Mug": {
+   "since": "2026-11-15",
+   "name": "Community Tennobaum 1999 Mug Glyph"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/AvatarImageCommunityTennobaumFrost": {
+   "since": "2026-11-15",
+   "name": "Community Tennobaum Frost Glyph"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/AvatarImageCommunityTennobaumGrimoire": {
+   "since": "2026-11-15",
+   "name": "Community Tennobaum Grimoire Glyph"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/AvatarImageCommunityTennobaumKubrow": {
+   "since": "2026-11-15",
+   "name": "Community Tennobaum Kubrow Glyph"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/AvatarImageCommunityTennobaumRelic": {
+   "since": "2026-11-15",
+   "name": "Community Tennobaum Relic Glyph"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/AvatarImageCommunityTennobaumVauban": {
+   "since": "2026-11-15",
+   "name": "Community Tennobaum Vauban Glyph"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/AvatarImageCommunityTennobaumVulpaphyla": {
+   "since": "2026-11-15",
+   "name": "Community Tennobaum Vulpaphyla Glyph"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/AvatarImageCommunityTennobaumZephyr": {
+   "since": "2026-11-15",
+   "name": "Community Tennobaum Zephyr Glyph"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/AvatarImageDanteGlyph": {
+   "since": "2026-11-15",
+   "name": "Dante's Delight Glyph"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/AvatarImageDrippy": {
+   "since": "2026-11-15",
+   "name": "1999 Drippy Glyph"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/AvatarImageExcaliburActionProto": {
+   "since": "2026-11-15",
+   "name": "Excalibur Proto-Armor in Action Glyph"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/AvatarImageExcaliburMobile": {
+   "since": "2026-11-15",
+   "name": "Warframe Mobile Glyph"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/AvatarImageGlyphCookieBoot": {
+   "since": "2026-11-15",
+   "name": "Cookie Boot Glyph"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/AvatarImageGlyphCookieCorpus": {
+   "since": "2026-11-15",
+   "name": "Cookie Corpus Glyph"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/AvatarImageGlyphCookieDethcube": {
+   "since": "2026-11-15",
+   "name": "Cookie Dethcube Glyph"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/AvatarImageGlyphCookieGrineer": {
+   "since": "2026-11-15",
+   "name": "Cookie Grineer Glyph"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/AvatarImageGlyphCookieLotus": {
+   "since": "2026-11-15",
+   "name": "Cookie Lotus Glyph"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/AvatarImageGlyphCookieVoidKey": {
+   "since": "2026-11-15",
+   "name": "Cookie Void Key Glyph"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/AvatarImageGlyphDELogo": {
+   "since": "2026-11-15",
+   "name": "Digital Extremes Glyph"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/AvatarImageGlyphMAWEli": {
+   "since": "2026-11-15",
+   "name": "Make-A-Wish Eli Glyph"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/AvatarImageGlyphMashedNefAnyo": {
+   "since": "2026-11-15",
+   "name": "Nef Anyo Mashed Glyph"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/AvatarImageGlyphSnowGlobeFrost": {
+   "since": "2026-11-15",
+   "name": "Frost Globe Glyph"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/AvatarImageGlyphStarterPackA": {
+   "since": "2026-11-15",
+   "name": "Nava Glyph"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/AvatarImageGrineerQueensVed": {
+   "since": "2026-11-15",
+   "name": "Grineer Queens Glyph"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/AvatarImageHarrowAction": {
+   "since": "2026-11-15",
+   "name": "Harrow in Action Glyph"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/AvatarImageHildrynPrideCommunity": {
+   "since": "2026-11-15",
+   "name": "Pride Glyph II"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/AvatarImageInktober": {
+   "since": "2026-11-15",
+   "name": "Inktober Glyph"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/AvatarImageIvaraAction": {
+   "since": "2026-11-15",
+   "name": "Ivara In Action Glyph"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/AvatarImageLineOrion": {
+   "since": "2026-11-15",
+   "name": "Dueling Orion Glyph"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/AvatarImageLineRyoku": {
+   "since": "2026-11-15",
+   "name": "Dueling Ryoku Glyph"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/AvatarImageLineSirius": {
+   "since": "2026-11-15",
+   "name": "Dueling Sirius Glyph"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/AvatarImageLineVena": {
+   "since": "2026-11-15",
+   "name": "Dueling Vena Glyph"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/AvatarImageLotusGuide": {
+   "since": "2026-11-15",
+   "name": "Guides Of The Lotus Glyph"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/AvatarImageLowPolyAtlas": {
+   "since": "2026-11-15",
+   "name": "Atlas Poly Glyph"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/AvatarImageLowPolyHildryn": {
+   "since": "2026-11-15",
+   "name": "Hildryn Poly Glyph"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/AvatarImageLyonAllardMistletoeGlyph": {
+   "since": "2026-11-15",
+   "name": "Lyon Allard Mistletoe Community Glyph"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/AvatarImageMarieLerouxMistletoeGlyph": {
+   "since": "2026-11-15",
+   "name": "Marie Leroux Mistletoe Community Glyph"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/AvatarImageNightaveCosmos": {
+   "since": "2026-11-15",
+   "name": "Xaku Raya Glyph"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/AvatarImageOctaviaAction": {
+   "since": "2026-11-15",
+   "name": "Octavia in Action Glyph"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/AvatarImageOroKitty": {
+   "since": "2026-11-15",
+   "name": "Kuria Glyph"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/AvatarImagePartyCDGlyph": {
+   "since": "2026-11-15",
+   "name": "Party CD Glyph"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/AvatarImagePride2025Glyph": {
+   "since": "2026-11-15",
+   "name": "Pride Glyph IV"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/AvatarImagePrideCommunity": {
+   "since": "2026-11-15",
+   "name": "Pride Glyph I"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/AvatarImagePrideGlyph": {
+   "since": "2026-11-15",
+   "name": "Pride Glyph III"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/AvatarImagePrideLotusSymbolGlyph": {
+   "since": "2026-11-15",
+   "name": "Pride Lotus Symbol Glyph"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/AvatarImageRoatheMistletoeGlyph": {
+   "since": "2026-11-15",
+   "name": "Roathe Mistletoe Community Glyph"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/AvatarImageSevagothAction": {
+   "since": "2026-11-15",
+   "name": "Sevagoth In Action Glyph"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/AvatarImageSingingLotusGlyph": {
+   "since": "2026-11-15",
+   "name": "Singing Lotus Community Glyph"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/AvatarImageSpecialEffectGlyph": {
+   "since": "2026-11-15",
+   "name": "SpecialEffect Glyph"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/AvatarImageStarDaysLyonGlyph": {
+   "since": "2026-11-15",
+   "name": "Star Days Lyon Glyph"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/AvatarImageStarDaysRoatheGlyph": {
+   "since": "2026-11-15",
+   "name": "Star Days Roathe Glyph"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/AvatarImageStarDaysStarDaysMarieGlyph": {
+   "since": "2026-11-15",
+   "name": "Star Days Marie Glyph"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/AvatarImageStarfinderSocietyGlyph": {
+   "since": "2026-11-15",
+   "name": "Starfinder Society Glyph"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/AvatarImageStarterPackLotus": {
+   "since": "2026-11-15",
+   "name": "Kumuda Glyph"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/AvatarImageSwitch2Glyph": {
+   "since": "2026-11-15",
+   "name": "Buddies in Gaming Glyph"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/AvatarImageTennoTranslator": {
+   "since": "2026-11-15",
+   "name": "Tenno Translator Glyph"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/AvatarImageTennobaumAdisGlyph": {
+   "since": "2026-11-15",
+   "name": "Community Tennobaum Adis on a Shelf Glyph"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/AvatarImageTennobaumAoi": {
+   "since": "2026-11-15",
+   "name": "Community Tennobaum Aoi Glyph"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/AvatarImageTennobaumCozyStalker": {
+   "since": "2026-11-15",
+   "name": "Community Tennobaum Cozy Stalker Glyph"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/AvatarImageTennobaumJade": {
+   "since": "2026-11-15",
+   "name": "Community Tennobaum Jade Glyph"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/AvatarImageTennobaumLyonGlyph": {
+   "since": "2026-11-15",
+   "name": "Community Tennobaum Lyon Glyph"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/AvatarImageTennobaumManintheCookie": {
+   "since": "2026-11-15",
+   "name": "Community Tennobaum Man in the Cookie Glyph"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/AvatarImageTennobaumMarieGlyph": {
+   "since": "2026-11-15",
+   "name": "Community Tennobaum Marie Glyph"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/AvatarImageTennobaumRoatheGlyph": {
+   "since": "2026-11-15",
+   "name": "Community Tennobaum Roathe Glyph"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/AvatarImageTennobaumSpodlingGlyph": {
+   "since": "2026-11-15",
+   "name": "Community Tennobaum Sprodling Glyph"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/AvatarImageTennobaumTeshinGlyph": {
+   "since": "2026-11-15",
+   "name": "Community Tennobaum Teshin Glyph"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/AvatarImageTennobaumWorldSeederGlyph": {
+   "since": "2026-11-15",
+   "name": "Community Tennobaum World-Seeder Glyph"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/AvatarImageTeshinVed": {
+   "since": "2026-11-15",
+   "name": "Teshin Glyph"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/AvatarImageUnrealTournament": {
+   "since": "2026-11-15",
+   "name": "Unreal Tournament Glyph"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/AvatarImageVoidAngelBaro": {
+   "since": "2026-11-15",
+   "name": "Void Angel Glyph"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/AvatarImageZarimanLogo": {
+   "since": "2026-11-15",
+   "name": "Zariman Comradery Glyph"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/CNY2023RabbitGlyph": {
+   "since": "2026-11-15",
+   "name": "Guimao Glyph"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/CherryTreeGlyph": {
+   "since": "2026-11-15",
+   "name": "Cherry Tree Glyph"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/ChineseNewYear2021Glyph": {
+   "since": "2026-11-15",
+   "name": "Feasting Hamster Glyph"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/Factions/GlyphFactionAmalgam": {
+   "since": "2026-11-15",
+   "name": "Amalgam Glyph"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/Factions/GlyphFactionCorpus": {
+   "since": "2026-11-15",
+   "name": "Corpus Glyph"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/Factions/GlyphFactionDeimos": {
+   "since": "2026-11-15",
+   "name": "Infested Deimos Glyph"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/Factions/GlyphFactionEntrati": {
+   "since": "2026-11-15",
+   "name": "Entrati Eye Glyph"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/Factions/GlyphFactionGrineer": {
+   "since": "2026-11-15",
+   "name": "Grineer Glyph"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/Factions/GlyphFactionInfested": {
+   "since": "2026-11-15",
+   "name": "Infestation Glyph"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/Factions/GlyphFactionKuva": {
+   "since": "2026-11-15",
+   "name": "Kuva Glyph"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/Factions/GlyphFactionMurmur": {
+   "since": "2026-11-15",
+   "name": "Murmur Glyph"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/Factions/GlyphFactionOrokin": {
+   "since": "2026-11-15",
+   "name": "Orokin Glyph"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/Factions/GlyphFactionScaldra": {
+   "since": "2026-11-15",
+   "name": "Scaldra Glyph"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/Factions/GlyphFactionTechrot": {
+   "since": "2026-11-15",
+   "name": "Techrot Glyph"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/HeirloomGlyph": {
+   "since": "2026-11-15",
+   "name": "Deca Heirloom Glyph"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/HeirloomVaubanGlyphSumo": {
+   "since": "2026-11-15",
+   "name": "Vauban Heirloom Tondo Glyph"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/ImageCalibanDeluxeInAction": {
+   "since": "2026-11-15",
+   "name": "Caliban Orfeo in Action Glyph"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/ImageCalibanInAction": {
+   "since": "2026-11-15",
+   "name": "Caliban In Action Glyph"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/ImageCephalonCy": {
+   "since": "2026-11-15",
+   "name": "Cephalon Cy Glyph"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/ImageCephalonSimaris": {
+   "since": "2026-11-15",
+   "name": "Cephalon Simaris Glyph"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/ImageDeadlockProtocolA": {
+   "since": "2026-11-15",
+   "name": "Golden Parvos Glyph"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/ImageDeadlockProtocolB": {
+   "since": "2026-11-15",
+   "name": "Founding Father Glyph"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/ImageExcaliburUmbraAltTwoBright": {
+   "since": "2026-11-15",
+   "name": "Excalibur Umbra Therion Glyph - Bright"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/ImageExcaliburUmbraAltTwoDark": {
+   "since": "2026-11-15",
+   "name": "Excalibur Umbra Therion Glyph - Dark"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/ImageGengzi": {
+   "since": "2026-11-15",
+   "name": "Gengzi Glyph"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/ImageGyreInAction": {
+   "since": "2026-11-15",
+   "name": "Gyre In Action Glyph"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/ImageMirageInAction": {
+   "since": "2026-11-15",
+   "name": "Mirage In Action Glyph"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/ImageProteaDeluxeInAction": {
+   "since": "2026-11-15",
+   "name": "Protea Caladrius in Action Glyph"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/ImageStyanaxInAction": {
+   "since": "2026-11-15",
+   "name": "Styanax In Action Glyph"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/KahlStatueGlyph": {
+   "since": "2026-11-15",
+   "name": "For My Brothers Patch Glyph"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/KalymosGrimoireGlyph": {
+   "since": "2026-11-15",
+   "name": "Albrecht's Treasures Glyph"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/LNY2026HorseGlyph": {
+   "since": "2026-11-15",
+   "name": "Bingwu Glyph"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/MesaHighNoonGlyph": {
+   "since": "2026-11-15",
+   "name": "Mesa High Noon Glyph"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/Minigames/MinigameGlyphPixelPortraitJillian": {
+   "since": "2026-11-15",
+   "name": "Jillian Pixel Portrait Glyph"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/Minigames/MinigameGlyphPixelPortraitLillian": {
+   "since": "2026-11-15",
+   "name": "Lillian Pixel Portrait Glyph"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/NarmerEyeGlyph": {
+   "since": "2026-11-15",
+   "name": "Narmer Eye Glyph"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/OldPeaceTeaserGlyph": {
+   "since": "2026-11-15",
+   "name": "Tau Bloom Glyph"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/SavePopcornGlyph": {
+   "since": "2026-11-15",
+   "name": "Save Popcorn Glyph"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/TwinSnakesGlyph": {
+   "since": "2026-11-15",
+   "name": "Vome-Fass Glyph"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/Warframes/KoumeiDiceGlyph": {
+   "since": "2026-11-15",
+   "name": "Koumei Dice Glyph"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/Warframes/NokkoBabySecretGlyph": {
+   "since": "2026-11-15",
+   "name": "Cheeky Sprodling Glyph"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/Warframes/VorunaActionGlyph": {
+   "since": "2026-11-15",
+   "name": "Voruna In Action Glyph"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/Xmas2021GrinoalieGlyph": {
+   "since": "2026-11-15",
+   "name": "Kahl-175 Tennobaum Glyph"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/Xmas2021MoaGlyph": {
+   "since": "2026-11-15",
+   "name": "MOA Tennobaum Glyph"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/Xmas2021NutcorpusGlyph": {
+   "since": "2026-11-15",
+   "name": "Veso-R Tennobaum Glyph"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/Xmas2023BombastineGlyph": {
+   "since": "2026-11-15",
+   "name": "Bombastine Tennobaum Glyph"
+  },
+  "/Lotus/Types/StoreItems/AvatarImages/Xmas2023ThraxGlyph": {
+   "since": "2026-11-15",
+   "name": "Thrax Tennobaum Glyph"
+  },
+  "/Lotus/Upgrades/Skins/AntiMatter/WF1999NovaAuxHat": {
+   "since": "2026-11-15",
+   "name": "Kaya's Reactors"
+  },
+  "/Lotus/Upgrades/Skins/Archwing/GrendelArchwingSkin": {
+   "since": "2026-11-15",
+   "name": "Exo-Sac Archwing Skin"
+  },
+  "/Lotus/Upgrades/Skins/Armor/CrpShoulderArmor/CrpShoulderArmorL": {
+   "since": "2026-11-15",
+   "name": "Mortuus Shoulder Guard"
+  },
+  "/Lotus/Upgrades/Skins/Armor/GrineerTurbines/WraithTurbinesArmArmor": {
+   "since": "2026-11-15",
+   "name": "Harkonar Wraith Arm Armor"
+  },
+  "/Lotus/Upgrades/Skins/Armor/GrineerTurbines/WraithTurbinesChestArmor": {
+   "since": "2026-11-15",
+   "name": "Harkonar Wraith Chest Armor"
+  },
+  "/Lotus/Upgrades/Skins/Armor/GrineerTurbines/WraithTurbinesLegArmor": {
+   "since": "2026-11-15",
+   "name": "Harkonar Wraith Leg Armor"
+  },
+  "/Lotus/Upgrades/Skins/Armor/GuideOfTheLotus/GuideOfTheLotusArmArmor": {
+   "since": "2026-11-15",
+   "name": "Mantle of the Lotus"
+  },
+  "/Lotus/Upgrades/Skins/Armor/Halloween2014Wings/Halloween2014ArmArmor": {
+   "since": "2026-11-15",
+   "name": "Naberus Shoulder Armor"
+  },
+  "/Lotus/Upgrades/Skins/Armor/Inf1999Armor/Inf1999ArmorA": {
+   "since": "2026-11-15",
+   "name": "Techrot Shoulder Plates"
+  },
+  "/Lotus/Upgrades/Skins/Armor/Inf1999Armor/Inf1999ArmorC": {
+   "since": "2026-11-15",
+   "name": "Techrot Chest Plate"
+  },
+  "/Lotus/Upgrades/Skins/Armor/Inf1999Armor/Inf1999ArmorL": {
+   "since": "2026-11-15",
+   "name": "Techrot Leg Plates"
+  },
+  "/Lotus/Upgrades/Skins/Armor/LokiDeluxeArmour/LokiDeluxeAArmor": {
+   "since": "2026-11-15",
+   "name": "Hulta Arm Guards"
+  },
+  "/Lotus/Upgrades/Skins/Armor/LokiDeluxeArmour/LokiDeluxeCArmor": {
+   "since": "2026-11-15",
+   "name": "Hulta Chest Guard"
+  },
+  "/Lotus/Upgrades/Skins/Armor/LokiDeluxeArmour/LokiDeluxeLArmor": {
+   "since": "2026-11-15",
+   "name": "Hulta Leg Guards"
+  },
+  "/Lotus/Upgrades/Skins/Armor/NecraArmor/NecraArmorA": {
+   "since": "2026-11-15",
+   "name": "Mulciber Shoulder Plate"
+  },
+  "/Lotus/Upgrades/Skins/Armor/NecraArmor/NecraArmorC": {
+   "since": "2026-11-15",
+   "name": "Mulciber Chest Plate"
+  },
+  "/Lotus/Upgrades/Skins/Armor/NecraArmor/NecraArmorL": {
+   "since": "2026-11-15",
+   "name": "Mulciber Knee Plate"
+  },
+  "/Lotus/Upgrades/Skins/Armor/SentNewWarArmor/SentNewWarArmorA": {
+   "since": "2026-11-15",
+   "name": "Naktavyre Shoulder Armor"
+  },
+  "/Lotus/Upgrades/Skins/Armor/SentNewWarArmor/SentNewWarArmorC": {
+   "since": "2026-11-15",
+   "name": "Naktavyre Chest Armor"
+  },
+  "/Lotus/Upgrades/Skins/Armor/SentNewWarArmor/SentNewWarArmorL": {
+   "since": "2026-11-15",
+   "name": "Naktavyre Leg Armor"
+  },
+  "/Lotus/Upgrades/Skins/Armor/Sundial/SundialA": {
+   "since": "2026-11-15",
+   "name": "Lodestar Shoulder Plates"
+  },
+  "/Lotus/Upgrades/Skins/Armor/Sundial/SundialC": {
+   "since": "2026-11-15",
+   "name": "Lodestar Chest Plate"
+  },
+  "/Lotus/Upgrades/Skins/Armor/Sundial/SundialL": {
+   "since": "2026-11-15",
+   "name": "Lodestar Leg Plates"
+  },
+  "/Lotus/Upgrades/Skins/Armor/TnIceArmor/TnIceArmorA": {
+   "since": "2026-11-15",
+   "name": "Naimore Shoulder Plates"
+  },
+  "/Lotus/Upgrades/Skins/Armor/TnIceArmor/TnIceArmorC": {
+   "since": "2026-11-15",
+   "name": "Naimore Chest Plate"
+  },
+  "/Lotus/Upgrades/Skins/Armor/TnIceArmor/TnIceArmorL": {
+   "since": "2026-11-15",
+   "name": "Naimore Leg Plates"
+  },
+  "/Lotus/Upgrades/Skins/Armor/TnShinaiArmor/TnShinaiArmorA": {
+   "since": "2026-11-15",
+   "name": "Tannukai Shoulder Plates"
+  },
+  "/Lotus/Upgrades/Skins/Armor/TnShinaiArmor/TnShinaiArmorC": {
+   "since": "2026-11-15",
+   "name": "Tannukai Chest Plate"
+  },
+  "/Lotus/Upgrades/Skins/Armor/TnShinaiArmor/TnShinaiArmorL": {
+   "since": "2026-11-15",
+   "name": "Tannukai Leg Plates"
+  },
+  "/Lotus/Upgrades/Skins/Armor/VTEos/VTEosALArmor": {
+   "since": "2026-11-15",
+   "name": "Left Eos Prime Shoulder Plates"
+  },
+  "/Lotus/Upgrades/Skins/Armor/VTEos/VTEosARArmor": {
+   "since": "2026-11-15",
+   "name": "Right Eos Prime Shoulder Plates"
+  },
+  "/Lotus/Upgrades/Skins/Armor/VTEos/VTEosChestArmor": {
+   "since": "2026-11-15",
+   "name": "Eos Prime Chest Plate"
+  },
+  "/Lotus/Upgrades/Skins/Armor/VTEos/VTEosLLArmor": {
+   "since": "2026-11-15",
+   "name": "Left Eos Prime Spurs"
+  },
+  "/Lotus/Upgrades/Skins/Armor/VTEos/VTEosLRArmor": {
+   "since": "2026-11-15",
+   "name": "Right Eos Prime Spurs"
+  },
+  "/Lotus/Upgrades/Skins/Axe/SarynDeluxeSickle": {
+   "since": "2026-11-15",
+   "name": "Dual Swords Cyskis Skin"
+  },
+  "/Lotus/Upgrades/Skins/Camo/DesertDirigaSkin": {
+   "since": "2026-11-15",
+   "name": "Diriga Desert-Camo Skin"
+  },
+  "/Lotus/Upgrades/Skins/Camo/DesertGrinlokSkin": {
+   "since": "2026-11-15",
+   "name": "Grinlok Desert-Camo Skin"
+  },
+  "/Lotus/Upgrades/Skins/Catbrows/CephalonCatbrowFur": {
+   "since": "2026-11-15",
+   "name": "Neura Fur Pattern"
+  },
+  "/Lotus/Upgrades/Skins/Catbrows/DaybreakCatbrowFur": {
+   "since": "2026-11-15",
+   "name": "Daybreak Kavat Fur Pattern"
+  },
+  "/Lotus/Upgrades/Skins/Catbrows/NexusCatbrowFur": {
+   "since": "2026-11-15",
+   "name": "Nexus Kavat Fur Pattern"
+  },
+  "/Lotus/Upgrades/Skins/Catbrows/XmasCatbrowSkin": {
+   "since": "2026-11-15",
+   "name": "Argyl Kavat Fur Pattern"
+  },
+  "/Lotus/Upgrades/Skins/CephWepSkins/CephGaundaoSkin": {
+   "since": "2026-11-15",
+   "name": "Guandao Synoid Skin"
+  },
+  "/Lotus/Upgrades/Skins/CephWepSkins/CephPyranaSkin": {
+   "since": "2026-11-15",
+   "name": "Pyrana Synoid Skin"
+  },
+  "/Lotus/Upgrades/Skins/CephWepSkins/CephRubicoSkin": {
+   "since": "2026-11-15",
+   "name": "Rubico Synoid Skin"
+  },
+  "/Lotus/Upgrades/Skins/Choir/JadeImmortalSkin": {
+   "since": "2026-11-15",
+   "name": "Jade Immortal Skin"
+  },
+  "/Lotus/Upgrades/Skins/Clan/1999CommunityARGBadgeItem": {
+   "since": "2026-11-15",
+   "name": "Drip Squad 4 Life Emblem"
+  },
+  "/Lotus/Upgrades/Skins/Clan/AmalgamEventBadgeItem": {
+   "since": "2026-11-15",
+   "name": "Hostile Mergers Emblem"
+  },
+  "/Lotus/Upgrades/Skins/Clan/BountyHunterBadgeItem": {
+   "since": "2026-11-15",
+   "name": "Stratos Emblem"
+  },
+  "/Lotus/Upgrades/Skins/Clan/ExcaliburUmbraBadgeItem": {
+   "since": "2026-11-15",
+   "name": "Gauvan Umbra Sekhara"
+  },
+  "/Lotus/Upgrades/Skins/Clan/IndexEventBadgeItem": {
+   "since": "2026-11-15",
+   "name": "The Index Emblem"
+  },
+  "/Lotus/Upgrades/Skins/Clan/NokkoBabySecretEmblemItem": {
+   "since": "2026-11-15",
+   "name": "Cheeky Sprodling Emblem"
+  },
+  "/Lotus/Upgrades/Skins/Clan/OrbBadgeItem": {
+   "since": "2026-11-15",
+   "name": "Buried Debts Emblem"
+  },
+  "/Lotus/Upgrades/Skins/Clan/OrokittyBadgeItem": {
+   "since": "2026-11-15",
+   "name": "Kuria Emblem"
+  },
+  "/Lotus/Upgrades/Skins/Clan/ProjectSinisterBadgeItem": {
+   "since": "2026-11-15",
+   "name": "Acolyte Emblem"
+  },
+  "/Lotus/Upgrades/Skins/Clan/SolarisBadgeItem": {
+   "since": "2026-11-15",
+   "name": "Solaris Emblem"
+  },
+  "/Lotus/Upgrades/Skins/Clan/Tennogen10YearBadgeItem": {
+   "since": "2026-11-15",
+   "name": "TennoGen Decennial Emblem"
+  },
+  "/Lotus/Upgrades/Skins/Cowgirl/MesaImmortallSkin": {
+   "since": "2026-11-15",
+   "name": "Mesa Immortal Skin"
+  },
+  "/Lotus/Upgrades/Skins/Crowns/GarudaBloodCrown": {
+   "since": "2026-11-15",
+   "name": "Karotic Signa"
+  },
+  "/Lotus/Upgrades/Skins/Crowns/HeirloomFrostCrown": {
+   "since": "2026-11-15",
+   "name": "Frost Heirloom Signa"
+  },
+  "/Lotus/Upgrades/Skins/Crowns/HeirloomMagCrown": {
+   "since": "2026-11-15",
+   "name": "Mag Heirloom Signa"
+  },
+  "/Lotus/Upgrades/Skins/Crowns/ProtoAshCrown": {
+   "since": "2026-11-15",
+   "name": "Kyzen Signa"
+  },
+  "/Lotus/Upgrades/Skins/Dagath/DagathImmortalSkin": {
+   "since": "2026-11-15",
+   "name": "Dagath Immortal Skin"
+  },
+  "/Lotus/Upgrades/Skins/Dazzle/ShockExergisSkin": {
+   "since": "2026-11-15",
+   "name": "Exergis Shock-Camo Skin"
+  },
+  "/Lotus/Upgrades/Skins/Dazzle/ShockFalcorSkin": {
+   "since": "2026-11-15",
+   "name": "Falcor Shock-Camo Skin"
+  },
+  "/Lotus/Upgrades/Skins/Dazzle/ShockPlinxSkin": {
+   "since": "2026-11-15",
+   "name": "Plinx Shock-Camo Skin"
+  },
+  "/Lotus/Upgrades/Skins/Deluxe/BansheeDeluxeSonicor": {
+   "since": "2026-11-15",
+   "name": "Sonicor Cliona Skin"
+  },
+  "/Lotus/Upgrades/Skins/Deluxe/FrostDeluxeDualSword": {
+   "since": "2026-11-15",
+   "name": "Dual Swords Frysta Skin"
+  },
+  "/Lotus/Upgrades/Skins/Deluxe/LokiDeluxeDualKamas": {
+   "since": "2026-11-15",
+   "name": "Dual Swords Nari & Vali Skin"
+  },
+  "/Lotus/Upgrades/Skins/Deluxe/NovaDeluxePolearm": {
+   "since": "2026-11-15",
+   "name": "Rashasi Polearm Skin"
+  },
+  "/Lotus/Upgrades/Skins/Deluxe/OberonDeluxeAckBrunt": {
+   "since": "2026-11-15",
+   "name": "Sword And Shield Danaus Skin"
+  },
+  "/Lotus/Upgrades/Skins/Deluxe/OberonDeluxeParis": {
+   "since": "2026-11-15",
+   "name": "Bow Dryad Skin"
+  },
+  "/Lotus/Upgrades/Skins/DemonFrame/GeminiDemonFrameAuxHat": {
+   "since": "2026-11-15",
+   "name": "Roathe's Chyrinth"
+  },
+  "/Lotus/Upgrades/Skins/Dragon/ChromaAlternateSkin": {
+   "since": "2026-11-15",
+   "name": "Chroma Immortal Skin"
+  },
+  "/Lotus/Upgrades/Skins/Ember/EmberDeluxeDualPistolSkin": {
+   "since": "2026-11-15",
+   "name": "Nusku Dual Pistol Skin"
+  },
+  "/Lotus/Upgrades/Skins/Events/BunnyEars": {
+   "since": "2026-11-15",
+   "name": "Lepus Headgear"
+  },
+  "/Lotus/Upgrades/Skins/Events/GlaxionPolar": {
+   "since": "2026-11-15",
+   "name": "Glaxion Polar Skin"
+  },
+  "/Lotus/Upgrades/Skins/Events/OgrisOldSchool": {
+   "since": "2026-11-15",
+   "name": "Volatile Ogris Skin"
+  },
+  "/Lotus/Upgrades/Skins/Events/WolfStalkerMask": {
+   "since": "2026-11-15",
+   "name": "Saturn Six Mask"
+  },
+  "/Lotus/Upgrades/Skins/Excalibur/ExcaliburPrimeAlabasterSkin": {
+   "since": "2026-11-15",
+   "name": "Alabaster Skin"
+  },
+  "/Lotus/Upgrades/Skins/Excalibur/ExcaliburUmbraAltHelmet": {
+   "since": "2026-11-15",
+   "name": "Excalibur Umbra Therion Helmet"
+  },
+  "/Lotus/Upgrades/Skins/Frost/FrostHeirloomSkin": {
+   "since": "2026-11-15",
+   "name": "Frost Heirloom Skin"
+  },
+  "/Lotus/Upgrades/Skins/Frost/WF1999FrostAuxHat": {
+   "since": "2026-11-15",
+   "name": "Velimir's Coolant Tank"
+  },
+  "/Lotus/Upgrades/Skins/Frumentarius/FrumentariusSkin": {
+   "since": "2026-11-15",
+   "name": "Cyte-09 Skin"
+  },
+  "/Lotus/Upgrades/Skins/Frumentarius/WF1999FrumentariusAuxHat": {
+   "since": "2026-11-15",
+   "name": "Quincy's Beret"
+  },
+  "/Lotus/Upgrades/Skins/Glass/GaraAlternateSkin": {
+   "since": "2026-11-15",
+   "name": "Gara Immortal Skin"
+  },
+  "/Lotus/Upgrades/Skins/Hammer/RhinoDeluxeHammer": {
+   "since": "2026-11-15",
+   "name": "Hammers Palatine Skin"
+  },
+  "/Lotus/Upgrades/Skins/Harlequin/MirageAlternateSkin": {
+   "since": "2026-11-15",
+   "name": "Mirage Immortal Skin"
+  },
+  "/Lotus/Upgrades/Skins/Hoverboard/HoverboardStickerPromoA": {
+   "since": "2026-11-15",
+   "name": "POP!"
+  },
+  "/Lotus/Upgrades/Skins/Hoverboard/HoverboardStickerPromoB": {
+   "since": "2026-11-15",
+   "name": "GREEDY MILK"
+  },
+  "/Lotus/Upgrades/Skins/Hoverboard/HoverboardStickerPromoC": {
+   "since": "2026-11-15",
+   "name": "HANG TENNO"
+  },
+  "/Lotus/Upgrades/Skins/Hoverboard/HoverboardStickerPromoD": {
+   "since": "2026-11-15",
+   "name": "PUPPETEER"
+  },
+  "/Lotus/Upgrades/Skins/Infestation/NidusAlternateSkin": {
+   "since": "2026-11-15",
+   "name": "Nidus Immortal Skin"
+  },
+  "/Lotus/Upgrades/Skins/Koumei/KoumeiWarfanSkin": {
+   "since": "2026-11-15",
+   "name": "Akomeogi Warfan Skin"
+  },
+  "/Lotus/Upgrades/Skins/Kubrows/Armor/KubrowArmorTrinityDeluxe": {
+   "since": "2026-11-15",
+   "name": "Bruja Kubrow Armor"
+  },
+  "/Lotus/Upgrades/Skins/Kubrows/Collars/KubrowCollarXmas": {
+   "since": "2026-11-15",
+   "name": "Little Helper Hat"
+  },
+  "/Lotus/Upgrades/Skins/Kubrows/Fur/DaybreakKubrowFur": {
+   "since": "2026-11-15",
+   "name": "Daybreak Kubrow Fur Pattern"
+  },
+  "/Lotus/Upgrades/Skins/Leverian/NezhaLeverian/NezhaLeverianPolearm": {
+   "since": "2026-11-15",
+   "name": "Reshantur Cult Spear Skin"
+  },
+  "/Lotus/Upgrades/Skins/Liset/1999TankHoodOrnament": {
+   "since": "2026-11-15",
+   "name": "H-09 Apex Turret Sumdali"
+  },
+  "/Lotus/Upgrades/Skins/Liset/Gyroscope/LisetGyroscopeSkinPrimeTrader": {
+   "since": "2026-11-15",
+   "name": "Xiphos Prisma Skin"
+  },
+  "/Lotus/Upgrades/Skins/Liset/InarosLisetSkin": {
+   "since": "2026-11-15",
+   "name": "Liset Cydonia Skin"
+  },
+  "/Lotus/Upgrades/Skins/Liset/LisetBlueSkySkinDeluxe": {
+   "since": "2026-11-15",
+   "name": "Scimitar Magus Skin"
+  },
+  "/Lotus/Upgrades/Skins/Liset/LisetBlueSkySkinInaros": {
+   "since": "2026-11-15",
+   "name": "Scimitar Cydonia Skin"
+  },
+  "/Lotus/Upgrades/Skins/Liset/LisetBlueSkySkinPrimeTrader": {
+   "since": "2026-11-15",
+   "name": "Scimitar Prisma Skin"
+  },
+  "/Lotus/Upgrades/Skins/Liset/LisetInsectSkinInaros": {
+   "since": "2026-11-15",
+   "name": "Mantis Cydonia Skin"
+  },
+  "/Lotus/Upgrades/Skins/Liset/LisetInsectSkinIridos": {
+   "since": "2026-11-15",
+   "name": "Mantis Iridos Skin"
+  },
+  "/Lotus/Upgrades/Skins/Liset/LisetInsectSkinPrimeTrader": {
+   "since": "2026-11-15",
+   "name": "Mantis Prisma Skin"
+  },
+  "/Lotus/Upgrades/Skins/Liset/LisetSkinVoidTrader": {
+   "since": "2026-11-15",
+   "name": "Liset Prisma Skin"
+  },
+  "/Lotus/Upgrades/Skins/Liset/MITWHoodOrnamentA": {
+   "since": "2026-11-15",
+   "name": "Manus Sumdali"
+  },
+  "/Lotus/Upgrades/Skins/Liset/MasteryHoodOrnament": {
+   "since": "2026-11-15",
+   "name": "True Master Sumdali"
+  },
+  "/Lotus/Upgrades/Skins/Liset/Mustache05HoodOrnament": {
+   "since": "2026-11-15",
+   "name": "Tusker Sumdali"
+  },
+  "/Lotus/Upgrades/Skins/Liset/PeritaHoodOrnament": {
+   "since": "2026-11-15",
+   "name": "Mentor Ayatan Sumdali"
+  },
+  "/Lotus/Upgrades/Skins/Liset/VoidKeyHoodOrnament": {
+   "since": "2026-11-15",
+   "name": "Janus Key Sumdali"
+  },
+  "/Lotus/Upgrades/Skins/Mag/MagHeirloomSkin": {
+   "since": "2026-11-15",
+   "name": "Mag Heirloom Skin"
+  },
+  "/Lotus/Upgrades/Skins/Magician/LimboImmortalSkin": {
+   "since": "2026-11-15",
+   "name": "Limbo Immortal Skin"
+  },
+  "/Lotus/Upgrades/Skins/MeleeDangles/FireMeleeDangle": {
+   "since": "2026-11-15",
+   "name": "Pyra Sugatra"
+  },
+  "/Lotus/Upgrades/Skins/MeleeDangles/InfestedMeleeDangle": {
+   "since": "2026-11-15",
+   "name": "Coccyst Sugatra"
+  },
+  "/Lotus/Upgrades/Skins/MeleeDangles/MoonWarfanSugatraMeleeDangle": {
+   "since": "2026-11-15",
+   "name": "Renayla Sugatra"
+  },
+  "/Lotus/Upgrades/Skins/MeleeDangles/SarynDeluxeMeleeDangle": {
+   "since": "2026-11-15",
+   "name": "Melia Sugatra"
+  },
+  "/Lotus/Upgrades/Skins/Necramech/InfestedNecraMechSkin": {
+   "since": "2026-11-15",
+   "name": "Karnolyth Necramech Skin"
+  },
+  "/Lotus/Upgrades/Skins/Necramech/MechWeapon/MechEventMausolonSkin": {
+   "since": "2026-11-15",
+   "name": "Mausolon Supulchrax Skin"
+  },
+  "/Lotus/Upgrades/Skins/Necramech/NecramechVoidRigDefaultHelmet": {
+   "since": "2026-11-15",
+   "name": "Voidrig Necramech Helmet"
+  },
+  "/Lotus/Upgrades/Skins/Necramech/TefilahIridosSkin": {
+   "since": "2026-11-15",
+   "name": "Iridos Voidrig Necramech Skin"
+  },
+  "/Lotus/Upgrades/Skins/Necramech/ThanomechVoidRigDefaultHelmet": {
+   "since": "2026-11-15",
+   "name": "Bonewidow Necramech Helmet"
+  },
+  "/Lotus/Upgrades/Skins/Nezha/NezhaDeluxeDualDaggerSkin": {
+   "since": "2026-11-15",
+   "name": "Teng Dual Dagger Skin"
+  },
+  "/Lotus/Upgrades/Skins/Nightwave/DaybreakGrnBannerScarf": {
+   "since": "2026-11-15",
+   "name": "Daybreak Vanquished Banner"
+  },
+  "/Lotus/Upgrades/Skins/Odalisk/ProteaImmortalSkin": {
+   "since": "2026-11-15",
+   "name": "Protea Immortal Skin"
+  },
+  "/Lotus/Upgrades/Skins/Operator/Accessories/AshLevarianTiara": {
+   "since": "2026-11-15",
+   "name": "Scoria Diadem"
+  },
+  "/Lotus/Upgrades/Skins/Operator/Accessories/OperatorNefAnyoMask": {
+   "since": "2026-11-15",
+   "name": "Vox Solaris Mask"
+  },
+  "/Lotus/Upgrades/Skins/Operator/Accessories/TauBreathingShell": {
+   "since": "2026-11-15",
+   "name": "Operator Atmosphor"
+  },
+  "/Lotus/Upgrades/Skins/Operator/Amp/DrifterAmpSkin": {
+   "since": "2026-11-15",
+   "name": "Sirocco Amp Skin"
+  },
+  "/Lotus/Upgrades/Skins/Operator/Armour/Teshin/TeshinArmourArms": {
+   "since": "2026-11-15",
+   "name": "Hawk Bishamo Pauldrons"
+  },
+  "/Lotus/Upgrades/Skins/Operator/Armour/Teshin/TeshinArmourBody": {
+   "since": "2026-11-15",
+   "name": "Hawk Bishamo Cuirass"
+  },
+  "/Lotus/Upgrades/Skins/Operator/Armour/Teshin/TeshinArmourHead": {
+   "since": "2026-11-15",
+   "name": "Hawk Bishamo Helmet"
+  },
+  "/Lotus/Upgrades/Skins/Operator/Armour/Teshin/TeshinArmourLegs": {
+   "since": "2026-11-15",
+   "name": "Hawk Bishamo Greaves"
+  },
+  "/Lotus/Upgrades/Skins/Operator/BodySuits/BodySuitAdultChameleon": {
+   "since": "2026-11-15",
+   "name": "Drifter Voidshell Suit"
+  },
+  "/Lotus/Upgrades/Skins/Operator/BodySuits/BodySuitChameleon": {
+   "since": "2026-11-15",
+   "name": "Voidshell Suit"
+  },
+  "/Lotus/Upgrades/Skins/Operator/BodySuits/BodySuitInfestedA": {
+   "since": "2026-11-15",
+   "name": "Emissary Suit"
+  },
+  "/Lotus/Upgrades/Skins/Operator/BodySuits/BodySuitNightSuit": {
+   "since": "2026-11-15",
+   "name": "Nightwave Suit"
+  },
+  "/Lotus/Upgrades/Skins/Operator/BodySuits/BodySuitNovaEngineer": {
+   "since": "2026-11-15",
+   "name": "Masker's Theodolite Crewsuit"
+  },
+  "/Lotus/Upgrades/Skins/Operator/BodySuits/BodySuitOperatorCalDeluxe": {
+   "since": "2026-11-15",
+   "name": "Operator Escuchon Suit"
+  },
+  "/Lotus/Upgrades/Skins/Operator/BodySuits/OperatorNightwave1999Torso": {
+   "since": "2026-11-15",
+   "name": "Kaneshell Atomicycle Jacket"
+  },
+  "/Lotus/Upgrades/Skins/Operator/Hoods/HoodAdultChameleon": {
+   "since": "2026-11-15",
+   "name": "Drifter Voidshell Hood"
+  },
+  "/Lotus/Upgrades/Skins/Operator/Hoods/HoodChameleon": {
+   "since": "2026-11-15",
+   "name": "Voidshell Hood"
+  },
+  "/Lotus/Upgrades/Skins/Operator/Hoods/HoodDuviriOperator": {
+   "since": "2026-11-15",
+   "name": "The Stranger's Hood"
+  },
+  "/Lotus/Upgrades/Skins/Operator/Hoods/HoodInfestedA": {
+   "since": "2026-11-15",
+   "name": "Emissary Hood"
+  },
+  "/Lotus/Upgrades/Skins/Operator/Hoods/HoodNovaEngineer": {
+   "since": "2026-11-15",
+   "name": "Masker's Theodolite Crewsuit Hood"
+  },
+  "/Lotus/Upgrades/Skins/Operator/Hoods/HoodOperatorCalDeluxe": {
+   "since": "2026-11-15",
+   "name": "Operator Escuchon Hood"
+  },
+  "/Lotus/Upgrades/Skins/Operator/Hoods/JaviExecutionHood": {
+   "since": "2026-11-15",
+   "name": "Transmuter Operator Hood"
+  },
+  "/Lotus/Upgrades/Skins/Operator/Hoods/OperatorNightwave1999Helmet": {
+   "since": "2026-11-15",
+   "name": "Kaneshell Atomicycle Helmet"
+  },
+  "/Lotus/Upgrades/Skins/Operator/Hoods/WolfHood": {
+   "since": "2026-11-15",
+   "name": "Wolf Hood"
+  },
+  "/Lotus/Upgrades/Skins/Operator/Leggings/LeggingsAdultChameleon": {
+   "since": "2026-11-15",
+   "name": "Drifter Voidshell Leggings"
+  },
+  "/Lotus/Upgrades/Skins/Operator/Leggings/LeggingsChameleon": {
+   "since": "2026-11-15",
+   "name": "Voidshell Leggings"
+  },
+  "/Lotus/Upgrades/Skins/Operator/Leggings/LeggingsInfestedA": {
+   "since": "2026-11-15",
+   "name": "Emissary Greaves"
+  },
+  "/Lotus/Upgrades/Skins/Operator/Leggings/LeggingsNightSuit": {
+   "since": "2026-11-15",
+   "name": "Nightwave Leggings"
+  },
+  "/Lotus/Upgrades/Skins/Operator/Leggings/LeggingsNovaEngineer": {
+   "since": "2026-11-15",
+   "name": "Masker's Theodolite Crewsuit Leggings"
+  },
+  "/Lotus/Upgrades/Skins/Operator/Leggings/LeggingsOperatorCalDeluxe": {
+   "since": "2026-11-15",
+   "name": "Operator Escuchon Greaves"
+  },
+  "/Lotus/Upgrades/Skins/Operator/Leggings/OperatorNightwave1999Leggings": {
+   "since": "2026-11-15",
+   "name": "Kaneshell Atomicycle Leggings"
+  },
+  "/Lotus/Upgrades/Skins/Operator/Skirts/SkirtOperatorCalDeluxe": {
+   "since": "2026-11-15",
+   "name": "Operator Escuchon Apparel"
+  },
+  "/Lotus/Upgrades/Skins/Operator/Sleeves/OperatorNightwave1999Sleeves": {
+   "since": "2026-11-15",
+   "name": "Kaneshell Atomicycle Sleeves"
+  },
+  "/Lotus/Upgrades/Skins/Operator/Sleeves/SleevesAdultChameleon": {
+   "since": "2026-11-15",
+   "name": "Drifter Voidshell Sleeves"
+  },
+  "/Lotus/Upgrades/Skins/Operator/Sleeves/SleevesChameleon": {
+   "since": "2026-11-15",
+   "name": "Voidshell Sleeves"
+  },
+  "/Lotus/Upgrades/Skins/Operator/Sleeves/SleevesInfestedA": {
+   "since": "2026-11-15",
+   "name": "Emissary Sleeves"
+  },
+  "/Lotus/Upgrades/Skins/Operator/Sleeves/SleevesNightSuit": {
+   "since": "2026-11-15",
+   "name": "Nightwave Sleeves"
+  },
+  "/Lotus/Upgrades/Skins/Operator/Sleeves/SleevesNovaEngineer": {
+   "since": "2026-11-15",
+   "name": "Masker's Theodolite Crewsuit Sleeves"
+  },
+  "/Lotus/Upgrades/Skins/Operator/Sleeves/SleevesOperatorCalDeluxe": {
+   "since": "2026-11-15",
+   "name": "Operator Escuchon Pauldrons"
+  },
+  "/Lotus/Upgrades/Skins/Operator/Tattoos/TattooGeode": {
+   "since": "2026-11-15",
+   "name": "Gneissic Ink (Mid)"
+  },
+  "/Lotus/Upgrades/Skins/Operator/Tattoos/TattooGeodeGrey": {
+   "since": "2026-11-15",
+   "name": "Gneissic Ink (Light)"
+  },
+  "/Lotus/Upgrades/Skins/Ornate/TekeluFragorSkin": {
+   "since": "2026-11-15",
+   "name": "Fragor Tekelu Skin"
+  },
+  "/Lotus/Upgrades/Skins/Pacifist/BaruukImmortalSkin": {
+   "since": "2026-11-15",
+   "name": "Baruuk Immortal Skin"
+  },
+  "/Lotus/Upgrades/Skins/PaxDuviricus/PaxDuviricusBodyBlades": {
+   "since": "2026-11-15",
+   "name": "Baneful Blades"
+  },
+  "/Lotus/Upgrades/Skins/Pirate/HydroidAlternateSkin": {
+   "since": "2026-11-15",
+   "name": "Hydroid Immortal Skin"
+  },
+  "/Lotus/Upgrades/Skins/Promo/Warframe/PromoParis": {
+   "since": "2026-11-15",
+   "name": "Paris Abra Skin"
+  },
+  "/Lotus/Upgrades/Skins/RailJack/RailjackGhostSkin": {
+   "since": "2026-11-15",
+   "name": "Tempestarii Railjack Skin"
+  },
+  "/Lotus/Upgrades/Skins/Sandman/MummyAlt03Helmet": {
+   "since": "2026-11-15",
+   "name": "Inaros Osiris Helmet"
+  },
+  "/Lotus/Upgrades/Skins/Sentinels/Masks/GaussSentinelMask": {
+   "since": "2026-11-15",
+   "name": "Altra Sentinel Mask"
+  },
+  "/Lotus/Upgrades/Skins/Sentinels/Masks/InfNightWaveMask": {
+   "since": "2026-11-15",
+   "name": "Chitoid Sentinel Mask"
+  },
+  "/Lotus/Upgrades/Skins/Sentinels/Masks/KavatPetMask": {
+   "since": "2026-11-15",
+   "name": "Kavat Sentinel Mask"
+  },
+  "/Lotus/Upgrades/Skins/Sentinels/Skins/DesertTaxonSkin": {
+   "since": "2026-11-15",
+   "name": "Taxon Desert-Camo Skin"
+  },
+  "/Lotus/Upgrades/Skins/Sentinels/Skins/GaussSentinelSkin": {
+   "since": "2026-11-15",
+   "name": "Altra Sentinel Skin"
+  },
+  "/Lotus/Upgrades/Skins/Sentinels/Tails/GaussSentinelTail": {
+   "since": "2026-11-15",
+   "name": "Altra Sentinel Tail"
+  },
+  "/Lotus/Upgrades/Skins/Sentinels/Tails/InfNightWaveTail": {
+   "since": "2026-11-15",
+   "name": "Chitoid Sentinel Tail"
+  },
+  "/Lotus/Upgrades/Skins/Sentinels/Tails/KavatPetTail": {
+   "since": "2026-11-15",
+   "name": "Kavat Sentinel Tail"
+  },
+  "/Lotus/Upgrades/Skins/Sentinels/Wings/GaussSentinelWings": {
+   "since": "2026-11-15",
+   "name": "Altra Sentinel Wings"
+  },
+  "/Lotus/Upgrades/Skins/Sentinels/Wings/InfNightWaveWings": {
+   "since": "2026-11-15",
+   "name": "Chitoid Sentinel Wings"
+  },
+  "/Lotus/Upgrades/Skins/Sentinels/Wings/KavatPetWings": {
+   "since": "2026-11-15",
+   "name": "Kavat Sentinel Wings"
+  },
+  "/Lotus/Upgrades/Skins/Sigils/CNYRoosterCYSigil": {
+   "since": "2026-11-15",
+   "name": "Year of The Rooster Sigil"
+  },
+  "/Lotus/Upgrades/Skins/Sigils/CNYRoosterPWSigil": {
+   "since": "2026-11-15",
+   "name": "Phoenix Coronet Sigil"
+  },
+  "/Lotus/Upgrades/Skins/Sigils/DanteSigil": {
+   "since": "2026-11-15",
+   "name": "Dante's Noctua Sigil"
+  },
+  "/Lotus/Upgrades/Skins/Sigils/DogDays2023ASigil": {
+   "since": "2026-11-15",
+   "name": "Splash and Dash Sigil"
+  },
+  "/Lotus/Upgrades/Skins/Sigils/FireSigil": {
+   "since": "2026-11-15",
+   "name": "Flaming Sigil"
+  },
+  "/Lotus/Upgrades/Skins/Sigils/FormaSigil": {
+   "since": "2026-11-15",
+   "name": "Forma Sigil"
+  },
+  "/Lotus/Upgrades/Skins/Sigils/HeirloomVaubanSigilSumo": {
+   "since": "2026-11-15",
+   "name": "Vauban Heirloom Schema Sigil"
+  },
+  "/Lotus/Upgrades/Skins/Sigils/MonquisCYSigil": {
+   "since": "2026-11-15",
+   "name": "Primate Sigil"
+  },
+  "/Lotus/Upgrades/Skins/Sigils/MonquisSigil": {
+   "since": "2026-11-15",
+   "name": "Monquis Sigil"
+  },
+  "/Lotus/Upgrades/Skins/Sigils/NarmerEyeSigil": {
+   "since": "2026-11-15",
+   "name": "Narmer Eye Sigil"
+  },
+  "/Lotus/Upgrades/Skins/Sigils/SparkSigil": {
+   "since": "2026-11-15",
+   "name": "Flickering Sigil"
+  },
+  "/Lotus/Upgrades/Skins/Sigils/TwoToneSigil": {
+   "since": "2026-11-15",
+   "name": "Glyphed Sigil"
+  },
+  "/Lotus/Upgrades/Skins/SteamEsteem/EsteemExcalibur": {
+   "since": "2026-11-15",
+   "name": "Excalibur Onyx Skin"
+  },
+  "/Lotus/Upgrades/Skins/SteamEsteem/EsteemLex": {
+   "since": "2026-11-15",
+   "name": "Lex Onyx Skin"
+  },
+  "/Lotus/Upgrades/Skins/SteamEsteem/EsteemOrthos": {
+   "since": "2026-11-15",
+   "name": "Orthos Onyx Skin"
+  },
+  "/Lotus/Upgrades/Skins/SteamEsteem/EsteemTigris": {
+   "since": "2026-11-15",
+   "name": "Tigris Onyx Skin"
+  },
+  "/Lotus/Upgrades/Skins/Tengu/ZephyrAlternateSkin": {
+   "since": "2026-11-15",
+   "name": "Zephyr Immortal Skin"
+  },
+  "/Lotus/Upgrades/Skins/Umbra/UmbraAltHelmet": {
+   "since": "2026-11-15",
+   "name": "Excalibur Umbra Sunder Helmet"
+  },
+  "/Lotus/Upgrades/Skins/Volt/WF1999VoltAuxHat": {
+   "since": "2026-11-15",
+   "name": "Amir's Shades"
+  },
+  "/Lotus/Upgrades/Skins/Weapons/DualSword/DualRibbonKamasSkin": {
+   "since": "2026-11-15",
+   "name": "Dual Sword Lemnas Skin"
+  },
+  "/Lotus/Upgrades/Skins/Weapons/Pistols/TnSubmachinegunDualPistolSkin": {
+   "since": "2026-11-15",
+   "name": "Zundi Dual Pistol Skin"
+  },
+  "/Lotus/Upgrades/Skins/Weapons/Rapier/CrpRapierSkin": {
+   "since": "2026-11-15",
+   "name": "Rapier Tributaker Skin"
+  },
+  "/Lotus/Upgrades/Skins/Weapons/Rapier/TnLotusRapierSkin": {
+   "since": "2026-11-15",
+   "name": "Nefertym Rapier Skin"
+  },
+  "/Lotus/Upgrades/Skins/Weapons/Staff/TnRibbonStaffSkin": {
+   "since": "2026-11-15",
+   "name": "Lemnas Staff Skin"
+  },
+  "/Lotus/Upgrades/Skins/Weapons/Staff/TrinityDeluxeBo": {
+   "since": "2026-11-15",
+   "name": "Staves Volu Skin"
+  },
+  "/Lotus/Upgrades/Skins/Weapons/Swords/SphereSwordSkin": {
+   "since": "2026-11-15",
+   "name": "Envoy's Sphere Longsword Skin"
+  },
+  "/Lotus/Upgrades/Skins/Wisp/WispAlternateSkin": {
+   "since": "2026-11-15",
+   "name": "Wisp Immortal Skin"
+  },
+  "/Lotus/Weapons/Tenno/Melee/Swords/TnShinaiSword/TnShinaiSwordSkin": {
+   "since": "2026-11-15",
+   "name": "Tannukai Longsword Skin"
+  }
+ }
+}
