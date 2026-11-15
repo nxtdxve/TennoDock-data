@@ -1,7 +1,7 @@
 {
  "format": "tennodock-public-export",
  "v": 1,
- "generatedAt": "2026-11-08T16:59:30Z",
+ "generatedAt": "2026-11-15T18:49:13Z",
  "index": {
   "en": "7dd4d9a10aed3b47",
   "de": "f6fc5cdf71a60ef0"
@@ -70,6 +70,13 @@
    "sha256": "4e89740a7c8cb2d6dfb164fa70e9df491692737ed6869164c4d094a238a5c5d9",
    "bytes": 261802
   },
+  "drones": {
+   "entry": "ExportDrones_en.json!00_-2N+QHfciQUZhljJlrdz-w",
+   "format": "drones-1",
+   "file": "parts/drones.5956c6f3df5986b0.json",
+   "sha256": "5956c6f3df5986b059c13d7316511c592d908ba0435d02cbf196ea3846016bc6",
+   "bytes": 402
+  },
   "images": {
    "entry": "ExportManifest.json!00_y10Y6QId+-io-dCB3GMEmg",
    "format": "images-1",
@@ -111,6 +118,13 @@
    "file": "parts/names/de/ExportCustoms.b185312ed2672dcd.json",
    "sha256": "b185312ed2672dcd51e2287f77c35d173e8141e78efbff39ef5544ee49893be1",
    "bytes": 370071
+  },
+  "names/de/ExportDrones": {
+   "entry": "ExportDrones_de.json!00_-Ko-xxuprAbdfUHh1sY97g",
+   "format": "names-3/part-1",
+   "file": "parts/names/de/ExportDrones.a8e2cc701ff6b736.json",
+   "sha256": "a8e2cc701ff6b736f45d9f3a77d45935e5783c2cfa73d2a181bab9e299a417eb",
+   "bytes": 408
   },
   "names/de/ExportFlavour": {
    "entry": "ExportFlavour_de.json!00_1gUS1-WB8FDfiyBNIupguQ",
@@ -202,6 +216,13 @@
    "file": "parts/names/en/ExportCustoms.ff37368ec4f0d73e.json",
    "sha256": "ff37368ec4f0d73e37f0d84ae93f1204e460602d59cbaf97d7b605ca8477b30d",
    "bytes": 364140
+  },
+  "names/en/ExportDrones": {
+   "entry": "ExportDrones_en.json!00_-2N+QHfciQUZhljJlrdz-w",
+   "format": "names-3/part-1",
+   "file": "parts/names/en/ExportDrones.6f01b4668079fd58.json",
+   "sha256": "6f01b4668079fd58bf7090e6be7b2627191dcbecd3e2d9b21ebeb1c376270aeb",
+   "bytes": 408
   },
   "names/en/ExportFlavour": {
    "entry": "ExportFlavour_en.json!00_R1M+MXp88DD2H7bICjbcBQ",
