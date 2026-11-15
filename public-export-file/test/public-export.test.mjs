@@ -182,4 +182,12 @@ describe('public export parts', () => {
     assert.deepEqual(manifest?.parts['catalog/resources'], old?.parts['catalog/resources']);
     assert.notDeepEqual(manifest?.parts['names/en/ExportResources'], old?.parts['names/en/ExportResources']);
   });
+
+  it('Extraktoren (#189): eigener Teil `drones` aus ExportDrones_en mit Dauer und Lebenspunkten', () => {
+    const index = parseIndex([indexText('en'), 'ExportDrones_en.json!00_d1'].join('\r\n'));
+    const drones = planTables(['en'], new Map([['en', index]])).find((table) => table.key === 'drones');
+    assert.equal(drones?.signature, 'drones-1|ExportDrones_en.json!00_d1');
+    const json = { ExportDrones: [{ uniqueName: '/Lotus/Types/Ship/BasicResourceDrone', name: 'Titan Extractor', fillRate: 4, durability: 100 }, { uniqueName: '/Lotus/Types/Ship/Broken', fillRate: 0, durability: 100 }] };
+    assert.deepEqual(drones?.parts[0]?.derive(json), { '/Lotus/Types/Ship/BasicResourceDrone': { hours: 4, health: 100 } });
+  });
 });

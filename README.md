@@ -262,26 +262,28 @@ them in its in-game overlay, hidden until the player asks for them (story spoile
 
 `assets/v1/` holds images from the game that TennoDock needs but Digital Extremes does not serve in its Public Export:
 the frame parts of mod cards, ten syndicate logos, the glyphs of the focus nodes, the game's one-colour menu glyphs,
-pictures of collectibles, the icons of the profile challenges and the symbols of damage types and intrinsics. TennoDock
-downloads a family only when a page needs it, or at start when an in-game overlay card that needs it is switched on, and
-keeps it on disk; without a network it shows simple cards and icons instead.
+pictures of collectibles, the icons of the profile challenges, the symbols of damage types and intrinsics and pictures
+of items the Public Export has no picture for (Railjack ordnance). TennoDock downloads a family only when a page needs
+it, or at start when an in-game overlay card that needs it is switched on, and keeps it on disk; without a network it
+shows simple cards and icons instead.
 
-- **Families:** `mod-frames` (frame parts of mod, riven and arcane cards), `syndicate-logos` (one-colour logos, tinted by
-  the app), `focus-glyphs` (masks of the 75 focus nodes), `game-glyphs` (one-colour menu glyphs of the game for item
-  categories and sources, drawn as masks), `collectibles` (lore and Somachord fragments, tiles of the page Collectibles),
-  `challenges` (the icon of each profile challenge, named by its key), `damage-types` (the 13 damage-type symbols, in
-  colour), `intrinsics` (the nine Railjack and Drifter intrinsic classes, drawn as masks). Each folder has a
-  `SOURCES.md` (origin, licence, date and size of every file) and an `origin.json` (source of every file for the
-  manifest).
+- **Families:** `mod-frames` (frame parts of mod, riven and arcane cards), `syndicate-logos` (one-colour logos, tinted
+  by the app), `focus-glyphs` (masks of the 75 focus nodes), `game-glyphs` (one-colour menu glyphs of the game for item
+  categories and sources, drawn as masks), `collectibles` (lore and Somachord fragments, tiles of the page
+  Collectibles), `challenges` (the icon of each profile challenge, named by its key), `damage-types` (the 13 damage-type
+  symbols, in colour), `intrinsics` (the nine Railjack and Drifter intrinsic classes, drawn as masks), `item-icons`
+  (pictures of items the Public Export has no picture for, named like the icon file in warframe-public-export-plus;
+  today the Railjack ordnance Tycho Seeker, Milati and Galvarc). Each folder has a `SOURCES.md` (origin, licence, date
+  and size of every file) and an `origin.json` (source of every file for the manifest).
 - **Rights:** the images are © Digital Extremes. They come from the WARFRAME Wiki (content CC BY-NC-SA 3.0) and from
   [WFCD/genesis-assets](https://github.com/WFCD/genesis-assets) (Apache-2.0 for the collection, the licence text lies in
   each folder that uses it). The challenge icons are textures from the game files, unpacked and served by
   [browse.wf](https://browse.wf) at the paths listed in
   [warframe-public-export-plus](https://github.com/calamity-inc/warframe-public-export-plus); the MIT licence of both
-  projects covers their code and data, not these images, and no licence covers the images themselves. Two white sigils in
-  `game-glyphs` are copies from Digital Extremes' Public Export, kept here because the app draws them as masks. Whether
-  an app may ship them is an open question that TennoDock settles before its release; the folders may change or be
-  removed until then.
+  projects covers their code and data, not these images, and no licence covers the images themselves. The same holds for
+  `item-icons`. Two white sigils in `game-glyphs` are copies from Digital Extremes' Public Export, kept here because the
+  app draws them as masks. Whether an app may ship them is an open question that TennoDock settles before its release;
+  the folders may change or be removed until then.
 - **Updated:** by hand, when TennoDock needs a new part. There is no schedule.
 - TennoDock is not affiliated with Digital Extremes or WFCD.
 
@@ -504,7 +506,8 @@ palette colours, the list of cosmetics, image paths and Nightwave targets. Tenno
 - `parts`: key → the line of the export index the part comes from (`entry`), the format of the derived data, the file and
   its SHA-256. The file name contains the first 16 characters of the hash, so a file never changes its content.
 - Keys: `names/<language>/<file>`, `modstats/<language>/<file>`, `catalog/<part>`, `regions/<language>`, `palettes`,
-  `cosmetics`, `images`, `nightwave`. The content of each part is plain JSON as returned by the functions in `derive.mjs`.
+  `cosmetics`, `drones` (duration and health of extractors, #189), `images`, `nightwave`. The content of each part is
+  plain JSON as returned by the functions in `derive.mjs`.
 - `index`: a short hash of each export index, for the log and the commit message.
 - Files no longer listed in the manifest are deleted (they stay in the git history). A new format in the app gets new
   `format` values; the app ignores parts in another format.

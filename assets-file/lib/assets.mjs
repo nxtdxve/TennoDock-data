@@ -7,9 +7,10 @@ import { createHash } from 'node:crypto';
 /**
  * Familien in `assets/v1/`; jede hat einen eigenen Ordner, eine `SOURCES.md` und eine `origin.json`. Seit #138 dazu
  * Spiel-Glyphen (Kategorien, Fundorte), Bilder der Sammelobjekte und die Symbole der Herausforderungen. Seit #153 die
- * Symbole der Schadensarten und der Intrinsic-Klassen (vorher im App-Paket).
+ * Symbole der Schadensarten und der Intrinsic-Klassen (vorher im App-Paket). Seit #270 Bilder von Items, die DE nicht
+ * bebildert (`item-icons`, Dateiname = Name der Icon-Datei aus public-export-plus), heute die Railjack-Ordnance.
  */
-export const FAMILIES = ['mod-frames', 'syndicate-logos', 'focus-glyphs', 'game-glyphs', 'collectibles', 'challenges', 'damage-types', 'intrinsics'];
+export const FAMILIES = ['mod-frames', 'syndicate-logos', 'focus-glyphs', 'game-glyphs', 'collectibles', 'challenges', 'damage-types', 'intrinsics', 'item-icons'];
 
 /** Herkunft, auf die `origin.json` verweist. */
 export const SOURCES = {

@@ -3,7 +3,7 @@
 // dem Muster von public-export-plus und des Wikis.
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
-import { appSource, cosmeticRule, gameSources, notOnPcByPath } from '../lib/covered.mjs';
+import { appSource, cosmeticRule, gameSources, isTennoGenPath, notOnPcByPath } from '../lib/covered.mjs';
 import { prexPlaces, sigilPageSources } from '../lib/sources.mjs';
 
 const SIGILS = '/Lotus/Upgrades/Skins/Sigils/';
@@ -163,5 +163,45 @@ describe('Seite „Sigils“ (#164 Nacharbeit)', () => {
     assert.deepEqual(found[`${SIGILS}VipSigil`], [{ k: 'other', t: 'These exclusive Sigils were given to attendees of TennoLive, TennoVIP and TennoCon.' }]);
     assert.deepEqual(found[`${SIGILS}XBoneJadeSigil`], [{ k: 'unavailable', t: 'Xbox One Bundle' }]);
     assert.equal(found[`${SIGILS}LookSigil`], undefined, 'eine Beschreibung unter „Other“ ist kein Fundort');
+  });
+});
+
+describe('Regeln der App seit #273', () => {
+  const SKINS = '/Lotus/Upgrades/Skins/';
+  const known = gameSources({
+    customs: { [`${SKINS}Rhino/ArcaneHelmet`]: {}, [`${SKINS}Rhino/ArcaneHelmetStatless`]: {} },
+    bundles: {
+      '/Lotus/Types/StoreItems/Packages/ArmorPack': { excludeFromMarket: true, components: [{ typeName: `/Lotus/StoreItems/Upgrades/Skins/Armor/ArmorA` }, { typeName: '/Lotus/StoreItems/Types/Items/MiscItems/Res' }] },
+      '/Lotus/Types/StoreItems/Packages/ScrawlPack': { packageDiscount: 0.2, components: [{ typeName: `/Lotus/StoreItems/Upgrades/Skins/Scarves/ScrawlScarf` }] },
+      '/Lotus/Types/StoreItems/Packages/OldDeluxePack': { packageDiscount: 0.2, components: [{ typeName: `/Lotus/StoreItems/Upgrades/Skins/Scarves/DeluxeScarf` }] },
+    },
+    syndicates: {
+      SteelMeridianSyndicate: { favours: [{ storeItem: '/Lotus/StoreItems/Types/StoreItems/Packages/ArmorPack' }] },
+      RadioLegion2Syndicate: { titles: [{ reward: { ItemType: `/Lotus/StoreItems/Upgrades/Skins/Scarves/NightwaveScarf` } }] },
+    },
+    challenges: { '/Lotus/Types/Challenges/A': { countedRewards: [{ StoreItem: `/Lotus/StoreItems/Upgrades/Skins/Armor/TauMedal` }] } },
+    emails: { '/Lotus/Types/Items/EmailItems/A': { message: { attachments: [`/Lotus/StoreItems/Upgrades/Skins/Sumdali/EyeOrnament`, '/Lotus/StoreItems/Types/Items/MiscItems/PhotoboothTileInbox'] } } },
+    names: new Map(),
+  });
+
+  it('Pakete bei Syndikaten, Markt-Pakete ohne Preis (ohne Deluxe), Nightwave, Challenges, Inbox, Statless', () => {
+    assert.equal(known.get(`${SKINS}Armor/ArmorA`), 'syndicate');
+    assert.equal(known.has('/Lotus/Types/Items/MiscItems/Res'), false);
+    assert.equal(known.get(`${SKINS}Scarves/ScrawlScarf`), 'bundle');
+    assert.equal(known.has(`${SKINS}Scarves/DeluxeScarf`), false);
+    assert.equal(known.get(`${SKINS}Scarves/NightwaveScarf`), 'nightwave');
+    assert.equal(known.get(`${SKINS}Armor/TauMedal`), 'challenge');
+    assert.equal(known.get(`${SKINS}Sumdali/EyeOrnament`), 'inbox');
+    // Wie in der App nur Kosmetik (Review K3): Captura aus einer Nachricht zählt hier nicht.
+    assert.equal(known.has('/Lotus/Types/Items/MiscItems/PhotoboothTileInbox'), false);
+    assert.equal(known.get(`${SKINS}Rhino/ArcaneHelmet`), 'replaced');
+    assert.equal(known.has(`${SKINS}Rhino/ArcaneHelmetStatless`), false);
+  });
+
+  it('TennoGen ohne Preis und Gründer-Embleme nach dem Pfad', () => {
+    assert.equal(isTennoGenPath(`${SKINS}Scarves/SWCoronaScarf`), true);
+    assert.equal(isTennoGenPath('/Lotus/Types/StoreItems/AvatarImages/SWGlyph'), false);
+    assert.equal(appSource(`${SKINS}Scarves/SWCoronaScarf`, new Map(), 'Corona Syandana'), 'tennogen');
+    assert.equal(cosmeticRule(`${SKINS}Clan/FoundersBadgeHunterItem`, 'Hunter Emblem'), 'founders');
   });
 });

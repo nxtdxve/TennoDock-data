@@ -1,7 +1,7 @@
 {
   "format": "tennodock-assets",
   "v": 1,
-  "asOf": "2026-11-06",
+  "asOf": "2026-11-15",
   "sources": {
     "wiki": "WARFRAME Wiki (wiki.warframe.com), images © Digital Extremes",
     "genesis-assets": "WFCD/genesis-assets (Apache-2.0 for the collection), images © Digital Extremes",
@@ -3455,6 +3455,37 @@
           "w": 128,
           "h": 128,
           "src": "wiki"
+        }
+      }
+    },
+    "item-icons": {
+      "pack": "packs/item-icons.json",
+      "sha256": "5980c0f81b19f90a0abbbcfcf6e60b6717d2618c37ef840b590c7c344a5f89df",
+      "bytes": 13283,
+      "files": {
+        "RailjackPayloadEnergyWeapon": {
+          "file": "item-icons/RailjackPayloadEnergyWeapon.webp",
+          "sha256": "398267619dd68f5b75aff09542a477402fd603f705195daa4783892393848052",
+          "bytes": 3052,
+          "w": 128,
+          "h": 128,
+          "src": "browse-wf"
+        },
+        "RailjackPayloadMultiHead": {
+          "file": "item-icons/RailjackPayloadMultiHead.webp",
+          "sha256": "4d401a434524d99bcf28d733f88c320c983d2a983d4e44320905968b15601bb7",
+          "bytes": 3260,
+          "w": 128,
+          "h": 128,
+          "src": "browse-wf"
+        },
+        "RailjackPayloadTorpedo": {
+          "file": "item-icons/RailjackPayloadTorpedo.webp",
+          "sha256": "cb48ba1669523f1ec2aa9bd313e9aa6ef8707615a7f4f085cde94efbc3844293",
+          "bytes": 3474,
+          "w": 128,
+          "h": 128,
+          "src": "browse-wf"
         }
       }
     }

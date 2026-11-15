@@ -31,7 +31,7 @@ const content = {
 /** @param {Record<string, string>} pages @param {string} [timestamp] */
 const answer = (pages, timestamp = '2026-11-01T10:00:00Z') =>
   JSON.stringify({ query: { pages: Object.entries(pages).map(([title, text]) => ({ title, revisions: [{ timestamp, slots: { main: { content: text } } }] })) } });
-const minimum = { fragments: 1, songs: 1, fighters: 1, items: 1, game: 1, customs: 0, resources: 0, bundles: 0, syndicates: 0 };
+const minimum = { fragments: 1, songs: 1, fighters: 1, items: 1, game: 1, customs: 0, resources: 0, bundles: 0, syndicates: 0, challenges: 0, emails: 0 };
 
 /** Dateien im Speicher. */
 function memory() {

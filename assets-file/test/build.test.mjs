@@ -81,6 +81,14 @@ describe('Inhalt der Familien (was TennoDock braucht)', () => {
     assert.equal(files.length, 75);
     for (const school of ['Attack', 'Defense', 'Power', 'Tactic', 'Ward']) assert.equal(files.filter((name) => name.startsWith(`${school}-`)).length, 15, school);
   });
+
+  it('item-icons: die drei Icons der Railjack-Ordnance (#270), 128 × 128, benannt wie die Icon-Datei in plus', async () => {
+    const files = await names('item-icons');
+    assert.deepEqual(files.sort(), ['RailjackPayloadEnergyWeapon', 'RailjackPayloadMultiHead', 'RailjackPayloadTorpedo']);
+    for (const file of await readdir(join(ROOT, 'item-icons'))) {
+      if (file.endsWith('.webp')) assert.deepEqual(imageSize(await readFile(join(ROOT, 'item-icons', file))), { w: 128, h: 128, type: 'webp' });
+    }
+  });
 });
 
 describe('build', () => {

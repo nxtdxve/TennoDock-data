@@ -35,7 +35,8 @@ export const FRAGMENT_PAGES = ['Cephalon', 'Fish', 'Glass', 'Ghoul', 'Revenant',
 export const PAGES = [...FRAGMENT_PAGES, 'Somachord/Tones', 'Frame Fighter', 'Captura', 'Syandana', 'Ephemera', 'Module:Sigils/data', 'Module:Vendors/data', 'Sigils', 'Decorations/Orbiter Decorations'];
 const PREX_PAGE = 'Decorations/Orbiter Decorations';
 /** Dateien von public-export-plus für die Regeln der App (`lib/covered.mjs`), mit ihrem Schlüssel in `GameData`. */
-const RULE_FILES = /** @type {const} */ ({ customs: 'ExportCustoms', resources: 'ExportResources', bundles: 'ExportBundles', syndicates: 'ExportSyndicates' });
+// Seit #273 dazu `ExportChallenges` und `ExportEmailItems` (Challenges und Nachrichten), rund 0,3 MB mehr pro Lauf.
+const RULE_FILES = /** @type {const} */ ({ customs: 'ExportCustoms', resources: 'ExportResources', bundles: 'ExportBundles', syndicates: 'ExportSyndicates', challenges: 'ExportChallenges', emails: 'ExportEmailItems' });
 const RULE_KEYS = /** @type {(keyof typeof RULE_FILES)[]} */ (Object.keys(RULE_FILES));
 export const FILES = { collectibles: 'v1/collectibles.json', items: 'v1/items.json', missing: 'v1/missing.json' };
 const API = 'https://wiki.warframe.com/api.php';
@@ -46,10 +47,10 @@ const VERSION = 1;
 /**
  * Untergrenzen der Prüfung; ein Abschnitt darf auch nicht unter die Hälfte des bisherigen fallen. `game`: so viele Items muss
  * der Spiel-Export mindestens liefern, sonst bleibt missing.json stehen (rund 14'500 im November 2026). `customs` bis
- * `syndicates`: Einträge der Regel-Dateien von plus (im November 2026 4'766, 3'524, 1'164 und 40); fehlt eine oder hat sie
- * weniger, bleibt missing.json ebenfalls stehen (Review K5).
+ * `syndicates`: Einträge der Regel-Dateien von plus (im November 2026 4'766, 3'524, 1'164 und 40), seit #273 `challenges`
+ * und `emails` (630 und 54); fehlt eine oder hat sie weniger, bleibt missing.json ebenfalls stehen (Review K5).
  */
-export const MINIMUM = { fragments: 100, songs: 50, fighters: 30, items: 400, game: 5000, customs: 2000, resources: 1500, bundles: 500, syndicates: 20 };
+export const MINIMUM = { fragments: 100, songs: 50, fighters: 30, items: 400, game: 5000, customs: 2000, resources: 1500, bundles: 500, syndicates: 20, challenges: 300, emails: 20 };
 const MIN_SHARE_OF_PREVIOUS = 0.5;
 const ATTEMPTS = 3;
 const ISO_TIME = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/;
@@ -62,7 +63,7 @@ const ISO_TIME = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/;
  * @typedef {{ status: number, text: string, retryAfter?: number }} Response
  * @typedef {{ read(path: string): Promise<string | undefined>, write(path: string, text: string): Promise<void> }} Files
  * @typedef {{ pages: Record<string, string>, revisedAt: string }} WikiPages
- * @typedef {{ items: NamedPath[], names: Map<string, string>, codex: unknown, dict: unknown, vendors: unknown, source: 'de' | 'plus', customs?: unknown, resources?: unknown, bundles?: unknown, syndicates?: unknown }} GameData
+ * @typedef {{ items: NamedPath[], names: Map<string, string>, codex: unknown, dict: unknown, vendors: unknown, source: 'de' | 'plus', customs?: unknown, resources?: unknown, bundles?: unknown, syndicates?: unknown, challenges?: unknown, emails?: unknown }} GameData
  *   `customs` bis `syndicates`: Dateien von public-export-plus für die Regeln der App (`lib/covered.mjs`); fehlt eine oder ist sie
  *   fast leer (`MINIMUM`), bleibt missing.json stehen.
  * @typedef {{ format: string, v: number, asOf: string, generatedAt: string, source: string, license: string, fragments: Record<string, string>, songs: Record<string, SongSource>, fighters: Record<string, string> }} CollectiblesFile
@@ -346,7 +347,7 @@ export async function loadGameData(log) {
   const [codex, dict, vendors] = await Promise.all(['ExportCodex', PLUS_DICT, 'ExportVendors'].map(plus));
   // Regeln der App für missing.json (#164 Nacharbeit): rund 7,8 MB mehr pro Lauf, nur in der Action. Einzeln: Fehlt eine,
   // laufen die Wiki-Dateien trotzdem; `run` lässt missing.json dann stehen (Review K5).
-  const [customs, resources, bundles, syndicates] = await Promise.all(
+  const [customs, resources, bundles, syndicates, challenges, emails] = await Promise.all(
     Object.values(RULE_FILES).map((file) =>
       plus(file).catch((/** @type {unknown} */ error) => {
         log(`::warning::${file} not available (${error instanceof Error ? error.message : String(error)}); missing.json stays as it is`);
@@ -370,7 +371,7 @@ export async function loadGameData(log) {
     source = 'plus';
   }
   const names = new Map(items.map((item) => [item.path, item.name]));
-  return { items: items.map(({ path, name }) => ({ path, name })), names, codex, dict, vendors, source, customs, resources, bundles, syndicates };
+  return { items: items.map(({ path, name }) => ({ path, name })), names, codex, dict, vendors, source, customs, resources, bundles, syndicates, challenges, emails };
 }
 
 if (import.meta.url === pathToFileURL(process.argv[1] ?? '').href) {

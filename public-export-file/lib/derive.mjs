@@ -556,7 +556,8 @@ const NAME_FILES = [
 	"ExportKeys",
 	"ExportWeapons",
 	"ExportSentinels",
-	"ExportFlavour"
+	"ExportFlavour",
+	"ExportDrones"
 ];
 /** Teil der Signatur der Namens-Tabellen: Ändert sich, was gesammelt wird, entstehen sie neu. */
 const NAMES_FORMAT = "names-3";
@@ -585,6 +586,12 @@ const PALETTES_FORMAT = "palettes-1";
 /** Gesamtliste der Kosmetik (#98): dieselbe englische Datei wie für die Namen. */
 const COSMETICS_FILE = "ExportCustoms";
 const COSMETICS_FORMAT = "cosmetics-1";
+/**
+* Dauer und Lebenspunkte der Extraktoren (#189, Daves Kern-Freigabe vom 15.11.2026): dieselbe englische Datei wie für die
+* Namen (#272), also kein eigener Download von DE.
+*/
+const DRONES_FILE = "ExportDrones";
+const DRONES_FORMAT = "drones-1";
 /** Name und Planet der Knoten der Sternenkarte (#36), übersetzt pro Sprache. */
 const REGIONS_FILE = "ExportRegions";
 const REGIONS_FORMAT = "regions-1";
@@ -671,6 +678,26 @@ function collectPalettes(json) {
 		});
 	}
 	return palettes;
+}
+/**
+* Dauer und Lebenspunkte der Extraktoren aus `ExportDrones[]` (#189). `fillRate` sind Stunden (Titan 4, Distilling 8; Wiki
+* und SpaceNinjaServer, abgeleitet). Einträge ohne gültige Werte fallen weg.
+*/
+function collectDrones(json) {
+	const drones = {};
+	const list = asRecord(json)?.["ExportDrones"];
+	if (!Array.isArray(list)) return drones;
+	for (const entry of list) {
+		if (!isRecord(entry) || typeof entry["uniqueName"] !== "string") continue;
+		const hours = entry["fillRate"];
+		const health = entry["durability"];
+		if (typeof hours !== "number" || !Number.isFinite(hours) || hours <= 0 || typeof health !== "number" || !Number.isFinite(health) || health <= 0) continue;
+		drones[entry["uniqueName"]] = {
+			hours,
+			health
+		};
+	}
+	return drones;
 }
 /** Signatur eines Teils im Cache und im Daten-Repo. */
 const partSignature = (part) => `${part.format}|${part.entry}`;
@@ -782,6 +809,19 @@ function planTables(languages, indexes) {
 					derive: (json) => collectCosmeticPaths(json)
 				}]
 			});
+			const drones = line(DRONES_FILE);
+			if (drones) tables.push({
+				key: "drones",
+				kind: "drones",
+				cacheName: "pe-drones.json",
+				signature: `${DRONES_FORMAT}|${drones}`,
+				parts: [{
+					key: "drones",
+					entry: drones,
+					format: DRONES_FORMAT,
+					derive: (json) => collectDrones(json)
+				}]
+			});
 		}
 		if (position === 0) {
 			const images = index.get(IMAGE_FILE);
@@ -836,4 +876,4 @@ function combineTable(table, parts) {
 		default: return parts[0] ?? {};
 	}
 }
-export { CATALOG_FILES, CATALOG_FORMAT, CATALOG_LANGUAGE, COSMETICS_FILE, COSMETICS_FORMAT, IMAGES_FORMAT, IMAGE_FILE, MOD_STATS_FORMAT, NAMES_FORMAT, NAME_FILES, NIGHTWAVE_FILE, NIGHTWAVE_FORMAT, PALETTES_FORMAT, PALETTE_FILE, REGIONS_FILE, REGIONS_FORMAT, collectImages, collectNames, collectNamesPart, collectNightwaveTargets, collectPalettes, combineTable, isPartData, mergeNameParts, partSignature, planTables };
+export { CATALOG_FILES, CATALOG_FORMAT, CATALOG_LANGUAGE, COSMETICS_FILE, COSMETICS_FORMAT, DRONES_FILE, DRONES_FORMAT, IMAGES_FORMAT, IMAGE_FILE, MOD_STATS_FORMAT, NAMES_FORMAT, NAME_FILES, NIGHTWAVE_FILE, NIGHTWAVE_FORMAT, PALETTES_FORMAT, PALETTE_FILE, REGIONS_FILE, REGIONS_FORMAT, collectDrones, collectImages, collectNames, collectNamesPart, collectNightwaveTargets, collectPalettes, combineTable, isPartData, mergeNameParts, partSignature, planTables };
