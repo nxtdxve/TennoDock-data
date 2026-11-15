@@ -1,8 +1,8 @@
 {
  "format": "tennodock-sources-missing",
  "v": 1,
- "asOf": "2026-11-07",
- "generatedAt": "2026-11-07T15:59:38Z",
+ "asOf": "2026-11-15",
+ "generatedAt": "2026-11-15T18:49:11Z",
  "categories": {
   "fragments": {
    "total": 181,
@@ -138,16 +138,6 @@
     {
      "path": "/Lotus/Upgrades/Skins/Scarves/DraculaCapeSyandana",
      "name": "Dhampyre Syandana",
-     "since": "2026-11-07"
-    },
-    {
-     "path": "/Lotus/Upgrades/Skins/Scarves/SWAlyaScarf",
-     "name": "Ayla Syandana",
-     "since": "2026-11-07"
-    },
-    {
-     "path": "/Lotus/Upgrades/Skins/Scarves/SWReliquiaSyandana",
-     "name": "Reliquia Syandana",
      "since": "2026-11-07"
     },
     {
