@@ -1,7 +1,7 @@
 {
   "format": "tennodock-assets",
   "v": 1,
-  "asOf": "2026-11-15",
+  "asOf": "2026-11-21",
   "sources": {
     "wiki": "WARFRAME Wiki (wiki.warframe.com), images © Digital Extremes",
     "genesis-assets": "WFCD/genesis-assets (Apache-2.0 for the collection), images © Digital Extremes",
@@ -1472,8 +1472,8 @@
     },
     "collectibles": {
       "pack": "packs/collectibles.json",
-      "sha256": "fb7563490553b4d4926f9a67382816494ba928701a26e4f190d7768b5e491db4",
-      "bytes": 16361,
+      "sha256": "58e4c31f7810691bd882529cdc4d7e9ea4da623f08c11aee9eb57971d47eebea",
+      "bytes": 23905,
       "files": {
         "challenges-tile": {
           "file": "collectibles/challenges-tile.webp",
@@ -1485,11 +1485,11 @@
         },
         "lore-fragment": {
           "file": "collectibles/lore-fragment.webp",
-          "sha256": "17f5dcab4be1ecd6e8bc4dd8f76d40c63a11bb87b1d9055c49410ce12911c7d9",
-          "bytes": 942,
-          "w": 32,
-          "h": 32,
-          "src": "wiki"
+          "sha256": "8cc66359685d2ba744e1107ade23a420b89be6ae5af3c16ea30a4df91d5c6242",
+          "bytes": 6600,
+          "w": 128,
+          "h": 128,
+          "src": "genesis-assets"
         },
         "lore-object": {
           "file": "collectibles/lore-object.webp",
