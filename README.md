@@ -327,9 +327,15 @@ shows simple cards and icons instead.
 
 ## Discord icon
 
-`assets/discord/tennodock-v1.png` (128 × 128 PNG) is TennoDock's own app icon. TennoDock's Discord notifications name it
-as the sender picture (`avatar_url`) and as the picture of the test message; Discord downloads it itself, the app never
-does. The file name carries a version: a new icon gets a new name, so no cache keeps showing an old one. It moves to
+`assets/discord/tennodock-v2.png` (256 × 256 PNG, transparent) is TennoDock's mark on its own, without the plate and
+frame of the app icon, centred with a margin so Discord's round crop never cuts it. TennoDock's Discord notifications
+name it as the sender picture (`avatar_url`) and as the picture of the test message; Discord downloads it itself, the
+app never does.
+
+`assets/discord/tennodock-v1.png` (128 × 128 PNG) is the first version, the app icon with its plate. App builds from
+before v2 still name it, so it stays.
+
+The file name carries a version: a new icon gets a new name, so no cache keeps showing an old one. It moves to
 TennoDock's own server later. © TennoDock.
 
 ## Creator glyph codes
