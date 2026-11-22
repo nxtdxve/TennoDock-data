@@ -325,6 +325,13 @@ shows simple cards and icons instead.
 - `.github/workflows/assets.yml`: runs the tests and `node assets-file/build.mjs --check` on every push that touches the
   assets. It commits nothing.
 
+## Discord icon
+
+`assets/discord/tennodock-v1.png` (128 × 128 PNG) is TennoDock's own app icon. TennoDock's Discord notifications name it
+as the sender picture (`avatar_url`) and as the picture of the test message; Discord downloads it itself, the app never
+does. The file name carries a version: a new icon gets a new name, so no cache keeps showing an old one. It moves to
+TennoDock's own server later. © TennoDock.
+
 ## Creator glyph codes
 
 `glyph-codes/v1/codes.json` holds the promo codes of creator glyphs: for every glyph its code, its name if it differs
