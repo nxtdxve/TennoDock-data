@@ -111,7 +111,7 @@ export function withoutTexts(people) {
     out[person] = {};
     for (const [id, convo] of Object.entries(convos)) {
       /** @type {Conversation} */
-      const slim = { c: convo.c.map(({ a, af, if: condition }) => ({ a: a.map(({ t: _text, ...rest }) => rest), ...(af ? { af } : {}), ...(condition ? { if: condition } : {}) })) };
+      const slim = { c: convo.c.map(({ a, af, if: condition, v }) => ({ a: a.map(({ t: _text, ...rest }) => rest), ...(af ? { af } : {}), ...(condition ? { if: condition } : {}), ...(v ? { v } : {}) })) };
       if (convo.r !== undefined) slim.r = convo.r;
       if (convo.first) slim.first = firstWords(convo.first);
       out[person][id] = slim;

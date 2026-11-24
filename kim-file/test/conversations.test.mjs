@@ -11,7 +11,7 @@ describe('conversations', () => {
   const convos = conversations(TESTA, text);
 
   it('liest die Gespräche ohne Geburtstagsgrüsse; Stellen mit nur einer Antwort sind keine Wahl', () => {
-    assert.deepEqual(Object.keys(convos).sort(), ['TestaRank2Convo1', 'TestaRank3Convo1', 'TestaSpecial']);
+    assert.deepEqual(Object.keys(convos).sort(), ['TestaRank2Convo1', 'TestaRank3Convo1', 'TestaRank4Convo1', 'TestaRank5Convo1', 'TestaSpecial']);
     assert.deepEqual(convos['TestaSpecial'], { first: 'hey there', c: [] });
   });
 
@@ -51,6 +51,28 @@ describe('conversations', () => {
   it('sucht die Nachricht vor einer Wahl rückwärts, wenn die Wahlstelle selbst keine ist', () => {
     assert.equal(convos['TestaRank3Convo1'].c[0].p, 'Old line');
     assert.equal(convos['TestaRank3Convo1'].r, 3);
+  });
+
+  it('nennt die Zweige einer Wahlstelle an einer Prüfung, mit Merkern nur aus früheren Gesprächen (#281)', () => {
+    const [multi, own, other, counter] = convos['TestaRank4Convo1'].c;
+    // Alle Antworten bleiben in `a`, Zweig für Zweig; so bleiben die Bezüge folgender Stellen (`af`) gültig.
+    assert.deepEqual(multi.a.map((a) => a.t), ['A', 'B', 'Yes', 'Nope', 'A', 'B', 'Sure.']);
+    assert.deepEqual(multi.v, [[2, 'TestaLikesCats', true], [2], [3]]);
+    assert.deepEqual(own.v, [[2], [2]]);
+    assert.deepEqual(other.v, [[2, 'TestaOther', true], [3, 'TestaOther', false]]);
+    assert.deepEqual(counter.v, [[2], [2]]);
+    // Die Zahlen passen immer zu den Antworten.
+    for (const choice of convos['TestaRank4Convo1'].c) assert.equal(choice.v?.reduce((sum, [count]) => sum + count, 0), choice.a.length);
+  });
+
+  it('derselbe Antwortknoten in zwei Ausgängen steht in beiden Zweigen (Review Kann 2)', () => {
+    const [choice] = convos['TestaRank5Convo1'].c;
+    assert.deepEqual(choice.a.map((a) => a.t), ['A', 'B', 'A', 'Yes']);
+    assert.deepEqual(choice.v, [[2, 'TestaOther', true], [2, 'TestaOther', false]]);
+  });
+
+  it('ohne Prüfung oder mit Antworten nur in einem Ausgang: keine Zweige', () => {
+    for (const id of ['TestaRank2Convo1', 'TestaRank3Convo1']) for (const choice of convos[id].c) assert.equal(choice.v, undefined);
   });
 
   it('liefert nichts für Dateien ohne Chemie und für Unlesbares', () => {

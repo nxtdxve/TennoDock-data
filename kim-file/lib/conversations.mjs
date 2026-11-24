@@ -9,7 +9,7 @@
 // (`SetBooleanDialogueNode`, z. B. `ArthurNoDate`).
 
 /**
- * @typedef {{ type: string, Id: number, Incoming?: number[], Outgoing?: number[], TrueNodes?: number[], FalseNodes?: number[], Outputs?: { Outgoing?: number[] }[], LocTag?: string, Content?: unknown, ChemistryDelta?: number }} DialogueNode
+ * @typedef {{ type: string, Id: number, Incoming?: number[], Outgoing?: number[], TrueNodes?: number[], FalseNodes?: number[], Outputs?: { Outgoing?: number[], Expression?: unknown, Values?: unknown[] }[], LocTag?: string, Content?: unknown, ChemistryDelta?: number }} DialogueNode
  * @typedef {(locTag: string | undefined) => string | undefined} Text Text zu einem `LocTag`, schon bereinigt.
  * @typedef {{ t?: string, c?: number, m?: number, f?: string }} Answer `t` Text, `c` Chemie bis zur nächsten Wahl,
  *   höchster Wert über alle Zweige (fehlt bei 0), `m` niedrigster Wert, nur wenn er kleiner ist (Zweig hängt an einem
@@ -17,8 +17,13 @@
  *   `AoiNoDate`; `SetBooleanDialogueNode` setzt immer auf wahr, zurück setzt ein eigener Knotentyp). Ob eine Antwort das
  *   Gespräch früh beendet, lässt sich aus dem Graphen nicht sicher lesen (zu viele Zweige enden ohne weitere Wahl);
  *   dafür gibt es keine Marke.
- * @typedef {{ p?: string, a: Answer[], af?: [number, number[]], if?: [string, boolean] }} Choice `p` Nachricht davor,
+ * @typedef {[number] | [number, string, boolean]} Branch Ein Zweig einer Wahlstelle (#281): Zahl seiner Antworten, dazu der
+ *   Merker aus einem früheren Gespräch, unter dem das Spiel ihn zeigt (`[3, "AoiLikesCats", true]`). Ohne Merker ist die
+ *   Bedingung keine solche (Rückfall, Zähler, Merker dieses Gesprächs).
+ * @typedef {{ p?: string, a: Answer[], af?: [number, number[]], if?: [string, boolean], v?: Branch[] }} Choice `p` Nachricht davor,
  *   `af` nur nach diesen Antworten (Index der Wahlstelle, Antworten), `if` nur mit diesem Merker aus früheren Gesprächen.
+ *   `v` die Zweige, wenn die Antworten an einer Prüfung hängen und das Spiel nur einen Zweig zeigt (#281): die Antworten in
+ *   `a` der Reihe nach, Zweig für Zweig.
  * @typedef {{ r?: number, first?: string, c: Choice[] }} Conversation `r` Rang aus der Kennung (`…Rank3Convo2`), `first`
  *   erste Nachricht.
  */
@@ -31,6 +36,9 @@ const END = 'EndDialogueNode';
 const CHEMISTRY = 'ChemistryDialogueNode';
 const SET_BOOLEAN = 'SetBooleanDialogueNode';
 const CHECK_BOOLEAN = 'CheckBooleanDialogueNode';
+const CHECK_MULTI = 'CheckMultiBooleanDialogueNode';
+/** Name eines Merkers in einer Bedingung; `true`/`false` sind keine. */
+const FLAG_NAME = /^[A-Za-z_][A-Za-z0-9_]*$/;
 
 /** Merker, die eine Romanze ausschliessen bzw. beginnen (Namen aus den Daten, z. B. `AoiNoDate`, `AoiDating`). */
 const NO_DATE = /(NoDate|DealNo)$/;
@@ -134,6 +142,37 @@ function promptOf(g, decision, text) {
   return undefined;
 }
 
+/**
+ * Zweige einer Wahlstelle (#281), in der Reihenfolge von `next()` und damit der Antworten. Ist die Wahlstelle eine Prüfung
+ * (`CheckBooleanDialogueNode`, `CheckMultiBooleanDialogueNode`, `CheckCounterDialogueNode`) mit Antworten in mehreren
+ * Ausgängen, zeigt das Spiel nur die eines Ausgangs. Merker gibt es nur für einfache Namen aus früheren Gesprächen: bei der
+ * einfachen Prüfung für beide Ausgänge, bei der mehrfachen für jeden Ausgang mit einem Namen als Ausdruck. Der Ausgang
+ * `false` der mehrfachen Prüfung ist der Rückfall (in den Daten immer der letzte, abgeleitet). `undefined` bei einem Zweig.
+ * @param {ReturnType<typeof graph>} g @param {number} decision @param {Set<unknown>} ownBooleans
+ * @returns {Branch[] | undefined}
+ */
+function branchesOf(g, decision, ownBooleans) {
+  const node = g.byId.get(decision);
+  if (!node) return undefined;
+  const type = SHORT(node.type);
+  const flag = (/** @type {unknown} */ name, /** @type {boolean} */ value) =>
+    typeof name === 'string' && FLAG_NAME.test(name) && name !== 'true' && name !== 'false' && !ownBooleans.has(name) ? /** @type {[string, boolean]} */ ([name, value]) : undefined;
+  /** @type {Branch[]} */
+  const branches = [];
+  const add = (/** @type {number[] | undefined} */ list, /** @type {[string, boolean] | undefined} */ condition) => {
+    const count = (list ?? []).filter((n) => g.type(n) === CHOICE).length;
+    if (count > 0) branches.push(condition ? [count, ...condition] : [count]);
+  };
+  add(node.Outgoing, undefined);
+  add(node.TrueNodes, type === CHECK_BOOLEAN ? flag(node.Content, true) : undefined);
+  add(node.FalseNodes, type === CHECK_BOOLEAN ? flag(node.Content, false) : undefined);
+  for (const output of node.Outputs ?? []) {
+    const simple = type === CHECK_MULTI && (output.Values ?? []).length === 0;
+    add(output.Outgoing, simple ? flag(typeof output.Expression === 'string' ? output.Expression.trim() : undefined, true) : undefined);
+  }
+  return branches.length >= 2 ? branches : undefined;
+}
+
 /** Alle Knoten, die von `start` aus erreichbar sind, in Reihenfolge der Breitensuche. @param {ReturnType<typeof graph>} g @param {number} start */
 function reachable(g, start) {
   const order = [start];
@@ -214,6 +253,8 @@ function conversationIn(g, startId, text) {
       const no = (check.FalseNodes ?? []).some((n) => reachFrom(n).has(decision));
       if (yes !== no) choice.if = [check.Content, yes];
     }
+    const branches = branchesOf(g, decision, ownBooleans);
+    if (branches) choice.v = branches;
     return choice;
   });
 

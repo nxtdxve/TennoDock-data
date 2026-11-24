@@ -119,4 +119,9 @@ describe('withoutTexts', () => {
     const people = { P: { PRank1Convo1: { r: 1, first: 'one two three four', c: [{ p: 'q', a: [{ t: 'x', c: 5 }], af: [0, [1]] }] } } };
     assert.deepEqual(withoutTexts(people), { P: { PRank1Convo1: { r: 1, first: 'one two three …', c: [{ a: [{ c: 5 }], af: [0, [1]] }] } } });
   });
+
+  it('lässt die Zweige stehen (#281)', () => {
+    const people = { P: { PRank1Convo1: { c: [{ a: [{ t: 'x' }, { t: 'y' }, { t: 'z' }], v: [[1, 'PFlag', true], [2]] }] } } };
+    assert.deepEqual(withoutTexts(people).P?.PRank1Convo1?.c[0], { a: [{}, {}, {}], v: [[1, 'PFlag', true], [2]] });
+  });
 });

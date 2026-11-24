@@ -227,7 +227,8 @@ them in its in-game overlay, hidden until the player asks for them (story spoile
         "first": "First message of the conversation",
         "c": [
           { "p": "Message before the choice", "a": [{ "t": "Answer", "c": 10 }, { "t": "Other answer", "c": 20, "m": 5, "f": "n" }] },
-          { "p": "…", "a": [{ "t": "…" }, { "t": "…", "c": 5 }], "af": [0, [0]], "if": ["ArthurLikesCats", true] }
+          { "p": "…", "a": [{ "t": "…" }, { "t": "…", "c": 5 }], "af": [0, [0]], "if": ["ArthurLikesCats", true] },
+          { "p": "…", "a": [{ "t": "A" }, { "t": "B" }, { "t": "C" }, { "t": "D" }, { "t": "E" }], "v": [[2, "ArthurLikesCats", true], [3]] }
         ]
       }
     }
@@ -244,6 +245,14 @@ them in its in-game overlay, hidden until the player asks for them (story spoile
   choice). `p`: the message before the choice (at
   most 160 characters). `af: [i, [j…]]`: the choice only comes after one of the answers `j` of choice `i`.
   `if: [name, value]`: it only comes if the flag `name` from an earlier conversation is set (`true`) or not (`false`).
+  `v`: the branches of a choice whose answers hang on a check in the source (`CheckBooleanDialogueNode`,
+  `CheckMultiBooleanDialogueNode`, `CheckCounterDialogueNode`). The game shows the answers of one branch only; `a` holds
+  all of them, branch after branch, so `af` of later choices keeps pointing at the same answers. Each branch is
+  `[count]` or `[count, name, value]`: the number of its answers, and the flag from an earlier conversation the game
+  checks for it (`value` as in `if`). A branch without a flag depends on something else: the fallback of a multiple
+  check (always its last branch), a counter, a comparison or a flag of the same conversation. The counts add up to the
+  number of answers. Missing when all answers of the choice are shown together. Optional: a reader that does not know
+  `v` reads the file as before. Not to be confused with the top-level `v`, the format version.
 - Answers: `t` the text, `c` the chemistry until the next choice (the highest of all paths, missing for 0), `m` the
   lowest one if it is lower (the path depends on a flag), `f` flags: `n` rules out a romance with the person, `d` starts
   one (derived from the flag names, e.g. `AoiNoDate`, `AoiDating`). Answers keep the order of the source.
@@ -905,3 +914,50 @@ can still get them: any time (by a way the game data does not name), only at tim
   `sources-file/lib/covered.mjs`.
 - `.github/workflows/cosmetics.yml`: the weekly workflow. Run it by hand under *Actions › Cosmetics › Run workflow*. With
   `COSMETICS_ISSUE: 'on'` it opens an issue on the first run of a month with new cosmetics without a state.
+
+## Event names
+
+`events/v1/names.json` holds the names of Warframe events and operations, such as *Operation: Belly of the Beast* or
+*Plague Star*. The game's world state names a running event only by a language key (`Goals[].Desc`); Digital Extremes
+publishes no text for it. TennoDock looks the key up in this file to name the event on its Opportunities page. Without a
+name it shows the event's currency instead.
+
+- **Source:** the language files of [WFCD warframe-worldstate-data](https://github.com/WFCD/warframe-worldstate-data)
+  (`data/languages.json` and `data/de/languages.json`). The script also reads Digital Extremes' public world state
+  (`api.warframe.com`, the same host the app uses) so that a running event with an unusual key gets its name too.
+- **License:** WFCD warframe-worldstate-data is licensed under the
+  [MIT License](https://github.com/WFCD/warframe-worldstate-data/blob/master/LICENSE), copyright Matej Voboril. This file
+  is an extract of it; the file names its source and the license.
+- **Updated:** every 6 hours (01:41, 07:41, 13:41 and 19:41 UTC). A new file is written only when a name is added or
+  changes (same file, same ETag, no new download in the app). Names are never removed: an event that comes back keeps
+  its name.
+- TennoDock is not affiliated with Digital Extremes or WFCD.
+
+### Format (version 1)
+
+```json
+{
+  "format": "tennodock-event-names",
+  "v": 1,
+  "asOf": "2026-11-23",
+  "generatedAt": "2026-11-23T13:41:07Z",
+  "source": "github.com/WFCD/warframe-worldstate-data",
+  "license": "MIT",
+  "names": {
+    "/lotus/language/events/halloweennaberusname": { "en": "Nights of Naberus", "de": "Die Naberus Nacht" },
+    "/lotus/language/jadeshadows/jadeshadowseventname": { "en": "Operation: Belly of the Beast" }
+  }
+}
+```
+
+- Keys are the language keys of `Goals[].Desc` in lower case; apps compare them in lower case.
+- `en` is always there. `de` is there only when the German name differs; otherwise apps show `en`, as the game often does.
+- Names are plain text, at most 80 characters, without control characters.
+- `asOf` is the day of the last change. A run that reads fewer than 1,000 English entries or ends with fewer than 5
+  names fails and keeps the file as it was. An incompatible change gets a new folder (`events/v2/`).
+
+### Other files
+
+- `events-file/`: the script (Node 20 or newer, no dependencies), the rules for event keys (`lib/event-names.mjs`) and
+  the tests: `node --test "events-file/**/*.test.mjs"`. Run it locally with `node events-file/build.mjs`.
+- `.github/workflows/events.yml`: the workflow every 6 hours. Run it by hand under *Actions › Event names › Run workflow*.

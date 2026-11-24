@@ -7,6 +7,9 @@ const choice = (Id, LocTag, Outgoing) => node('PlayerChoiceDialogueNode', Id, { 
 const chem = (Id, ChemistryDelta, Outgoing) => node('ChemistryDialogueNode', Id, { ChemistryDelta, Outgoing });
 const setBool = (Id, Content, Outgoing) => node('SetBooleanDialogueNode', Id, { Content, Outgoing });
 const check = (Id, Content, TrueNodes, FalseNodes) => node('CheckBooleanDialogueNode', Id, { Content, TrueNodes, FalseNodes });
+const output = (Expression, Outgoing, Values = []) => ({ Expression, Values, CompareOperators: [], LogicalOperators: [], Outgoing });
+const multi = (Id, Outputs) => node('CheckMultiBooleanDialogueNode', Id, { Outputs });
+const counter = (Id, Outputs) => node('CheckCounterDialogueNode', Id, { Outputs });
 const start = (Id, Content, Outgoing) => node('StartDialogueNode', Id, { Content, Outgoing });
 const end = (Id) => node('EndDialogueNode', Id);
 
@@ -48,6 +51,43 @@ export const TESTA = [
   start(50, 'TestaSpecial', [51]),
   line(51, 'L/hello', [52]),
   choice(52, 'L/a', [20]),
+  // Gespräch 3 (Rang 4, #281): Antworten direkt an Prüfungen, das Spiel zeigt nur die eines Ausgangs. Zuerst eine mehrfache
+  // Prüfung (fremder Merker, Ausdruck mit Vergleich, Rückfall `false`), dann eine auf einen eigenen Merker, dann eine auf einen
+  // fremden, zuletzt ein Zähler.
+  start(60, 'TestaRank4Convo1', [61]),
+  line(61, 'L/hello', [62]),
+  multi(62, [output('TestaLikesCats', [63, 64]), output('TestaMood', [65, 66], [2]), output('false', [67, 68, 69])]),
+  choice(63, 'L/a', [70]),
+  choice(64, 'L/b', [70]),
+  choice(65, 'L/yes', [70]),
+  choice(66, 'L/nope', [70]),
+  choice(67, 'L/a', [70]),
+  choice(68, 'L/b', [70]),
+  choice(69, 'L/sure', [70]),
+  setBool(70, 'TestaOwn', [71]),
+  check(71, 'TestaOwn', [72, 73], [74, 75]),
+  choice(72, 'L/yes', [76]),
+  choice(73, 'L/nope', [76]),
+  choice(74, 'L/a', [76]),
+  choice(75, 'L/b', [76]),
+  check(76, 'TestaOther', [77, 78], [79, 80, 81]),
+  choice(77, 'L/yes', [82]),
+  choice(78, 'L/nope', [82]),
+  choice(79, 'L/a', [82]),
+  choice(80, 'L/b', [82]),
+  choice(81, 'L/sure', [82]),
+  counter(82, [output('TestaCount', [83, 84], [3]), output('TestaCount', [85, 86], [1])]),
+  choice(83, 'L/yes', [20]),
+  choice(84, 'L/nope', [20]),
+  choice(85, 'L/a', [20]),
+  choice(86, 'L/b', [20]),
+  // Gespräch 4 (Rang 5, #281, Review Kann 2): derselbe Antwortknoten in beiden Ausgängen (in den Daten der häufigste Fall).
+  start(90, 'TestaRank5Convo1', [91]),
+  line(91, 'L/hello', [92]),
+  check(92, 'TestaOther', [93, 94], [93, 95]),
+  choice(93, 'L/a', [20]),
+  choice(94, 'L/b', [20]),
+  choice(95, 'L/yes', [20]),
 ];
 
 /** Texte wie in `dicts/en.json`; `L/missing` fehlt absichtlich. */

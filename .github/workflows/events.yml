@@ -1,0 +1,55 @@
+# Namen der Events für TennoDock (#188): baut `events/v1/names.json` aus den Sprachdateien von WFCD
+# `warframe-worldstate-data` (MIT, Englisch und Deutsch) und dem öffentlichen worldState (laufende Events), alle 6 Stunden.
+# Drei Abrufe pro Lauf; ein Commit nur, wenn ein Name dazukommt oder sich ändert.
+# Im TennoDock-Repo liegt dieser Ordner unter `tools/tennodock-data/` (1:1 der Inhalt des Daten-Repos) und läuft dort nicht.
+# Doku: docs/pakete/188-operations.md im App-Repo.
+name: Event names
+
+on:
+  schedule:
+    # Alle 6 Stunden, abseits des Preis-Laufs (04:17 und 10:17 UTC), des KIM-Laufs (05:43 UTC) und der Glyphen (montags 06:29 UTC).
+    - cron: '41 1,7,13,19 * * *'
+  # Von Hand: Actions › Event names › Run workflow, oder `gh workflow run events.yml -R nxtdxve/TennoDock-data`.
+  workflow_dispatch:
+  # Eine Änderung am Skript gilt sofort. Commits des Workflows selbst (GITHUB_TOKEN) lösen keinen neuen Lauf aus.
+  push:
+    branches: [main]
+    paths:
+      - 'events-file/**'
+      - '.github/workflows/events.yml'
+
+permissions:
+  contents: write # Dateien committen
+
+concurrency:
+  group: events
+  cancel-in-progress: false
+
+jobs:
+  events:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24
+      - name: Test
+        run: node --test "events-file/**/*.test.mjs"
+      - name: Build
+        id: build
+        run: node events-file/build.mjs
+      - name: Commit
+        # Werte aus dem Lauf nur über die Umgebung, nie als Ausdruck direkt im Befehl (Script-Injection). Das Skript prüft sie
+        # zusätzlich streng (`outputLines`: Datum, ganze Zahl).
+        env:
+          AS_OF: ${{ steps.build.outputs.asOf }}
+          NAMES: ${{ steps.build.outputs.names }}
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add events
+          if git diff --cached --quiet; then echo 'Nothing new'; exit 0; fi
+          git commit -m "Event names $AS_OF ($NAMES names)"
+          # Läuft ein anderer Workflow gerade auch, einmal auf den neuen Stand setzen und erneut versuchen.
+          git push || { git pull --rebase origin main && git push; }
